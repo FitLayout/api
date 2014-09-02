@@ -3,7 +3,7 @@
  *
  * Created on 2.6.2006, 11:39:46 by burgetr
  */
-package org.fit.layout;
+package org.fit.layout.model;
 
 import java.util.*;
 

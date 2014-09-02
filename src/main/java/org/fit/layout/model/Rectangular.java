@@ -3,7 +3,7 @@
  *
  * Created on 24.11.2006, 22:16:54 by radek
  */
-package org.fit.layout;
+package org.fit.layout.model;
 
 /**
  * This class represents a general rectangular area.
