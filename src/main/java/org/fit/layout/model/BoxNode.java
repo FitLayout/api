@@ -366,9 +366,6 @@ public class BoxNode extends TreeNode<Box>
         else //not an element - return the whole box
             ret = new Rectangular(box.getAbsoluteBounds());
 
-        if (box.toString().contains("h1"))
-            System.out.println("jo!");
-        
         //clip with the clipping bounds
         if (box.getClipBlock() != null)
         {

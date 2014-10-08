@@ -646,7 +646,7 @@ public class Area
             for (BoxNode box : boxes)
             {
                 int l = box.getText().length(); 
-                sum += FeatureAnalyzer.colorLuminosity(box.getBox().getVisualContext().getColor()) * l;
+                sum += colorLuminosity(box.getBox().getVisualContext().getColor()) * l;
                 len += l;
             }
             return sum / len;
@@ -846,4 +846,21 @@ public class Area
 		else
 			return 0;
 	}
+	
+    private double colorLuminosity(Color c)
+    {
+        double lr, lg, lb;
+        if (c == null)
+        {
+            lr = lg = lb = 255;
+        }
+        else
+        {
+            lr = Math.pow(c.getRed() / 255.0, 2.2);
+            lg = Math.pow(c.getGreen() / 255.0, 2.2);
+            lb = Math.pow(c.getBlue() / 255.0, 2.2);
+        }
+        return lr * 0.2126 +  lg * 0.7152 + lb * 0.0722;
+    }
+
 }
