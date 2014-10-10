@@ -68,9 +68,9 @@ public class AreaNode extends TreeNode<Area>
      * parent.
      * @param areas the collection of subareas
      */
-    public void addAll(Collection<AreaNode> areas)
+    public void addAll(Collection<? extends AreaNode> areas)
     {
-        for (Iterator<AreaNode> it = areas.iterator(); it.hasNext(); )
+        for (Iterator<? extends AreaNode> it = areas.iterator(); it.hasNext(); )
             addArea(it.next());
     }
     
@@ -78,9 +78,11 @@ public class AreaNode extends TreeNode<Area>
      * Obtains the parent are of this node in the tree.
      * @return the parent area node or {@code null} for root areas.
      */
-    public AreaNode getParentArea()
+    public <T extends AreaNode> T getParentArea()
     {
-        return (AreaNode) getParent();
+        @SuppressWarnings("unchecked")
+        T retval = (T) getParent();
+        return retval;
     }
 
     /**
@@ -88,9 +90,11 @@ public class AreaNode extends TreeNode<Area>
      * @param index the child index
      * @return the specified child box
      */
-    public AreaNode getChildArea(int index)
+    public <T extends AreaNode> T getChildArea(int index)
     {
-        return (AreaNode) getChildAt(index);
+        @SuppressWarnings("unchecked")
+        T retval = (T) getChildAt(index);
+        return retval;
     }
 
     /**
@@ -98,7 +102,7 @@ public class AreaNode extends TreeNode<Area>
      * @return a vector of the child areas 
      */
     @SuppressWarnings("unchecked")
-    public Vector<AreaNode> getChildAreas()
+    public Vector<? extends AreaNode> getChildAreas()
     {
         return this.children;
     }

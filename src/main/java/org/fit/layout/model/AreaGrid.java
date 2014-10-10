@@ -102,14 +102,14 @@ public class AreaGrid
      * @param y the <code>y</code> coordinate of the grid cell  
      * @return the node at the specified position or null if there is no node
      */
-	@SuppressWarnings("rawtypes")
-    public AreaNode getNodeAt(int x, int y)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    public <T extends AreaNode> T getNodeAt(int x, int y)
     {
         if (x < width && y < height)
         {
             for (Enumeration e = parent.children(); e.hasMoreElements(); )
             {
-                AreaNode node = (AreaNode) e.nextElement();
+                T node = (T) e.nextElement();
                 if (x >= node.getGridX() && x < node.getGridX() + node.getGridWidth() &&
                     y >= node.getGridY() && y < node.getGridY() + node.getGridHeight())
                     return node;
