@@ -115,6 +115,8 @@ public class AreaTree implements GenericAreaTree
 
     
     //=================================================================================
+    // node search
+    //=================================================================================
     
     public AreaNode getAreaAt(int x, int y)
     {
@@ -159,6 +161,8 @@ public class AreaTree implements GenericAreaTree
     }
 
     //=================================================================================
+    // tagging
+    //=================================================================================
     
     /**
      * Obtains all the tags that are really used in the tree.
@@ -176,25 +180,6 @@ public class AreaTree implements GenericAreaTree
         dest.addAll(root.getTags());
         for (int i = 0; i < root.getChildCount(); i++)
             recursiveGetTags(root.getChildArea(i), dest);
-    }
-    
-    /**
-     * Updates the area tag levels based on current tagging. The levels are taken from a search tree.
-     * @param tpred
-     * @param stree
-     */
-    public void updateTagLevels(TagPredictor tpred, SearchTree stree)
-    {
-        recursiveUpdateTagLevels(getRoot(), tpred, stree);
-    }
-    
-    private void recursiveUpdateTagLevels(AreaNode root, TagPredictor tpred, SearchTree stree)
-    {
-        Tag tag = tpred.getMostProbableTag(root);
-        int level = stree.getTagLevel(tag);
-        root.setTagLevel(level);
-        for (int i = 0; i < root.getChildCount(); i++)
-            recursiveUpdateTagLevels(root.getChildArea(i), tpred, stree);
     }
     
 }
