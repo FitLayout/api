@@ -14,7 +14,7 @@ import java.util.Set;
  * 
  * @author burgetr
  */
-public class AreaTree implements GenericAreaTree
+public class AreaTree implements SearchableAreaContainer
 {
     /** The tree root */
     protected AreaNode root;

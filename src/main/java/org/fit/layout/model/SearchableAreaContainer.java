@@ -6,12 +6,11 @@
 package org.fit.layout.model;
 
 /**
- * A basic tree of areas with the possibility of searching the areas.
- * TODO rename to AreaContainer or something (not necessarily a tree)
+ * A basic container of areas with the possibility of searching the areas.
  * 
  * @author burgetr
  */
-public interface GenericAreaTree
+public interface SearchableAreaContainer
 {
     
     /**
