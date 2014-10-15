@@ -27,6 +27,19 @@ public class Area
     
     private int id;
     
+    /** The node that holds the area in the tree of areas */
+    protected AreaNode node;
+
+    /** A grid of inserted elements */
+    protected AreaGrid grid;
+    
+    /** Position of this area in the parent grid */
+    protected Rectangular gp;
+    
+    /** Assigned tags */
+    protected Set<Tag> tags;
+    
+    
 	/**
 	 * The visual boxes that form this area.
 	 */
@@ -100,6 +113,9 @@ public class Area
         bright = false;
         bbottom = false;
         bgcolor = null;
+        grid = null;
+        gp = new Rectangular();
+        tags = new HashSet<Tag>();
 	}
     
     /** 
@@ -116,6 +132,9 @@ public class Area
         bright = false;
         bbottom = false;
         bgcolor = null;
+        grid = null;
+        gp = new Rectangular();
+        tags = new HashSet<Tag>();
     }
     
     /** 
@@ -135,6 +154,9 @@ public class Area
         bbottom = box.hasBottomBorder();
         bgcolor = box.getBgcolor();
         backgroundSeparated = box.isBackgroundSeparated();
+        grid = null;
+        gp = new Rectangular();
+        tags = new HashSet<Tag>();
     }
     
     /** 
@@ -156,6 +178,9 @@ public class Area
         bbottom = box.hasBottomBorder();
         bgcolor = box.getBgcolor();
         backgroundSeparated = box.isBackgroundSeparated();
+        grid = null;
+        gp = new Rectangular();
+        tags = new HashSet<Tag>();
     }
     
     /** 
@@ -182,13 +207,38 @@ public class Area
         fontStyleCnt = src.fontStyleCnt;
         fontWeightSum = src.fontWeightSum;
         fontWeightCnt = src.fontWeightCnt;
+        grid = null;
+        gp = new Rectangular();
+        tags = new HashSet<Tag>();
     }
     
+    /**
+     * Obtains a unique ID of the area within the page.
+     * @return the area ID
+     */
     public int getId()
     {
         return id;
     }
     
+    /**
+     * Obtains the node that holds the area in the area tree.
+     * @return the node or {@code null} when the area is not placed in a tree
+     */
+    public AreaNode getNode()
+    {
+        return node;
+    }
+
+    /**
+     * Sets the node that holds the area in the area tree.
+     * @param node the tree node.
+     */
+    public void setNode(AreaNode node)
+    {
+        this.node = node;
+    }
+
     /**
      * Joins another area to this area. Update the bounds and the name accordingly.
      * @param other The area to be joined to this area.
@@ -667,6 +717,210 @@ public class Area
         fontStyleSum += other.fontStyleSum;
     }
     
+    //====================================================================================
+    // grid operations
+    //====================================================================================
+    
+    /**
+     * Creates the grid of areas from the child areas.
+     */
+    public void createGrid()
+    {
+        grid = new AreaGrid(this);
+    }
+    
+    /**
+     * Obtains the gird of contained areas.
+     * @return the grid
+     */
+    public AreaGrid getGrid()
+    {
+        return grid;
+    }
+    
+    /**
+     * @return Returns the height of the area in the grid height in rows
+     */
+    public int getGridHeight()
+    {
+        return gp.getHeight();
+    }
+
+    /**
+     * @return Returns the width of the area in the grid in rows
+     */
+    public int getGridWidth()
+    {
+        return gp.getWidth();
+    }
+
+    /**
+     * @return Returns the gridX.
+     */
+    public int getGridX()
+    {
+        return gp.getX1();
+    }
+
+    /**
+     * @param gridX The gridX to set.
+     */
+    public void setGridX(int gridX)
+    {
+        gp.setX1(gridX);
+    }
+
+    /**
+     * @return Returns the gridY.
+     */
+    public int getGridY()
+    {
+        return gp.getY1();
+    }
+
+    /**
+     * @param gridY The gridY to set.
+     */
+    public void setGridY(int gridY)
+    {
+        gp.setY1(gridY);
+    }
+    
+    /**
+     * @return the position of this area in the grid of its parent area
+     */
+    public Rectangular getGridPosition()
+    {
+        return gp;
+    }
+    
+    /**
+     * Sets the position in the parent area grid for this area
+     * @param pos the position
+     */
+    public void setGridPosition(Rectangular pos)
+    {
+        gp = new Rectangular(pos);
+    }
+    
+    /**
+     * Returns the child area at the specified grid position or null, if there is no
+     * child area at this position.
+     */
+    public Area getChildAtGridPos(int x, int y)
+    {
+        for (int i = 0; i < getNode().getChildCount(); i++)
+        {
+            Area child = getNode().getChildArea(i).getArea();
+            if (child.getGridPosition().contains(x, y))
+                return child;
+        }
+        return null;
+    }
+    
+    /**
+     * Returns the child areas whose absolute coordinates intersect with the specified rectangle.
+     */
+    public Vector<Area> getChildNodesInside(Rectangular r)
+    {
+        Vector<Area> ret = new Vector<Area>();
+        for (int i = 0; i < getNode().getChildCount(); i++)
+        {
+            Area child = getNode().getChildArea(i).getArea();
+            if (child.getBounds().intersects(r))
+                ret.add(child);
+        }
+        return ret;
+    }
+    
+    /**
+     * Check if there are some children in the given subarea of the area.
+     */
+    public boolean isAreaEmpty(Rectangular r)
+    {
+        for (int i = 0; i < getNode().getChildCount(); i++)
+        {
+            AreaNode child = getNode().getChildArea(i);
+            if (child.getArea().getBounds().intersects(r))
+                return false;
+        }
+        return true;
+    }
+
+    //====================================================================================
+    // tagging
+    //====================================================================================
+    
+    /**
+     * Adds a tag to this area.
+     * @param tag the tag to be added.
+     */
+    public void addTag(Tag tag)
+    {
+        tags.add(tag);
+    }
+    
+    /**
+     * Tests whether the area has this tag.
+     * @param tag the tag to be tested.
+     * @return <code>true</code> if the area has this tag
+     */
+    public boolean hasTag(Tag tag)
+    {
+        return tags.contains(tag);
+    }
+    
+    /**
+     * Removes all tags that belong to the given collection.
+     * @param c A collection of tags to be removed.
+     */
+    public void removeAllTags(Collection<Tag> c)
+    {
+        tags.removeAll(c);
+    }
+    
+    /**
+     * Tests whether the area or any of its <b>direct child</b> areas have the given tag.
+     * @param tag the tag to be tested.
+     * @return <code>true</code> if the area or its direct child areas have the given tag
+     */
+    public boolean containsTag(Tag tag)
+    {
+        if (hasTag(tag))
+            return true;
+        else
+        {
+            for (int i = 0; i < getNode().getChildCount(); i++)
+                if (getNode().getChildArea(i).getArea().hasTag(tag))
+                    return true;
+            return false;
+        }
+    }
+    
+    /**
+     * Obtains the set of tags assigned to the area.
+     * @return a set of tags
+     */
+    public Set<Tag> getTags()
+    {
+        return tags;
+    }
+    
+    /**
+     * Obtains all the tags assigned to this area and its child areas (not all descendant areas).
+     * @return a set of tags
+     */
+    public Set<Tag> getAllTags()
+    {
+        Set<Tag> ret = new HashSet<Tag>(tags);
+        for (int i = 0; i < getNode().getChildCount(); i++)
+            ret.addAll(getNode().getChildArea(i).getArea().getTags());
+        return ret;
+    }
+    
+    //=================================================================================
+    // Graphical output
+    // TODO generalize BrowserCanvas
     //=================================================================================
     
     public void drawExtent(BrowserCanvas canvas)

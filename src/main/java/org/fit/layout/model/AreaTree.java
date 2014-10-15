@@ -108,7 +108,7 @@ public class AreaTree implements SearchableAreaContainer
      */
     protected void createGrids(AreaNode root)
     {
-        root.createGrid();
+        root.getArea().createGrid();
         for (int i = 0; i < root.getChildCount(); i++)
             createGrids(root.getChildArea(i));
     }
@@ -177,7 +177,7 @@ public class AreaTree implements SearchableAreaContainer
     
     private void recursiveGetTags(AreaNode root, Set<Tag> dest)
     {
-        dest.addAll(root.getTags());
+        dest.addAll(root.getArea().getTags());
         for (int i = 0; i < root.getChildCount(); i++)
             recursiveGetTags(root.getChildArea(i), dest);
     }

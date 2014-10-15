@@ -35,14 +35,14 @@ public class AreaGrid
     /** Array of row heights */
     private int[] rows;
     
-    /** Enclosing visual area node */
-    private AreaNode parent;
+    /** Enclosing visual area */
+    private Area parent;
     
     //================================================================================
     
-    public AreaGrid(AreaNode anode)
+    public AreaGrid(Area area)
     {
-        parent = anode;
+        parent = area;
         calculateColumns();
         calculateRows();
     }
@@ -97,19 +97,19 @@ public class AreaGrid
     }
     
     /**
-     * Find a node at the specified position in the grid.
+     * Find an area at the specified position in the grid.
      * @param x the <code>x</code> coordinate of the grid cell  
      * @param y the <code>y</code> coordinate of the grid cell  
      * @return the node at the specified position or null if there is no node
      */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    public <T extends AreaNode> T getNodeAt(int x, int y)
+    @SuppressWarnings("rawtypes")
+    public Area getAreaAt(int x, int y)
     {
         if (x < width && y < height)
         {
-            for (Enumeration e = parent.children(); e.hasMoreElements(); )
+            for (Enumeration e = parent.getNode().children(); e.hasMoreElements(); )
             {
-                T node = (T) e.nextElement();
+                Area node = ((AreaNode) e.nextElement()).getArea();
                 if (x >= node.getGridX() && x < node.getGridX() + node.getGridWidth() &&
                     y >= node.getGridY() && y < node.getGridY() + node.getGridHeight())
                     return node;
@@ -128,7 +128,7 @@ public class AreaGrid
      */
     public boolean cellEmpty(int x, int y)
     {
-    	return getNodeAt(x, y) == null;
+    	return getAreaAt(x, y) == null;
     }
     
     /**
@@ -186,10 +186,10 @@ public class AreaGrid
      */
     public Rectangular getCellBoundsAbsolute(int x, int y)
     {
-        int x1 = parent.getX() + getColOfs(x);
-        int y1 = parent.getY() + getRowOfs(y);
-        int x2 = ((x == width-1) ? parent.getX() + parent.getWidth() - 1 : x1 + cols[x] - 1);
-        int y2 = ((y == height-1) ? parent.getY()+ parent.getHeight() - 1 : y1 + rows[y] - 1);
+        int x1 = parent.getX1() + getColOfs(x);
+        int y1 = parent.getY1() + getRowOfs(y);
+        int x2 = ((x == width-1) ? parent.getX1() + parent.getWidth() - 1 : x1 + cols[x] - 1);
+        int y2 = ((y == height-1) ? parent.getY1()+ parent.getHeight() - 1 : y1 + rows[y] - 1);
         return new Rectangular(x1, y1, x2, y2);
     }
     
@@ -198,8 +198,8 @@ public class AreaGrid
      */
     public Rectangular getAreaBoundsAbsolute(Rectangular area)
     {
-        int x1 = parent.getX() + getColOfs(area.getX1());
-        int y1 = parent.getY() + getRowOfs(area.getY1());
+        int x1 = parent.getX1() + getColOfs(area.getX1());
+        int y1 = parent.getY1() + getRowOfs(area.getY1());
         Rectangular end = getCellBoundsAbsolute(area.getX2(), area.getY2());
         return new Rectangular(x1, y1, end.getX2(), end.getY2());
     }
@@ -212,7 +212,7 @@ public class AreaGrid
      */
     public int findCellX(int x)
     {
-    	int ofs = parent.getX();
+    	int ofs = parent.getX1();
     	for (int i = 0; i < cols.length; i++)
     	{
     		ofs += cols[i];
@@ -234,7 +234,7 @@ public class AreaGrid
     	for (int i = 0; i < rows.length; i++)
     	{
     		ofs += rows[i];
-    		if (y < ofs + parent.getY())
+    		if (y < ofs + parent.getY1())
     			return i;
     	}
     	return -1;
@@ -257,13 +257,13 @@ public class AreaGrid
 	private void calculateColumns()
     {
         //create the sorted list of points
-        GridPoint points[] = new GridPoint[parent.getChildCount() * 2];
+        GridPoint points[] = new GridPoint[parent.getNode().getChildCount() * 2];
         int pi = 0;
-        for (Enumeration e = parent.children(); e.hasMoreElements(); pi += 2)
+        for (Enumeration e = parent.getNode().children(); e.hasMoreElements(); pi += 2)
         {
-            AreaNode node = (AreaNode) e.nextElement();
-            points[pi] = new GridPoint(node.getArea().getX1(), node, true);
-            points[pi+1] = new GridPoint(node.getArea().getX2() + 1, node, false);
+            Area area = ((AreaNode) e.nextElement()).getArea();
+            points[pi] = new GridPoint(area.getX1(), area, true);
+            points[pi+1] = new GridPoint(area.getX2() + 1, area, false);
             //X2+1 ensures that the end of one box will be on the same point
             //as the start of the following box
         }
@@ -271,14 +271,14 @@ public class AreaGrid
         
         //calculate the number of columns
         int cnt = 0;
-        int last = parent.getArea().getX1();
+        int last = parent.getX1();
         for (int i = 0; i < points.length; i++)
             if (!theSame(points[i].value, last))
             { 
                 last = points[i].value;
                 cnt++;
             }
-        if (!theSame(last, parent.getArea().getX2()))
+        if (!theSame(last, parent.getX2()))
         	cnt++; //last column finishes the whole area
         width = cnt;
         
@@ -287,7 +287,7 @@ public class AreaGrid
         minindent = -1;
         cols = new int[width];
         cnt = 0;
-        last = parent.getArea().getX1();
+        last = parent.getX1();
         for (int i = 0; i < points.length; i++)
         {
             if (!theSame(points[i].value, last)) 
@@ -298,22 +298,22 @@ public class AreaGrid
             }
             if (points[i].begin)
             {
-                points[i].node.getGridPosition().setX1(cnt);
+                points[i].area.getGridPosition().setX1(cnt);
                 maxindent = cnt;
                 if (minindent == -1) minindent = maxindent;
                 //points[i].node.getArea().setX1(parent.getArea().getX1() + getColOfs(cnt));
             }
             else
             {
-                Rectangular pos = points[i].node.getGridPosition(); 
+                Rectangular pos = points[i].area.getGridPosition(); 
                 pos.setX2(cnt-1);
                 if (pos.getX2() < pos.getX1())
                     pos.setX2(pos.getX1());
                 //points[i].node.getArea().setX2(parent.getArea().getX1() + getColOfs(pos.getX2()+1));
             }
         }
-        if (!theSame(last, parent.getArea().getX2()))
-        	cols[cnt] = parent.getArea().getX2() - last;
+        if (!theSame(last, parent.getX2()))
+        	cols[cnt] = parent.getX2() - last;
         if (minindent == -1)
             minindent = 0;
     }
@@ -325,13 +325,13 @@ public class AreaGrid
 	private void calculateRows()
     {
         //create the sorted list of points
-        GridPoint points[] = new GridPoint[parent.getChildCount() * 2];
+        GridPoint points[] = new GridPoint[parent.getNode().getChildCount() * 2];
         int pi = 0;
-        for (Enumeration e = parent.children(); e.hasMoreElements(); pi += 2)
+        for (Enumeration e = parent.getNode().children(); e.hasMoreElements(); pi += 2)
         {
-            AreaNode node = (AreaNode) e.nextElement();
-            points[pi] = new GridPoint(node.getArea().getY1(), node, true);
-            points[pi+1] = new GridPoint(node.getArea().getY2() + 1, node, false);
+            Area area = ((AreaNode) e.nextElement()).getArea();
+            points[pi] = new GridPoint(area.getY1(), area, true);
+            points[pi+1] = new GridPoint(area.getY2() + 1, area, false);
             //Y2+1 ensures that the end of one box will be on the same point
             //as the start of the following box
         }
@@ -339,21 +339,21 @@ public class AreaGrid
         
         //calculate the number of rows
         int cnt = 0;
-        int last = parent.getArea().getY1();
+        int last = parent.getY1();
         for (int i = 0; i < points.length; i++)
             if (!theSame(points[i].value, last))
             { 
                 last = points[i].value;
                 cnt++;
             }
-        if (!theSame(last, parent.getArea().getY2()))
+        if (!theSame(last, parent.getY2()))
         	cnt++; //last row finishes the whole area
         height = cnt;
         
         //calculate the row heights and the layout
         rows = new int[height];
         cnt = 0;
-        last = parent.getArea().getY1();
+        last = parent.getY1();
         for (int i = 0; i < points.length; i++)
         {
             if (!theSame(points[i].value, last)) 
@@ -364,20 +364,20 @@ public class AreaGrid
             }
             if (points[i].begin)
             {
-                points[i].node.getGridPosition().setY1(cnt);
+                points[i].area.getGridPosition().setY1(cnt);
                 //points[i].node.getArea().setY1(parent.getArea().getY1() + getRowOfs(cnt));
             }
             else
             {
-                Rectangular pos = points[i].node.getGridPosition(); 
+                Rectangular pos = points[i].area.getGridPosition(); 
                 pos.setY2(cnt-1);
                 if (pos.getY2() < pos.getY1())
                     pos.setY2(pos.getY1());
                 //points[i].node.getArea().setY2(parent.getArea().getY1() + getRowOfs(pos.getY2()+1));
             }
         }
-        if (!theSame(last, parent.getArea().getY2()))
-        	rows[cnt] = parent.getArea().getY2() - last;
+        if (!theSame(last, parent.getY2()))
+        	rows[cnt] = parent.getY2() - last;
     }
     
     
@@ -387,18 +387,18 @@ public class AreaGrid
 class GridPoint implements Comparable<GridPoint>
 {
     public int value;       //the point position
-    public AreaNode node;   //the corresponding visual area node
+    public Area area;       //the corresponding visual area
     public boolean begin;   //is it the begining or the end of the node?
     
-    public GridPoint(int value, AreaNode node, boolean begin)
+    public GridPoint(int value, Area area, boolean begin)
     {
         this.value = value;
-        this.node = node;
+        this.area = area;
         this.begin = begin;
     }
     
     public int compareTo(GridPoint other)
     {
-        return value - ((GridPoint) other).value;
+        return value - other.value;
     }
 }
