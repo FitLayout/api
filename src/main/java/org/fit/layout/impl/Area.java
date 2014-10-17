@@ -15,6 +15,7 @@ import org.fit.cssbox.layout.ElementBox;
 import org.fit.cssbox.layout.InlineReplacedBox;
 import org.fit.cssbox.layout.ReplacedContent;
 import org.fit.cssbox.layout.TextBox;
+import org.fit.layout.model.Rectangular;
 
 /**
  * An area containing several visual boxes.

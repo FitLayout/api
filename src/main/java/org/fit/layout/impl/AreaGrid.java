@@ -7,6 +7,8 @@ package org.fit.layout.impl;
 
 import java.util.*;
 
+import org.fit.layout.model.Rectangular;
+
 /**
  * A grid of visual areas that contains all the child areas of a visual area node.
  * 

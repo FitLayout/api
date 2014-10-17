@@ -6,12 +6,12 @@
 package org.fit.layout.impl;
 
 import java.util.*;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import org.fit.cssbox.layout.*;
+import org.fit.layout.model.Rectangular;
 
 /**
  * A node of a tree of visual blocks.

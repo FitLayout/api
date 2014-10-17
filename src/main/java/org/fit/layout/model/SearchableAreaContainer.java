@@ -3,7 +3,9 @@
  *
  * Created on 13.5.2011, 15:17:08 by burgetr
  */
-package org.fit.layout.impl;
+package org.fit.layout.model;
+
+import org.fit.layout.impl.AreaNode;
 
 /**
  * A basic container of areas with the possibility of searching the areas.

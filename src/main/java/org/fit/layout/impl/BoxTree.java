@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.*;
 
 import org.fit.cssbox.layout.*;
+import org.fit.layout.model.Rectangular;
 
 /**
  * This class represents a tree of visual page blocks.

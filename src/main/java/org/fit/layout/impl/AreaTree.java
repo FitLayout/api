@@ -8,6 +8,8 @@ package org.fit.layout.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.fit.layout.model.SearchableAreaContainer;
+
 
 /**
  * A tree of visual areas created from a box tree.
