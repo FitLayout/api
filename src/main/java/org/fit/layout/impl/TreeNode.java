@@ -3,7 +3,7 @@
  *
  * Created on 11.5.2011, 11:05:58 by burgetr
  */
-package org.fit.layout.model;
+package org.fit.layout.impl;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

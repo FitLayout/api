@@ -3,7 +3,7 @@
  *
  * Created on 13.5.2011, 15:17:08 by burgetr
  */
-package org.fit.layout.model;
+package org.fit.layout.impl;
 
 /**
  * A basic container of areas with the possibility of searching the areas.

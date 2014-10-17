@@ -3,7 +3,7 @@
  *
  * Created on 21.11.2011, 13:47:31 by burgetr
  */
-package org.fit.layout.model;
+package org.fit.layout.impl;
 
 
 /**

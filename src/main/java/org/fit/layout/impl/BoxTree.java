@@ -3,7 +3,7 @@
  * 
  * 
  */
-package org.fit.layout.model;
+package org.fit.layout.impl;
 
 import java.awt.Color;
 import java.util.*;

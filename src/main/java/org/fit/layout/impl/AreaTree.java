@@ -3,7 +3,7 @@
  *
  * Created on 28.6.2006, 15:10:11 by burgetr
  */
-package org.fit.layout.model;
+package org.fit.layout.impl;
 
 import java.util.HashSet;
 import java.util.Set;
