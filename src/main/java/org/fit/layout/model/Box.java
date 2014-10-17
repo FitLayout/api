@@ -10,7 +10,7 @@ package org.fit.layout.model;
  * 
  * @author burgetr
  */
-public interface Box
+public interface Box extends ContentRect
 {
 
 }
