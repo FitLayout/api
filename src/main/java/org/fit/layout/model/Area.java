@@ -26,7 +26,7 @@ public interface Area extends ContentRect
      * @param index the child index
      * @return the child area at the given index
      */
-    public Area getChildAreaAt(int index)
+    public Area getChildArea(int index)
         throws ArrayIndexOutOfBoundsException;
     
     /**

@@ -27,7 +27,7 @@ public interface Box extends ContentRect
      * @param index the child index
      * @return the child box at the given index
      */
-    public Box getChildBoxAt(int index)
+    public Box getChildBox(int index)
         throws ArrayIndexOutOfBoundsException;
     
     /**
