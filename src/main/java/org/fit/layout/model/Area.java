@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * An area containing several visual boxes.
@@ -47,16 +48,27 @@ public interface Area extends ContentRect
      */
     public List<Box> getBoxes();
     
+    //====================================================================================
+    // tagging
+    //====================================================================================
+    
     /**
      * Obtains the list of tags assigned to this area.
      * @return the list of tags (possibly empty)
      */
-    public List<Tag> getTags();
+    public Set<Tag> getTags();
 
     /**
      * Adds a tag to this area. Nothing is done when the tag is allready assigned to this area.
      * @param tag The tag to be added.
      */
     public void addTag(Tag tag);
+    
+    /**
+     * Tests whether the area has this tag.
+     * @param tag the tag to be tested.
+     * @return <code>true</code> if the area has this tag
+     */
+    public boolean hasTag(Tag tag);
     
 }

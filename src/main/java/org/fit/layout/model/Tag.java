@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 /**
+ * A tag that can be assigned to an area.
  * 
  * @author burgetr
  */
