@@ -12,5 +12,11 @@ package org.fit.layout.model;
  */
 public interface Tag
 {
+    
+    /**
+     * Obtains the string value (the name) of the tag.
+     * @return the tag value
+     */
+    public String getValue();
 
 }

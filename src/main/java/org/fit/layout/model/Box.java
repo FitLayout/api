@@ -60,4 +60,113 @@ public interface Box extends ContentRect
      */
     public ContentObject getContentObject();
     
+    //=================================================================================================
+    // Borders
+    //=================================================================================================
+    
+    /**
+     * Obtains the number of defined borders for the box.
+     * @return the number of defined borders (0..4)
+     */
+    public int getBorderCount();
+    
+    /**
+     * Checks whether the box has the top border defined. 
+     * @return <code>true</code> if the box has a top border
+     */
+    public boolean hasTopBorder();
+    
+    /**
+     * Obtains the top border width.
+     * @return the width of the border or 0 when there is no border
+     */
+    public int getTopBorder();
+
+    /**
+     * Checks whether the box has the bottom border defined. 
+     * @return <code>true</code> if the box has a bottom border
+     */
+    public boolean hasBottomBorder();
+    
+    /**
+     * Obtains the bottom border width.
+     * @return the width of the border or 0 when there is no border
+     */
+    public int getBottomBorder();
+
+    /**
+     * Checks whether the box has the left border defined. 
+     * @return <code>true</code> if the box has a left border
+     */
+    public boolean hasLeftBorder();
+    
+    /**
+     * Obtains the left border width.
+     * @return the width of the border or 0 when there is no border
+     */
+    public int getLeftBorder();
+
+    /**
+     * Checks whether the box has right top border defined. 
+     * @return <code>true</code> if the box has a right border
+     */
+    public boolean hasRightBorder();
+    
+    /**
+     * Obtains the right border width.
+     * @return the width of the border or 0 when there is no border
+     */
+    public int getRightBorder();
+    
+    //=============================================================================================
+    // BOUNDS
+    //=============================================================================================
+    
+    /** 
+     * Returns the logical bounds of the box node. Normally, the bounds are the same
+     * as the content bounds. However, the BoxNode may be extended
+     * in order to enclose all the overlapping boxes
+     * @return the logical bounds of the box
+     */
+    public Rectangular getBounds();
+    
+    /**
+     * Returns the content bounds. They correspond to the background bounds of the box;
+     * however, when a border is present, it is included in the contents. Moreover,
+     * the box is clipped by its clipping box.
+     * @return the content bounds of the box
+     */
+    public Rectangular getContentBounds();
+
+    /**
+     * Returns the bounds of the box as they visually appear to the user.
+     * @return the visual bounds
+     */
+    public Rectangular getVisualBounds();
+
+    //=============================================================================================
+    // BOX TYPE
+    //=============================================================================================
+    
+    /**
+     * Resurns the type of the box.
+     * @return
+     */
+    public Type getType();
+    
+    /**
+     * The type of the box.
+     * 
+     * @author burgetr
+     */
+    public enum Type 
+    {
+        /** Boxes produced by a DOM element */
+        ELEMENT,
+        /** Text boxes (produced by DOM text node */
+        TEXT_CONTENT,
+        /** Replaced boxes (images, objects, etc.) */
+        REPLACED_CONTENT
+    }
+    
 }
