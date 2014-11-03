@@ -37,6 +37,12 @@ public interface Area extends ContentRect
     public int getChildCount();
     
     /**
+     * Appends a new child area to the list of child areas of this area.
+     * @param child The new child to be appended
+     */
+    public void appendChild(Area child);
+    
+    /**
      * Returns the position of this area in the parent area grid.
      * @return The grid position.
      */

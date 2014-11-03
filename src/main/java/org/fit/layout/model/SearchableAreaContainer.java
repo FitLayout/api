@@ -5,8 +5,6 @@
  */
 package org.fit.layout.model;
 
-import org.fit.layout.impl.AreaNode;
-
 /**
  * A basic container of areas with the possibility of searching the areas.
  * 
@@ -21,13 +19,13 @@ public interface SearchableAreaContainer
      * @param y the Y coordinate
      * @return the area node present at the given coordinates or <code>null</code> when no node is found.
      */
-    abstract public AreaNode getAreaAt(int x, int y);
+    abstract public Area getAreaAt(int x, int y);
     
     /**
      * Finds an area by the given name.
      * @param name the name of the area
      * @return the area with the given name or <code>null</code> when nothing is found.
      */
-    abstract public AreaNode getAreaByName(String name);
+    abstract public Area getAreaByName(String name);
     
 }

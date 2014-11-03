@@ -32,7 +32,12 @@ public interface Page
      * @return the height in pixels
      */
     public int getHeight();
-    
+
+    /**
+     * Returns the root box of the page.
+     * @return the root box
+     */
+    public Box getRoot();
     
     //TODO some factory functions (create area, etc?)
 }

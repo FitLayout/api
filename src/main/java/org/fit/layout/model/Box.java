@@ -86,6 +86,12 @@ public interface Box extends ContentRect
      */
     public Rectangular getVisualBounds();
 
+    /**
+     * Checks whether the box is visible.
+     * @return {@code true} when the box is visible
+     */
+    public boolean isVisible();
+
     //=============================================================================================
     // BOX TYPE
     //=============================================================================================
