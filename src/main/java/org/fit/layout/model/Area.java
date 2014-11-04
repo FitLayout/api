@@ -54,6 +54,12 @@ public interface Area extends ContentRect
      */
     public List<Box> getBoxes();
     
+    /**
+     * Returns the complete text contained in this area and its sub area.
+     * @return A text string (possibly empty)
+     */
+    public String getText();
+    
     //====================================================================================
     // tagging
     //====================================================================================
