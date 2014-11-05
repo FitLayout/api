@@ -5,8 +5,8 @@
  */
 package org.fit.layout.model;
 
-import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * An area containing several visual boxes.
@@ -43,6 +43,12 @@ public interface Area extends ContentRect
     public void appendChild(Area child);
     
     /**
+     * Obtains the depth of the tree rooted at this area.
+     * @return 0 for leaf areas, more than 0 for other areas
+     */
+    public int getDepth();
+    
+    /**
      * Returns the position of this area in the parent area grid.
      * @return The grid position.
      */
@@ -52,13 +58,25 @@ public interface Area extends ContentRect
      * Returns the list of boxes that belong directly to this area.
      * @return the list of boxes (possibly empty)
      */
-    public List<Box> getBoxes();
+    public Vector<Box> getBoxes();
+    
+    /** 
+     * Obtains all the boxes from this area and all the child areas.
+     * @return The list of boxes
+     */
+    public Vector<Box> getAllBoxes();
     
     /**
      * Returns the complete text contained in this area and its sub area.
      * @return A text string (possibly empty)
      */
     public String getText();
+    
+    /**
+     * Checks whether this area is formed by replaced boxes.
+     * @return {@code true} if the area contains replaced boxes only
+     */
+    public boolean isReplaced();
     
     //====================================================================================
     // tagging
