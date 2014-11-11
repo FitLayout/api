@@ -110,4 +110,10 @@ public interface Area extends ContentRect
      */
     public float getTagSupport(Tag tag);
     
+    /**
+     * Obtains the tag with the greatest support that is assigned to this area.
+     * @return The tag with the greatest support or {@code null} if there are no tags assigned to this area
+     */
+    public Tag getMostSupportedTag();
+    
 }
