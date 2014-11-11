@@ -19,4 +19,10 @@ public interface Tag
      */
     public String getValue();
 
+    /**
+     * The tag level if the tags are hiearchically organized.
+     * @return The level, where 0 corresponds to the root tag.
+     */
+    public int getLevel();
+    
 }

@@ -91,8 +91,9 @@ public interface Area extends ContentRect
     /**
      * Adds a tag to this area. Nothing is done when the tag is allready assigned to this area.
      * @param tag The tag to be added.
+     * @param probability The assigned tag support from 0.0 to 1.0
      */
-    public void addTag(Tag tag);
+    public void addTag(Tag tag, float support);
     
     /**
      * Tests whether the area has this tag.
@@ -100,5 +101,13 @@ public interface Area extends ContentRect
      * @return <code>true</code> if the area has this tag
      */
     public boolean hasTag(Tag tag);
+    
+    /**
+     * Obtains the support of the given tag assignment
+     * @param tag The tag to be tested
+     * @return The support of the given tag in the range 0.0 to 1.0. Returns 0.0 when the tag is not assigned
+     * to this area.
+     */
+    public float getTagSupport(Tag tag);
     
 }
