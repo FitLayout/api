@@ -5,7 +5,7 @@
  */
 package org.fit.layout.model;
 
-import java.util.Set;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -83,10 +83,10 @@ public interface Area extends ContentRect
     //====================================================================================
     
     /**
-     * Obtains the list of tags assigned to this area.
-     * @return the list of tags (possibly empty)
+     * Obtains the list of tags assigned to this area and their support.
+     * @return the map of tags and their support (possibly empty)
      */
-    public Set<Tag> getTags();
+    public Map<Tag, Float> getTags();
 
     /**
      * Adds a tag to this area. Nothing is done when the tag is allready assigned to this area.
