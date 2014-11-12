@@ -5,6 +5,7 @@
  */
 package org.fit.layout.model;
 
+import java.awt.Color;
 import java.util.Map;
 import java.util.Vector;
 
@@ -21,6 +22,18 @@ public interface Area extends ContentRect
      * @return The parent area or {@code null} when this is the root area.
      */
     public Area getParentArea();
+    
+    /**
+     * Obtains the previous siblibg of this area.
+     * @return The previous siblibg area or {@code null} when this is the first child.
+     */
+    public Area getPreviousSibling();
+    
+    /**
+     * Obtains the next siblibg of this area.
+     * @return The next siblibg area or {@code null} when this is the last child.
+     */
+    public Area getNextSibling();
     
     /**
      * Obtains the n-th child area.
@@ -43,16 +56,16 @@ public interface Area extends ContentRect
     public void appendChild(Area child);
     
     /**
+     * Checks whether this area is a leaf area
+     * @return {@code true} when the area is a leaf area (it has no children)
+     */
+    public boolean isLeaf();
+    
+    /**
      * Obtains the depth of the tree rooted at this area.
      * @return 0 for leaf areas, more than 0 for other areas
      */
     public int getDepth();
-    
-    /**
-     * Returns the position of this area in the parent area grid.
-     * @return The grid position.
-     */
-    public Rectangular getGridBounds();
     
     /**
      * Returns the list of boxes that belong directly to this area.
@@ -77,6 +90,19 @@ public interface Area extends ContentRect
      * @return {@code true} if the area contains replaced boxes only
      */
     public boolean isReplaced();
+    
+    /**
+     * Returns the topology of this area. 
+     * @return The area topology.
+     */
+    public AreaTopology getTopology();
+    
+    /**
+     * Obtains the effective background color visible under the area.
+     * @return The background color.
+     */
+    public Color getEffectiveBackgroundColor();
+    
     
     //====================================================================================
     // tagging
