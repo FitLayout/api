@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.fit.layout.model.Area;
 import org.fit.layout.model.Box;
+import org.fit.layout.model.Page;
 import org.fit.layout.model.Tag;
 
 /**
@@ -19,7 +20,20 @@ import org.fit.layout.model.Tag;
  */
 public interface OutputDisplay
 {
+    
+    /**
+     * Draws the complete page including all the boxes.
+     * @param page The page to draw.
+     */
+    public void drawPage(Page page);
 
+    /**
+     * Draws the box contents on the page depending on the box type. This does not automatically
+     * draw the child boxes.
+     * @param box The box do draw.
+     */
+    public void drawBox(Box box);
+    
     /**
      * Draws the box bounds at the output display.
      * @param box The box to be displayed
