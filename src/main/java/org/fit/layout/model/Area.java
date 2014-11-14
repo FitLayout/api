@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -50,10 +51,22 @@ public interface Area extends ContentRect
     public int getChildCount();
     
     /**
+     * Returns the list of all the child areas.
+     * @return a list containing all the child areas.
+     */
+    public List<Area> getChildren();
+    
+    /**
      * Appends a new child area to the list of child areas of this area.
      * @param child The new child to be appended
      */
     public void appendChild(Area child);
+    
+    /**
+     * Removes a child area from its parent.
+     * @param child The new child to be appended
+     */
+    public void removeChild(Area child);
     
     /**
      * Checks whether this area is a leaf area
