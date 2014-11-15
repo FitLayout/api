@@ -63,10 +63,25 @@ public interface Area extends ContentRect
     public void appendChild(Area child);
     
     /**
+     * Inserts a new child at the given position.
+     * @param child the child to be inserted
+     * @param index the index of the new child
+     */
+    public void insertChild(Area child, int index);
+    
+    /**
      * Removes a child area from its parent.
      * @param child The new child to be appended
      */
     public void removeChild(Area child);
+    
+    /**
+     * Returns the index of the specified child in this node's child array. 
+     * If the specified node is not a child of this node, returns -1.
+     * @param child the child node to search
+     * @return the child index or -1 if not a child
+     */
+    public int getIndex(Area child);
     
     /**
      * Checks whether this area is a leaf area
