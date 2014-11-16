@@ -5,6 +5,8 @@
  */
 package org.fit.layout.model;
 
+import org.fit.layout.api.OutputDisplay;
+
 /**
  * This is an abstraction of a topology that represents the mutual positions
  * of sub-areas in the parent area.
@@ -23,5 +25,7 @@ public interface AreaTopology
     public int getMinIndent();
     
     public int getMaxIndent();
+    
+    public void drawLayout(OutputDisplay disp);
     
 }

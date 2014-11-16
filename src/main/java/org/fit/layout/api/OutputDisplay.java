@@ -5,6 +5,7 @@
  */
 package org.fit.layout.api;
 
+import java.awt.Graphics2D;
 import java.util.Set;
 
 import org.fit.layout.model.Area;
@@ -20,6 +21,8 @@ import org.fit.layout.model.Tag;
  */
 public interface OutputDisplay
 {
+    
+    public Graphics2D getGraphics();
     
     /**
      * Draws the complete page including all the boxes.
@@ -67,10 +70,5 @@ public interface OutputDisplay
      */
     public void colorizeByClass(Area area, String cname);
 
-    /**
-     * Draws the layout used for positioning the subareas (e.g. the grid)
-     * @param area The area for which the layout should be displayed.
-     */
-    public void drawLayout(Area area);
     
 }
