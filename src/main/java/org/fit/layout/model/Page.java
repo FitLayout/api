@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 import java.net.URL;
+import java.util.Vector;
 
 /**
  * This class represents the whole rendered (and segmented) page.
@@ -38,6 +39,22 @@ public interface Page
      * @return the root box
      */
     public Box getRoot();
+    
+    /**
+     * Finds the deepest node in the tree that contains the given point.
+     * @param x The point X coordinate
+     * @param y The point Y coordinate
+     * @return The deepest box at the given coordinates or {@code null} when there is no box
+     * in the tree placed at the given coordinates.
+     */
+    public Box getBoxAt(int x, int y);
+    
+    /**
+     * Finds the root boxes of subtrees that intersect with the given region. 
+     * @param r The region to be tested
+     * @return A vector of subtree root boxes (possibly empty)
+     */
+    public Vector<Box> getBoxesInRegion(Rectangular r);
     
     //TODO some factory functions (create area, etc?)
 }
