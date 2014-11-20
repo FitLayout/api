@@ -13,32 +13,25 @@ import java.util.Vector;
  * 
  * @author burgetr
  */
-public class GenericTreeNode<T>
+public class GenericTreeNode
 {
-    private GenericTreeNode<T> root;
-    private GenericTreeNode<T> parent;
-    private Vector<GenericTreeNode<T>> children;
-    private T userObject;
+    private GenericTreeNode root;
+    private GenericTreeNode parent;
+    private Vector<GenericTreeNode> children;
 
     public GenericTreeNode()
     {
-        children = new Vector<GenericTreeNode<T>>();
+        children = new Vector<GenericTreeNode>();
         parent = null;
         root = this;
     }
 
-    public GenericTreeNode(T data)
-    {
-        this();
-        setUserObject(data);
-    }
-
-    public GenericTreeNode<T> getParent()
+    public GenericTreeNode getParent()
     {
         return parent;
     }
 
-    public GenericTreeNode<T> getRoot()
+    public GenericTreeNode getRoot()
     {
         return root;
     }
@@ -48,17 +41,7 @@ public class GenericTreeNode<T>
         return (root == this);
     }
     
-    public T getUserObject()
-    {
-        return userObject;
-    }
-
-    public void setUserObject(T data)
-    {
-        userObject = data;
-    }
-
-    public List<GenericTreeNode<T>> getChildren()
+    public List<GenericTreeNode> getChildren()
     {
         return children;
     }
@@ -73,7 +56,7 @@ public class GenericTreeNode<T>
         return (getChildCount() == 0);
     }
 
-    public void add(GenericTreeNode<T> child)
+    public void add(GenericTreeNode child)
     {
         if (child.parent != null)
             child.parent.remove(child);
@@ -81,7 +64,7 @@ public class GenericTreeNode<T>
         children.add(child);
     }
 
-    public void insert(GenericTreeNode<T> child, int index)
+    public void insert(GenericTreeNode child, int index)
             throws IndexOutOfBoundsException
     {
         if (child.parent != null)
@@ -92,7 +75,7 @@ public class GenericTreeNode<T>
 
     public void removeAllChildren()
     {
-        for (GenericTreeNode<T> child : children)
+        for (GenericTreeNode child : children)
         {
             child.parent = null;
             child.root = child;
@@ -102,13 +85,13 @@ public class GenericTreeNode<T>
 
     public void remove(int index) throws IndexOutOfBoundsException
     {
-        GenericTreeNode<T> child = children.elementAt(index); 
+        GenericTreeNode child = children.elementAt(index); 
         child.parent = null;
         child.root = child;
         children.remove(index);
     }
 
-    public void remove(GenericTreeNode<T> child) throws IllegalArgumentException
+    public void remove(GenericTreeNode child) throws IllegalArgumentException
     {
         if (children.remove(child))
         {
@@ -119,40 +102,10 @@ public class GenericTreeNode<T>
             throw new IllegalArgumentException("Given node is not a child of this node");
     }
 
-    public GenericTreeNode<T> getChildAt(int index)
+    public GenericTreeNode getChildAt(int index)
             throws IndexOutOfBoundsException
     {
         return children.get(index);
-    }
-
-    @Override
-    public String toString()
-    {
-        return getUserObject().toString();
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
-        GenericTreeNode<?> other = (GenericTreeNode<?>) obj;
-        if (userObject == null)
-        {
-            if (other.userObject != null) { return false; }
-        }
-        else if (!userObject.equals(other.userObject)) { return false; }
-        return true;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((userObject == null) ? 0 : userObject.hashCode());
-        return result;
     }
 
 }
