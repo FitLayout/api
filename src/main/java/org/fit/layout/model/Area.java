@@ -54,7 +54,7 @@ public interface Area extends ContentRect
      * Returns the list of all the child areas.
      * @return a list containing all the child areas.
      */
-    public List<Area> getChildren();
+    public List<Area> getChildAreas();
     
     /**
      * Appends a new child area to the list of child areas of this area.
