@@ -41,12 +41,23 @@ public class DefaultArea extends DefaultContentRect implements Area
     /** Effective bounds of the area content. */
     private Rectangular contentBounds;
 
+    /** A grid of inserted elements */
+    public AreaGrid grid;
+    
+    /** Position of this area in the parent grid */
+    public Rectangular gp;
+    
+    /** Previous area on the same line */
+    private Area previousOnLine = null;
+    
+    /** Next area on the same line */
+    private Area nextOnLine = null;
+    
 
     public DefaultArea(Rectangular r)
     {
         super();
         name = null;
-        //TODO create default topology?
         boxes = new Vector<Box>();
         tags = new HashMap<Tag, Float>();
         setBounds(new Rectangular(r));
@@ -58,8 +69,8 @@ public class DefaultArea extends DefaultContentRect implements Area
         super(src);
         name = (src.name == null) ? null : new String(src.name);
         contentBounds = (src.contentBounds == null) ? null : new Rectangular(src.contentBounds);
-        
-        
+        grid = null;
+        gp = new Rectangular();
     }
     
     public DefaultArea(int x1, int y1, int x2, int y2)
@@ -111,7 +122,21 @@ public class DefaultArea extends DefaultContentRect implements Area
     @Override
     public AreaTopology getTopology()
     {
+        if (topology == null)
+            topology = createTopology();
         return topology;
+    }
+    
+    /**
+     * Creates a topology for this area. This method should be overriden
+     * when another topology implementation is used. By default, it returns
+     * the default grid-based topology.
+     * 
+     * @return The created topology for this area
+     */
+    protected AreaTopology createTopology()
+    {
+        return new DefaultGridTopology(this);
     }
     
     @Override
@@ -185,6 +210,26 @@ public class DefaultArea extends DefaultContentRect implements Area
     public void removeChild(Area child)
     {
         remove((DefaultArea) child); 
+    }
+    
+    public Area getPreviousOnLine()
+    {
+        return previousOnLine;
+    }
+
+    public void setPreviousOnLine(Area previousOnLine)
+    {
+        this.previousOnLine = previousOnLine;
+    }
+
+    public Area getNextOnLine()
+    {
+        return nextOnLine;
+    }
+
+    public void setNextOnLine(Area nextOnLine)
+    {
+        this.nextOnLine = nextOnLine;
     }
     
     @Override
@@ -274,6 +319,107 @@ public class DefaultArea extends DefaultContentRect implements Area
             ret.append(it.next().getText());
         }
         return ret.toString();
+    }
+    
+    //====================================================================================
+    // grid operations
+    //====================================================================================
+    
+    /**
+     * Creates the grid of areas from the child areas.
+     */
+    public void createGrid()
+    {
+        grid = new AreaGrid(this);
+    }
+    
+    /**
+     * Obtains the gird of contained areas.
+     * @return the grid
+     */
+    public AreaGrid getGrid()
+    {
+        return grid;
+    }
+    
+    /**
+     * @return Returns the height of the area in the grid height in rows
+     */
+    public int getGridHeight()
+    {
+        return gp.getHeight();
+    }
+
+    /**
+     * @return Returns the width of the area in the grid in rows
+     */
+    public int getGridWidth()
+    {
+        return gp.getWidth();
+    }
+
+    /**
+     * @return Returns the gridX.
+     */
+    public int getGridX()
+    {
+        return gp.getX1();
+    }
+
+    /**
+     * @param gridX The gridX to set.
+     */
+    public void setGridX(int gridX)
+    {
+        gp.setX1(gridX);
+    }
+
+    /**
+     * @return Returns the gridY.
+     */
+    public int getGridY()
+    {
+        return gp.getY1();
+    }
+
+    /**
+     * @param gridY The gridY to set.
+     */
+    public void setGridY(int gridY)
+    {
+        gp.setY1(gridY);
+    }
+    
+    /**
+     * @return the position of this area in the grid of its parent area
+     */
+    public Rectangular getGridPosition()
+    {
+        return gp;
+    }
+    
+    /**
+     * Sets the position in the parent area grid for this area
+     * @param pos the position
+     */
+    public void setGridPosition(Rectangular pos)
+    {
+        gp = new Rectangular(pos);
+    }
+    
+    /**
+     * Returns the child area at the specified grid position or null, if there is no
+     * child area at this position.
+     */
+    public DefaultArea getChildAtGridPos(int x, int y)
+    {
+        for (GenericTreeNode child : getChildren())
+        {
+            DefaultArea childarea = (DefaultArea) child;
+            if (childarea.getGridPosition().contains(x, y))
+                return childarea;
+        }
+        return null;
     }
     
     //====================================================================================
