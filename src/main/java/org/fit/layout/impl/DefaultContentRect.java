@@ -12,11 +12,17 @@ import org.fit.layout.model.Page;
 import org.fit.layout.model.Rectangular;
 
 /**
+ * A default ContentRect implementation. This class is usually not used
+ * directly; the {@link DefaultBox} and {@link DefaultArea} subclasses
+ * should be used instead. 
  * 
  * @author burgetr
  */
 public class DefaultContentRect extends GenericTreeNode implements ContentRect
 {
+    private static int nextid = 1;
+    
+    private int id;
     private Page page;
     private Rectangular bounds;
     private Color backgroundColor;
@@ -30,6 +36,39 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     private int leftBorder;
     private int rightBorder;
     private boolean backgroundSeparated;
+    
+    public DefaultContentRect()
+    {
+        id = nextid++;
+    }
+    
+    public DefaultContentRect(DefaultContentRect src)
+    {
+        id = nextid++;
+        page = src.page;
+        bounds = new Rectangular(src.bounds);
+        backgroundColor = (src.backgroundColor == null) ? null : new Color(src.backgroundColor.getRed(), src.backgroundColor.getGreen(), src.backgroundColor.getBlue());
+        underline = src.underline;
+        lineThrough = src.lineThrough;
+        fontSize = src.fontSize;
+        fontWeight= src.fontWeight;
+        topBorder = src.topBorder;
+        bottomBorder = src.bottomBorder;
+        leftBorder = src.leftBorder;
+        rightBorder = src.rightBorder;
+        backgroundSeparated = src.backgroundSeparated;
+    }
+    
+    @Override
+    public int getId()
+    {
+        return id;
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
+    }
     
     @Override
     public Page getPage()
@@ -161,6 +200,21 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     public void setRightBorder(int rightBorder)
     {
         this.rightBorder = rightBorder;
+    }
+    
+    /**
+     * Sets all the border values.
+     * @param top
+     * @param right
+     * @param bottom
+     * @param left
+     */
+    public void setBorders(int top, int right, int bottom, int left)
+    {
+        setTopBorder(top);
+        setRightBorder(right);
+        setBottomBorder(bottom);
+        setLeftBorder(left);
     }
     
     @Override

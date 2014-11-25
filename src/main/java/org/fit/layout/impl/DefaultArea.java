@@ -26,6 +26,9 @@ import org.fit.layout.model.Tag;
  */
 public class DefaultArea extends DefaultContentRect implements Area
 {
+    /** Area name to be displayed to the users */
+    private String name;
+    
     /** The topology assigned to the area */
     private AreaTopology topology;
 
@@ -41,11 +44,22 @@ public class DefaultArea extends DefaultContentRect implements Area
 
     public DefaultArea(Rectangular r)
     {
+        super();
+        name = null;
         //TODO create default topology?
         boxes = new Vector<Box>();
         tags = new HashMap<Tag, Float>();
         setBounds(new Rectangular(r));
         setBackgroundColor(null);
+    }
+    
+    public DefaultArea(DefaultArea src)
+    {
+        super(src);
+        name = (src.name == null) ? null : new String(src.name);
+        contentBounds = (src.contentBounds == null) ? null : new Rectangular(src.contentBounds);
+        
+        
     }
     
     public DefaultArea(int x1, int y1, int x2, int y2)
@@ -55,7 +69,38 @@ public class DefaultArea extends DefaultContentRect implements Area
     
     public DefaultArea(Box box)
     {
-        //TODO
+        this(box.getBounds());
+        addBox(box);
+        setBounds(new Rectangular(contentBounds)); //update bounds to the box content bounds
+        setName(box.toString());
+        setBackgroundColor(box.getBackgroundColor());
+        setBackgroundSeparated(box.isBackgroundSeparated());
+        setBorders(box.getTopBorder(), box.getRightBorder(), box.getBottomBorder(), box.getLeftBorder());
+    }
+    
+    public DefaultArea(List<Box> boxList)
+    {
+        //use the first box for the area properties
+        this(boxList.get(0));
+        //update bounds to the box content bounds
+        for (Box box : boxList)
+            addBox(box); //expands the content bounds appropriately
+        setBounds(new Rectangular(contentBounds));
+    }
+    
+    /**
+     * Sets the name of the area. The name is used when the area information is displayed
+     * using <code>toString()</code>
+     * @param The new area name
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public String getName()
+    {
+        return name;
     }
     
     public Rectangular getContentBounds()
@@ -170,6 +215,21 @@ public class DefaultArea extends DefaultContentRect implements Area
      //====================================================================================
     // boxes
     //====================================================================================
+    
+    /**
+     * Adds a new box to the area.
+     * @param box
+     */
+    protected void addBox(Box box)
+    {
+        boxes.add(box);
+        
+        Rectangular sb = box.getVisualBounds();
+        if (contentBounds == null)
+            contentBounds = new Rectangular(sb);
+        else if (sb.getWidth() > 0 && sb.getHeight() > 0)
+            contentBounds.expandToEnclose(sb);
+    }
     
     /**
      * Returns a vector of boxes that are inside of this area
@@ -315,7 +375,11 @@ public class DefaultArea extends DefaultContentRect implements Area
         if (hasBottomBorder()) bs += "_";
         if (isBackgroundSeparated()) bs += "*";
         
-        return bs + " " + getBounds().toString();
+        if (name != null)
+            return bs + " " + name + " " + getBounds().toString();
+        else
+            return bs + " " + "<area> " + getBounds().toString();
+          
     }
 
 }

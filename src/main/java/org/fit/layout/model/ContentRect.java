@@ -16,6 +16,12 @@ public interface ContentRect extends Rect
 {
 
     /**
+     * Obtains a unique ID of the area within the page.
+     * @return the area ID
+     */
+    public int getId();
+    
+    /**
      * Obtains the page this block belongs to.
      * @return the page
      */
