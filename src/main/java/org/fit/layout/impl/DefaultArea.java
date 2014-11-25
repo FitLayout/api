@@ -42,10 +42,10 @@ public class DefaultArea extends DefaultContentRect implements Area
     private Rectangular contentBounds;
 
     /** A grid of inserted elements */
-    public AreaGrid grid;
+    private AreaGrid grid;
     
     /** Position of this area in the parent grid */
-    public Rectangular gp;
+    private Rectangular gp;
     
     /** Previous area on the same line */
     private Area previousOnLine = null;
@@ -62,12 +62,16 @@ public class DefaultArea extends DefaultContentRect implements Area
         tags = new HashMap<Tag, Float>();
         setBounds(new Rectangular(r));
         setBackgroundColor(null);
+        grid = null;
+        gp = new Rectangular();
     }
     
     public DefaultArea(DefaultArea src)
     {
         super(src);
         name = (src.name == null) ? null : new String(src.name);
+        boxes = new Vector<Box>(src.getBoxes());
+        tags = new HashMap<Tag, Float>();
         contentBounds = (src.contentBounds == null) ? null : new Rectangular(src.contentBounds);
         grid = null;
         gp = new Rectangular();
