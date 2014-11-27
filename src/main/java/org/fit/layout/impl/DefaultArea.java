@@ -166,13 +166,13 @@ public class DefaultArea extends DefaultContentRect implements Area
     @Override
     public Area getPreviousSibling()
     {
-        return (Area) getPreviousSibling();
+        return (Area) getPreviousSiblingNode();
     }
     
     @Override
     public Area getNextSibling()
     {
-        return (Area) getNextSibling();
+        return (Area) getNextSiblingNode();
     }
 
     
