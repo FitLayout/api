@@ -15,8 +15,19 @@ import org.fit.layout.model.AreaTree;
 public interface AreaTreeOperator
 {
     
+    /** Obtains a unique ID of the operator */
+    public String getId();
+    
+    /**
+     * Obtains a descriptive name of the operator that may be presented to the user.
+     * @return the operator name
+     */
     public String getName();
     
+    /**
+     * Obtains a longer description of the operator.
+     * @return the description
+     */
     public String getDescription();
     
     /**
