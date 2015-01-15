@@ -12,23 +12,8 @@ import org.fit.layout.model.AreaTree;
  * A generic procedure that processes the area tree. The procedures may be applied in any order.
  * @author burgetr
  */
-public interface AreaTreeOperator
+public interface AreaTreeOperator extends Service
 {
-    
-    /** Obtains a unique ID of the operator */
-    public String getId();
-    
-    /**
-     * Obtains a descriptive name of the operator that may be presented to the user.
-     * @return the operator name
-     */
-    public String getName();
-    
-    /**
-     * Obtains a longer description of the operator.
-     * @return the description
-     */
-    public String getDescription();
     
     /**
      * Applies the operation to the given tree.
