@@ -12,7 +12,7 @@ import org.fit.layout.model.AreaTree;
  * A generic procedure that processes the area tree. The procedures may be applied in any order.
  * @author burgetr
  */
-public interface AreaTreeOperator extends Service
+public interface AreaTreeOperator extends Service, ParametrizedOperation
 {
     
     /**

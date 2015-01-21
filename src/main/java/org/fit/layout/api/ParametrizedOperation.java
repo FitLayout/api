@@ -14,7 +14,7 @@ public interface ParametrizedOperation
 {
 
     /** Possible parameter value types */
-    public enum ValueType { STRING, FLOAT, BOOLEAN };
+    public enum ValueType { STRING, INTEGER, FLOAT, BOOLEAN };
     
     /**
      * Obtains a list of available parameter names of the operation.
