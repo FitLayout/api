@@ -16,17 +16,20 @@ public class DefaultTag implements Tag
 {
     private String value;
     private int level;
+    private String type;
 
     public DefaultTag(String value)
     {
         this.value = value;
         this.level = 0;
+        this.type = "";
     }
 
     public DefaultTag(String value, int level)
     {
         this.value = value;
         this.level = level;
+        this.type = "";
     }
 
     public String getValue()
@@ -47,6 +50,16 @@ public class DefaultTag implements Tag
     public void setLevel(int level)
     {
         this.level = level;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
     }
 
     @Override

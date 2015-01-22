@@ -25,4 +25,12 @@ public interface Tag
      */
     public int getLevel();
     
+    /**
+     * The tag type that allows to distinguish tags of different
+     * purposes and different source. Each tag source should have
+     * its own type.
+     * @return
+     */
+    public String getType();
+    
 }
