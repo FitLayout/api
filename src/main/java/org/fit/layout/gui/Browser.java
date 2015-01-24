@@ -8,6 +8,9 @@ package org.fit.layout.gui;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 
+import org.fit.layout.api.OutputDisplay;
+import org.fit.layout.model.Area;
+
 /**
  * A GUI browser interface used for creating browser plugins.
  * 
@@ -35,5 +38,23 @@ public interface Browser
      * @param weighty the resizing vertical weight
      */
     public void addInfoPanel(JComponent component, double weighty);
+    
+    /**
+     * Gets the browser page output display.
+     * @return the output display
+     */
+    public OutputDisplay getOutputDisplay();
+    
+    /**
+     * Performs the output display refresh (when something has been
+     * painted).
+     */
+    public void updateDisplay();
+    
+    /**
+     * Gets the last selected visual area.
+     * @return the selected visual area or {@code null} when nothing is selected
+     */
+    public Area getSelectedArea();
     
 }
