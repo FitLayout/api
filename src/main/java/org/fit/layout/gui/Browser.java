@@ -57,4 +57,10 @@ public interface Browser
      */
     public Area getSelectedArea();
     
+    /**
+     * Registers an area selection listener that is called when the area selection changes.
+     * @param listener the listener to be registered
+     */
+    public void addAreaSelectionListener(AreaSelectionListener listener);
+    
 }
