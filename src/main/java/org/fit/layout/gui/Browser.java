@@ -10,6 +10,7 @@ import javax.swing.JToolBar;
 
 import org.fit.layout.api.OutputDisplay;
 import org.fit.layout.model.Area;
+import org.fit.layout.model.Page;
 
 /**
  * A GUI browser interface used for creating browser plugins.
@@ -62,5 +63,17 @@ public interface Browser
      * @param listener the listener to be registered
      */
     public void addAreaSelectionListener(AreaSelectionListener listener);
+    
+    /**
+     * Sets page model from the external source
+     * @param page
+     */
+    public void setPage(Page page);
+    
+    /**
+     * Gets the actual page model
+     * @return the actual page model
+     */
+    public Page getPage();
     
 }
