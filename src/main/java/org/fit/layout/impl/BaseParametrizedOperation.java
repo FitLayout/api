@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.fit.layout.api.ParametrizedOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -16,7 +18,8 @@ import org.fit.layout.api.ParametrizedOperation;
  */
 public abstract class BaseParametrizedOperation implements ParametrizedOperation
 {
-    
+    private static Logger log = LoggerFactory.getLogger(BaseParametrizedOperation.class);
+            
     /**
      * Sets the parameter using the appropriate setter method (if present).
      */
@@ -54,7 +57,7 @@ public abstract class BaseParametrizedOperation implements ParametrizedOperation
             return true;
             
         } catch (NoSuchMethodException e) {
-            System.err.println("Setting unknown parameter: " + e.getMessage());
+            log.warn("Setting unknown parameter: " + e.getMessage());
             return false;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
