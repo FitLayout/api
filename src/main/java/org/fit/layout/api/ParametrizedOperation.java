@@ -36,4 +36,11 @@ public interface ParametrizedOperation
      */
     public boolean setParam(String name, Object value);
     
+    /**
+     * Obtains the value of the given parameter.
+     * @param name the parameter name
+     * @return the parameter value or {@code null} for unknown parameter
+     */
+    public Object getParam(String name);
+    
 }

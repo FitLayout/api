@@ -69,7 +69,34 @@ public abstract class BaseParametrizedOperation implements ParametrizedOperation
             e.printStackTrace();
             return false;
         }
-
     }
 
+    /**
+     * Obtains the parameter using the appropriate getter method (if present).
+     */
+    @Override
+    public Object getParam(String name)
+    {
+        String sname = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+        try
+        {
+            Method m = getClass().getMethod(sname);
+            return m.invoke(this);
+        } catch (NoSuchMethodException e) {
+            return null;
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }
