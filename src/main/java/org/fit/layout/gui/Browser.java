@@ -27,6 +27,13 @@ public interface Browser
     public void addToolBar(JToolBar toolbar);
     
     /**
+     * Adds a new tab to the tool panel at the top of the window
+     * @param title the tab title
+     * @param component the component to be added
+     */
+    public void addToolPanel(String title, JComponent component);
+    
+    /**
      * Adds a new tab to the structure view tabs.
      * @param title the tab title
      * @param component the component to be added
