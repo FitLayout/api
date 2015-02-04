@@ -13,7 +13,7 @@ import org.fit.layout.model.Page;
  * 
  * @author burgetr
  */
-public interface AreaTreeProvider extends Service
+public interface AreaTreeProvider extends Service, ParametrizedOperation
 {
 
     /**
