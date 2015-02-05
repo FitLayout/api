@@ -15,5 +15,10 @@ import org.fit.layout.api.AreaTreeOperator;
 public abstract class BaseOperator extends BaseParametrizedOperation implements AreaTreeOperator
 {
 
+    @Override
+    public String toString()
+    {
+        return getName() + " (" + getId() + ")";
+    }
 
 }
