@@ -488,6 +488,17 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     /**
+     * Removes the specific tag
+     * @param tag
+     */
+    public void removeTag(Tag tag) 
+    {
+    	if(containsTag(tag))
+            tags.remove(tag);	
+    	
+    }
+    
+    /**
      * Tests whether the area or any of its <b>direct child</b> areas have the given tag.
      * @param tag the tag to be tested.
      * @return <code>true</code> if the area or its direct child areas have the given tag

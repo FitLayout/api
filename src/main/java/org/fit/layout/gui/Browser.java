@@ -10,6 +10,7 @@ import javax.swing.JToolBar;
 
 import org.fit.layout.api.OutputDisplay;
 import org.fit.layout.model.Area;
+import org.fit.layout.model.AreaTree;
 import org.fit.layout.model.Page;
 
 /**
@@ -83,4 +84,15 @@ public interface Browser
      */
     public Page getPage();
     
+    
+    /**
+     * Gets area tree of actual page
+     * @return
+     */
+    public AreaTree getAreaTree();
+    
+    /**
+     * Sets area tree from external source
+     */
+    public void setAreaTree(AreaTree areaTree);
 }
