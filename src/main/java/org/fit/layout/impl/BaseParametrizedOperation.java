@@ -36,13 +36,25 @@ public abstract class BaseParametrizedOperation implements ParametrizedOperation
             }
             else if (value instanceof Double)
             {
-                m = getClass().getMethod(sname, float.class);
-                m.invoke(this, ((Double) value).floatValue());
+                try {
+                    m = getClass().getMethod(sname, float.class);
+                    m.invoke(this, ((Double) value).floatValue());
+                } catch (NoSuchMethodException e) {
+                    //no float version found, try the int version
+                    m = getClass().getMethod(sname, int.class);
+                    m.invoke(this, ((Double) value).intValue());
+                }
             }
             else if (value instanceof Float)
             {
-                m = getClass().getMethod(sname, float.class);
-                m.invoke(this, value);
+                try {
+                    m = getClass().getMethod(sname, float.class);
+                    m.invoke(this, value);
+                } catch (NoSuchMethodException e) {
+                    //no float version found, try the int version
+                    m = getClass().getMethod(sname, int.class);
+                    m.invoke(this, ((Double) value).intValue());
+                }
             }
             else if (value instanceof Boolean)
             {
