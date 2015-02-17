@@ -5,12 +5,14 @@
  */
 package org.fit.layout.api;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Set;
 
 import org.fit.layout.model.Area;
 import org.fit.layout.model.Box;
 import org.fit.layout.model.Page;
+import org.fit.layout.model.Rectangular;
 import org.fit.layout.model.Tag;
 
 /**
@@ -48,6 +50,13 @@ public interface OutputDisplay
      * @param area The area to be displayed
      */
     public void drawExtent(Area area);
+    
+    /**
+     * Draws the given rectangle with the specified color.
+     * @param rect the rectangle to be drawn
+     * @param color the drawing color
+     */
+    public void drawRectangle(Rectangular rect, Color color);
     
     /**
      * Draws the colorized are bounds. The color is defined by the tags. Multiple colors should
