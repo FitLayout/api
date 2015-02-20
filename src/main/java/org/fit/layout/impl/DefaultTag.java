@@ -25,6 +25,13 @@ public class DefaultTag implements Tag
         this.type = "";
     }
 
+    public DefaultTag(String type, String value)
+    {
+        this.value = value;
+        this.level = 0;
+        this.type = type;
+    }
+
     public DefaultTag(String value, int level)
     {
         this.value = value;
@@ -83,18 +90,18 @@ public class DefaultTag implements Tag
     {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        DefaultTag other = (DefaultTag) obj;
+        if (!(obj instanceof Tag)) return false;
+        Tag other = (Tag) obj;
         if (type == null)
         {
-            if (other.type != null) return false;
+            if (other.getType() != null) return false;
         }
-        else if (!type.equals(other.type)) return false;
+        else if (!type.equals(other.getType())) return false;
         if (value == null)
         {
-            if (other.value != null) return false;
+            if (other.getValue() != null) return false;
         }
-        else if (!value.equals(other.value)) return false;
+        else if (!value.equals(other.getValue())) return false;
         return true;
     }
 
