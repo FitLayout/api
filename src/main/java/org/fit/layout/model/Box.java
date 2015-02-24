@@ -128,6 +128,15 @@ public interface Box extends ContentRect
     public String getTagName();
 
     /**
+     * Obtains a value of an additional attribute. The existing attribute names depend on the box implementation;
+     * they may correspond to HTML (DOM) attributes or they may be purely virtual. The typical attributes to be
+     * implemented are {@code class} or {@code href}.
+     * @param name the attribute name
+     * @return the attribute value or {@code null} if the value is not specified.
+     */
+    public String getAttribute(String name);
+    
+    /**
      * Obtains the display type of the element according to the CSS display: property.
      * @return The display type of NULL if the box does not correspond to an element
      */

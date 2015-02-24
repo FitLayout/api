@@ -6,6 +6,8 @@
 package org.fit.layout.impl;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.fit.layout.model.Box;
 import org.fit.layout.model.ContentObject;
@@ -28,6 +30,7 @@ public class DefaultBox extends DefaultContentRect implements Box
     private Rectangular visualBounds;
     
     private String tagName;
+    private Map<String, String> attributes;
     private Box.Type type;
     private Box.DisplayType displayType;
     
@@ -129,6 +132,28 @@ public class DefaultBox extends DefaultContentRect implements Box
     public void setTagName(String tagName)
     {
         this.tagName = tagName;
+    }
+    
+    @Override
+    public String getAttribute(String name)
+    {
+        if (attributes != null)
+            return attributes.get(name);
+        else
+            return null;
+    }
+    
+    public void setAttribute(String name, String value)
+    {
+        if (attributes == null)
+            attributes = new HashMap<String, String>();
+        attributes.put(name, value);
+    }
+    
+    public void removeAttribute(String name)
+    {
+        if (attributes != null)
+            attributes.remove(name);
     }
     
     @Override
