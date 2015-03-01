@@ -157,6 +157,14 @@ public interface Area extends ContentRect
     public boolean hasTag(Tag tag);
     
     /**
+     * Tests whether the area has this tag with a support greater or equal to the specified value.
+     * @param tag the tag to be tested
+     * @param minSupport minimal required support
+     * @return <code>true</code> if the area has this tag
+     */
+    public boolean hasTag(Tag tag, float minSupport);
+    
+    /**
      * Obtains the support of the given tag assignment
      * @param tag The tag to be tested
      * @return The support of the given tag in the range 0.0 to 1.0. Returns 0.0 when the tag is not assigned

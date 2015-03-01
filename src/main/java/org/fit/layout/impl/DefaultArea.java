@@ -452,6 +452,13 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     @Override
+    public boolean hasTag(Tag tag, float minSupport)
+    {
+        final Float sp = tags.get(tag); 
+        return (sp != null && sp >= minSupport);
+    }
+
+    @Override
     public float getTagSupport(Tag tag)
     {
         Float f = tags.get(tag);
