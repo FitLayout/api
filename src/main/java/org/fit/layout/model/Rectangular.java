@@ -178,6 +178,28 @@ public class Rectangular
     }
 	
     /**
+     * Checks if this rectangle entirely contains the X coordinates of another rectangle.
+     * @param other the other rectangle
+     * @return true when the X coordinates of the other rectangle are completely contained in this one
+     */
+    public boolean enclosesX(Rectangular other)
+    {
+        return x1 <= other.x1 &&
+               x2 >= other.x2;
+    }
+    
+    /**
+     * Checks if this rectangle entirely contains the Y coordinates of another rectangle.
+     * @param other the other rectangle
+     * @return true when the Y coordinates of the other rectangle are completely contained in this one
+     */
+    public boolean enclosesY(Rectangular other)
+    {
+        return y1 <= other.y1 &&
+               y2 >= other.y2;
+    }
+    
+    /**
      * Checks if this rectangle contains a point.
      * @param x the point X coordinate
      * @param y the point Y coordinate
