@@ -150,6 +150,12 @@ public interface Area extends ContentRect
     public void addTag(Tag tag, float support);
     
     /**
+     * Removes the given tag from the area.
+     * @param tag the tag to be removed
+     */
+    public void removeTag(Tag tag);
+    
+    /**
      * Tests whether the area has this tag.
      * @param tag the tag to be tested.
      * @return <code>true</code> if the area has this tag

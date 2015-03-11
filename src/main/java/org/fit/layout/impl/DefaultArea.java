@@ -498,11 +498,10 @@ public class DefaultArea extends DefaultContentRect implements Area
      * Removes the specific tag
      * @param tag
      */
+    @Override
     public void removeTag(Tag tag) 
     {
-    	if(containsTag(tag))
-            tags.remove(tag);	
-    	
+        tags.remove(tag);	
     }
     
     /**
