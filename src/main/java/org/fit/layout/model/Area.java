@@ -6,7 +6,6 @@
 package org.fit.layout.model;
 
 import java.awt.Color;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -15,85 +14,8 @@ import java.util.Vector;
  * 
  * @author burgetr
  */
-public interface Area extends ContentRect
+public interface Area extends ContentRect, AreaTreeNode<Area>
 {
-    
-    /**
-     * Obtains the parent area of this area.
-     * @return The parent area or {@code null} when this is the root area.
-     */
-    public Area getParentArea();
-    
-    /**
-     * Obtains the previous siblibg of this area.
-     * @return The previous siblibg area or {@code null} when this is the first child.
-     */
-    public Area getPreviousSibling();
-    
-    /**
-     * Obtains the next siblibg of this area.
-     * @return The next siblibg area or {@code null} when this is the last child.
-     */
-    public Area getNextSibling();
-    
-    /**
-     * Obtains the n-th child area.
-     * @param index the child index
-     * @return the child area at the given index
-     */
-    public Area getChildArea(int index)
-        throws ArrayIndexOutOfBoundsException;
-    
-    /**
-     * Returns the number of child areas for this area.
-     * @return the number of child areas
-     */
-    public int getChildCount();
-    
-    /**
-     * Returns the list of all the child areas.
-     * @return a list containing all the child areas.
-     */
-    public List<Area> getChildAreas();
-    
-    /**
-     * Appends a new child area to the list of child areas of this area.
-     * @param child The new child to be appended
-     */
-    public void appendChild(Area child);
-    
-    /**
-     * Inserts a new child at the given position.
-     * @param child the child to be inserted
-     * @param index the index of the new child
-     */
-    public void insertChild(Area child, int index);
-    
-    /**
-     * Removes a child area from its parent.
-     * @param child The new child to be appended
-     */
-    public void removeChild(Area child);
-    
-    /**
-     * Returns the index of the specified child in this node's child array. 
-     * If the specified node is not a child of this node, returns -1.
-     * @param child the child node to search
-     * @return the child index or -1 if not a child
-     */
-    public int getIndex(Area child);
-    
-    /**
-     * Checks whether this area is a leaf area
-     * @return {@code true} when the area is a leaf area (it has no children)
-     */
-    public boolean isLeaf();
-    
-    /**
-     * Obtains the depth of the tree rooted at this area.
-     * @return 0 for leaf areas, more than 0 for other areas
-     */
-    public int getDepth();
     
     /**
      * Returns the list of boxes that belong directly to this area.
