@@ -12,7 +12,7 @@ import org.fit.layout.api.LogicalTreeProvider;
  * 
  * @author burgetr
  */
-public abstract class BaseLogicalTreeProvider implements LogicalTreeProvider
+public abstract class BaseLogicalTreeProvider extends BaseParametrizedOperation implements LogicalTreeProvider
 {
 
     @Override
