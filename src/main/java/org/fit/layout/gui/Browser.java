@@ -11,6 +11,7 @@ import javax.swing.JToolBar;
 import org.fit.layout.api.OutputDisplay;
 import org.fit.layout.model.Area;
 import org.fit.layout.model.AreaTree;
+import org.fit.layout.model.LogicalAreaTree;
 import org.fit.layout.model.Page;
 
 /**
@@ -95,4 +96,10 @@ public interface Browser
      * Sets area tree from external source
      */
     public void setAreaTree(AreaTree areaTree);
+    
+    /**
+     * Sets logical area tree from external source
+     */
+    public void setLogicalTree(LogicalAreaTree logicalTree);
+
 }
