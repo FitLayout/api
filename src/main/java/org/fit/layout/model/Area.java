@@ -52,10 +52,4 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
      */
     public Color getEffectiveBackgroundColor();
     
-    
-    //====================================================================================
-    // tagging
-    //====================================================================================
-    
-    
 }

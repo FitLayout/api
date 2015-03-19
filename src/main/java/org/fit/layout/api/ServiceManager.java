@@ -20,6 +20,7 @@ public class ServiceManager
 
     private static Map<String, BoxTreeProvider> boxProviders;
     private static Map<String, AreaTreeProvider> areaProviders;
+    private static Map<String, LogicalTreeProvider> logicalProviders;
     private static Map<String, AreaTreeOperator> operators;
 
     /**
@@ -60,6 +61,26 @@ public class ServiceManager
             }
         }
         return areaProviders;
+    }
+    
+    /**
+     * Discovers all the LogicalTreeProvider service implementations.
+     * @return A map that assigns the service {@code id} to the appropriate implementation.
+     */
+    public static Map<String, LogicalTreeProvider> findLogicalTreeProviders()
+    {
+        if (logicalProviders == null)
+        {
+            ServiceLoader<LogicalTreeProvider> loader = ServiceLoader.load(LogicalTreeProvider.class);
+            Iterator<LogicalTreeProvider> it = loader.iterator();
+            logicalProviders = new HashMap<String, LogicalTreeProvider>();
+            while (it.hasNext())
+            {
+                LogicalTreeProvider op = it.next();
+                logicalProviders.put(op.getId(), op);
+            }
+        }
+        return logicalProviders;
     }
     
     /**
