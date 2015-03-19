@@ -430,21 +430,14 @@ public class DefaultArea extends DefaultContentRect implements Area
     // tagging
     //====================================================================================
     
-    /**
-     * Adds a tag to this area.
-     * @param tag the tag to be added.
-     */
     @Override
     public void addTag(Tag tag, float support)
     {
-        tags.put(tag, support);
+        Float oldsupport = tags.get(tag);
+        if (oldsupport == null || oldsupport < support)
+            tags.put(tag, support);
     }
     
-    /**
-     * Tests whether the area has this tag.
-     * @param tag the tag to be tested.
-     * @return <code>true</code> if the area has this tag
-     */
     @Override
     public boolean hasTag(Tag tag)
     {

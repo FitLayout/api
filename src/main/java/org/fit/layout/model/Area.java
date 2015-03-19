@@ -143,7 +143,8 @@ public interface Area extends ContentRect
     public Map<Tag, Float> getTags();
 
     /**
-     * Adds a tag to this area. Nothing is done when the tag is allready assigned to this area.
+     * Adds a tag to this area. If the tag is already assigned to the area, the greater of the
+     * original and new support will be used.
      * @param tag The tag to be added.
      * @param probability The assigned tag support from 0.0 to 1.0
      */
