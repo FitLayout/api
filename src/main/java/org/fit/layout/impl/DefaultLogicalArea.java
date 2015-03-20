@@ -37,6 +37,14 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
         text = src.getText();
     }
     
+    public DefaultLogicalArea(Area src, String text)
+    {
+        super();
+        areas = new Vector<Area>();
+        areas.add(src);
+        this.text = text;
+    }
+    
     //==============================================================================
     
     @Override
