@@ -93,6 +93,12 @@ public interface Browser
     public AreaTree getAreaTree();
     
     /**
+     * Gets logical area tree of actual page
+     * @return
+     */
+    public LogicalAreaTree getLogicalTree();
+    
+    /**
      * Sets area tree from external source
      */
     public void setAreaTree(AreaTree areaTree);
