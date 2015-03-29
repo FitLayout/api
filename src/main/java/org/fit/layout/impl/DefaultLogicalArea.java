@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import org.fit.layout.model.Area;
 import org.fit.layout.model.LogicalArea;
+import org.fit.layout.model.Tag;
 
 /**
  * Default LogicalArea implementation.
@@ -20,7 +21,7 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
 {
     private List<Area> areas;
     private String text;
-    
+    private Tag mainTag;
     
     public DefaultLogicalArea()
     {
@@ -75,6 +76,25 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
     public String getText()
     {
         return text;
+    }
+    
+    @Override
+    public void setMainTag(Tag mainTag)
+    {
+        this.mainTag = mainTag;
+    }
+
+    @Override
+    public Tag getMainTag()
+    {
+        return mainTag;
+    }
+
+    @Override
+    public String toString()
+    {
+        final String tagstr = (mainTag == null) ? "---" : mainTag.getValue();
+        return "(" + tagstr + ") " + getText();
     }
     
     //==============================================================================

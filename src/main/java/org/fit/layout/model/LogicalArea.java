@@ -27,4 +27,8 @@ public interface LogicalArea extends AreaTreeNode<LogicalArea>
     
     public String getText();
     
+    public void setMainTag(Tag tag);
+    
+    public Tag getMainTag();
+    
 }
