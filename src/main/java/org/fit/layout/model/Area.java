@@ -35,6 +35,14 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
     public String getText();
     
     /**
+     * Returns the complete text contained in this area and its sub area. The individual
+     * areas are separated by the given string separator.
+     * @param separator the string separating the individual areas
+     * @return A text string (possibly empty)
+     */
+    public String getText(String separator);
+    
+    /**
      * Checks whether this area is formed by replaced boxes.
      * @return {@code true} if the area contains replaced boxes only
      */

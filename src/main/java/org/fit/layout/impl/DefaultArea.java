@@ -249,6 +249,24 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     @Override
+    public String getText(String separator)
+    {
+        String ret = "";
+        if (isLeaf())
+            ret = getBoxText();
+        else
+        {
+            for (int i = 0; i < getChildCount(); i++)
+            {
+                if (getChildArea(i).isLeaf() && !ret.isEmpty())
+                    ret += separator;
+                ret += getChildArea(i).getText(separator);
+            }
+        }
+        return ret;
+    }
+    
+    @Override
     public boolean isReplaced()
     {
         boolean empty = true;
