@@ -5,6 +5,9 @@
  */
 package org.fit.layout.api;
 
+import java.io.Reader;
+import java.io.Writer;
+
 /**
  * An object that should be made available in the JavaScript engine.
  *  
@@ -19,4 +22,12 @@ public interface ScriptObject
      */
     public String getName();
     
+    /**
+     * Sets the readers/writers to be used by the script.
+     * @param in input reader
+     * @param out standard output writer
+     * @param err error output writer
+     */
+    public void setIO(Reader in, Writer out, Writer err);
+
 }
