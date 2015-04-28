@@ -22,6 +22,7 @@ public class ServiceManager
     private static Map<String, AreaTreeProvider> areaProviders;
     private static Map<String, LogicalTreeProvider> logicalProviders;
     private static Map<String, AreaTreeOperator> operators;
+    private static Map<String, ScriptObject> scriptObjects;
 
     /**
      * Discovers all the BoxTreeProvider service implementations.
@@ -101,6 +102,26 @@ public class ServiceManager
             }
         }
         return operators;
+    }
+
+    /**
+     * Discovers all the AreaTreeOperator service implementations.
+     * @return A map that assigns the service {@code id} to the appropriate implementation.
+     */
+    public static Map<String, ScriptObject> findScriptObjects()
+    {
+        if (scriptObjects == null)
+        {
+            ServiceLoader<ScriptObject> loader = ServiceLoader.load(ScriptObject.class);
+            Iterator<ScriptObject> it = loader.iterator();
+            scriptObjects = new HashMap<String, ScriptObject>();
+            while (it.hasNext())
+            {
+                ScriptObject op = it.next();
+                scriptObjects.put(op.getName(), op);
+            }
+        }
+        return scriptObjects;
     }
 
     /**
