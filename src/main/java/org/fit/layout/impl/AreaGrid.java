@@ -209,7 +209,7 @@ public class AreaGrid
     /**
      * Finds a grid cell that contains the specified point
      * @param x the x coordinate of the specified point
-     * @returns the X offset of the grid cell that contains the specified absolute 
+     * @return the X offset of the grid cell that contains the specified absolute 
      * x coordinate or -1 when there is no such cell
      */
     public int findCellX(int x)
@@ -227,7 +227,7 @@ public class AreaGrid
     /**
      * Finds a grid cell that contains the specified point
      * @param y the y coordinate of the specified point
-     * @returns the Y offset of the grid cell that contains the specified absolute 
+     * @return the Y offset of the grid cell that contains the specified absolute 
      * y coordinate or -1 when there is no such cell
      */
     public int findCellY(int y)

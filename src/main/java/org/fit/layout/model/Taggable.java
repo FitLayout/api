@@ -25,7 +25,7 @@ public interface Taggable
      * Adds a tag to this area. If the tag is already assigned to the area, the greater of the
      * original and new support will be used.
      * @param tag The tag to be added.
-     * @param probability The assigned tag support from 0.0 to 1.0
+     * @param support The assigned tag support from 0.0 to 1.0
      */
     public void addTag(Tag tag, float support);
     

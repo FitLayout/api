@@ -75,7 +75,7 @@ public interface OutputDisplay
      * of the color mapping depends on the OutputDisplay implementation. The area is not displayed
      * when class name is empty.
      * @param area  The area to be displayed
-     * @param s The class name used for generating the colors.
+     * @param cname The class name used for generating the colors.
      */
     public void colorizeByClass(Area area, String cname);
 

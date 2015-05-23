@@ -98,7 +98,7 @@ public interface Box extends ContentRect
     
     /**
      * Resurns the type of the box.
-     * @return
+     * @return the box type
      */
     public Type getType();
     

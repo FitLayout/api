@@ -106,7 +106,7 @@ public class DefaultArea extends DefaultContentRect implements Area
     /**
      * Sets the name of the area. The name is used when the area information is displayed
      * using <code>toString()</code>
-     * @param The new area name
+     * @param name The new area name
      */
     public void setName(String name)
     {
@@ -300,7 +300,7 @@ public class DefaultArea extends DefaultContentRect implements Area
     
     /**
      * Returns a vector of boxes that are inside of this area
-     * @return A vector containing the {@link org.burgetr.segm.BoxNode BoxNode} objects
+     * @return A vector containing the {@link org.fit.layout.model.Box Box} objects
      */
     public Vector<Box> getBoxes()
     {

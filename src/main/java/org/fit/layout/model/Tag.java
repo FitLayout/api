@@ -29,7 +29,7 @@ public interface Tag
      * The tag type that allows to distinguish tags of different
      * purposes and different source. Each tag source should have
      * its own type.
-     * @return
+     * @return the tag type string
      */
     public String getType();
     

@@ -87,14 +87,14 @@ public interface Browser
     
     
     /**
-     * Gets area tree of actual page
-     * @return
+     * Gets the area tree of the current page
+     * @return the current area tree or {@code null} if the tree has not been built yet
      */
     public AreaTree getAreaTree();
     
     /**
-     * Gets logical area tree of actual page
-     * @return
+     * Gets the logical area tree of the actual page
+     * @return the current logical tree or {@code null} if the tree has not been built yet
      */
     public LogicalAreaTree getLogicalTree();
     
