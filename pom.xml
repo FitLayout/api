@@ -12,7 +12,7 @@
 	</parent>
 	
 	<artifactId>layout-api</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	
 	<name>FitLayout API</name>
 	<description>
@@ -41,7 +41,7 @@
 		<url>https://github.com/FitLayout/api</url>
 		<connection>scm:git:git@github.com:FitLayout/api.git</connection>
 		<developerConnection>scm:git:git@github.com:FitLayout/api.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>layout-api-0.0.2</tag>
     </scm>
 	
 	<build>
