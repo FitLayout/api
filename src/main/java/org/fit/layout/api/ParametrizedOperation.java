@@ -43,4 +43,11 @@ public interface ParametrizedOperation
      */
     public Object getParam(String name);
     
+    /**
+     * Obtains the minimal and maximal value of the given parameter.
+     * @param name the name of the parameter
+     * @return Array of two objects [min, max] for numeric types, {@code null} for other types or non-existing parameters
+     */
+    public Object[] getParamRange(String name);
+    
 }

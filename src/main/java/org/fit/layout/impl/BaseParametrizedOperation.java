@@ -110,5 +110,11 @@ public abstract class BaseParametrizedOperation implements ParametrizedOperation
             return null;
         }
     }
+
+    @Override
+    public Object[] getParamRange(String name)
+    {
+        return null; //default implementation does not know any parametres
+    }
     
 }
