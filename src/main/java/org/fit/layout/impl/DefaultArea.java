@@ -205,6 +205,16 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     @Override
+    public void appendChildren(List<Area> list)
+    {
+        for (Area child : list)
+        {
+            add((DefaultArea) child);
+            getBounds().expandToEnclose(child.getBounds());
+        }
+    }
+    
+    @Override
     public void insertChild(Area child, int index)
     {
         insert((DefaultArea) child, index);

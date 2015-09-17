@@ -140,6 +140,13 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
     }
 
     @Override
+    public void appendChildren(List<LogicalArea> children)
+    {
+        for (LogicalArea child : children)
+            add((DefaultLogicalArea) child);
+    }
+
+    @Override
     public void insertChild(LogicalArea child, int index)
     {
         insert((DefaultLogicalArea) child, index);

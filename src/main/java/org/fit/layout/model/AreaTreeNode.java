@@ -59,6 +59,12 @@ public interface AreaTreeNode<T>
     public void appendChild(T child);
     
     /**
+     * Appends a list of child areas to the list of child areas of this area.
+     * @param list The list of new children to be appended
+     */
+    public void appendChildren(List<T> list);
+    
+    /**
      * Inserts a new child at the given position.
      * @param child the child to be inserted
      * @param index the index of the new child
@@ -70,6 +76,11 @@ public interface AreaTreeNode<T>
      * @param child The new child to be appended
      */
     public void removeChild(T child);
+    
+    /**
+     * Removes all the child areas from their parent.
+     */
+    public void removeAllChildren();
     
     /**
      * Returns the index of the specified child in this node's child array. 
