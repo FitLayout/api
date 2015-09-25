@@ -15,7 +15,11 @@ import org.fit.layout.api.OutputDisplay;
  */
 public interface AreaTopology
 {
-
+    
+    public int getWidth();
+    
+    public int getHeight();
+    
     public Rectangular getPosition();
     
     public Area getPreviousOnLine();

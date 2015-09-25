@@ -33,6 +33,18 @@ public class DefaultGridTopology implements AreaTopology
     }
     
     @Override
+    public int getWidth()
+    {
+        return area.getGridWidth();
+    }
+
+    @Override
+    public int getHeight()
+    {
+        return area.getGridHeight();
+    }
+    
+    @Override
     public Rectangular getPosition()
     {
         return area.getGridPosition();
@@ -88,5 +100,5 @@ public class DefaultGridTopology implements AreaTopology
         ig.setColor(c);
         
     }
-    
+
 }
