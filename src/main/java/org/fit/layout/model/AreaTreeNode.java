@@ -102,5 +102,11 @@ public interface AreaTreeNode<T>
      */
     public int getDepth();
     
+    /**
+     * Returns the total number of leaves that are descendants of this node.
+     * If this node is a leaf, returns 1.
+     * @return the number of leaves beneath this node
+     */
+    public int getLeafCount();
 
 }

@@ -166,4 +166,23 @@ public class GenericTreeNode
     	}
     }
     
+    public int getLeafCount()
+    {
+        return recursiveGetLeafCount(this);
+    }
+    
+    private int recursiveGetLeafCount(GenericTreeNode root)
+    {
+        if (root.isLeaf())
+            return 1;
+        else
+        {
+            int sum = 0;
+            for (GenericTreeNode child : root.getChildren())
+                sum += recursiveGetLeafCount(child);
+            return sum;
+        }
+    }
+    
+    
 }
