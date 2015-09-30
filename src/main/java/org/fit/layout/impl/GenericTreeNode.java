@@ -5,6 +5,7 @@
  */
 package org.fit.layout.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,12 +19,14 @@ public class GenericTreeNode
     private GenericTreeNode root;
     private GenericTreeNode parent;
     private Vector<GenericTreeNode> children;
+    private HashMap<Class<?>, Object> attributes;
 
     public GenericTreeNode()
     {
         children = new Vector<GenericTreeNode>();
         parent = null;
         root = this;
+        attributes = new HashMap<Class<?>, Object>();
     }
 
     public GenericTreeNode getParent()
@@ -41,6 +44,16 @@ public class GenericTreeNode
         return (root == this);
     }
     
+    public <T> T getAttribute(Class<T> clazz)
+    {
+        return clazz.cast(attributes.get(clazz));
+    }
+
+    public void addAttribute(Object attribute)
+    {
+        attributes.put(attribute.getClass(), attribute);
+    }
+
     public List<GenericTreeNode> getChildren()
     {
         return children;

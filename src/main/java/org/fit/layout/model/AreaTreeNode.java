@@ -109,4 +109,19 @@ public interface AreaTreeNode<T>
      */
     public int getLeafCount();
 
+    /**
+     * Sets a user-defined attribute for the tree node. This allows to assign multiple
+     * attributes with different classes. One object of each class is allowed.
+     * @param attribute an object representing the user attributes (application-specific)
+     */
+    public void addAttribute(Object attribute);
+    
+    /**
+     * Obtains the user-defined attributes of the node.
+     * @param clazz the class of the required attribute
+     * @return an object of the given class representing the user attributes (application-specific)
+     * or {@code null} when no such attribute is present.
+     */
+    public <P> P getAttribute(Class<P> clazz);
+
 }
