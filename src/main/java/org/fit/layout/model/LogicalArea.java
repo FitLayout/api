@@ -21,6 +21,8 @@ public interface LogicalArea extends AreaTreeNode<LogicalArea>
     
     public List<Area> getAreas();
     
+    public Area getFirstArea();
+    
     public int getAreaCount();
     
     public void setText(String text);

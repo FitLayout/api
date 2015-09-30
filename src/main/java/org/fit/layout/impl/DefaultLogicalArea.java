@@ -61,6 +61,12 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
     }
 
     @Override
+    public Area getFirstArea()
+    {
+        return ((Vector<Area>) areas).firstElement();
+    }
+    
+    @Override
     public int getAreaCount()
     {
         return areas.size();
