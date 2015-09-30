@@ -52,7 +52,12 @@ public class DefaultArea extends DefaultContentRect implements Area
     
     /** Next area on the same line */
     private Area nextOnLine = null;
-    
+
+    /** Is the area a horizontal separator? */
+    private boolean hsep;
+
+    /** Is the area a vertical separator? */
+    private boolean vsep;
 
     public DefaultArea(Rectangular r)
     {
@@ -64,6 +69,8 @@ public class DefaultArea extends DefaultContentRect implements Area
         setBackgroundColor(null);
         grid = null;
         gp = new Rectangular();
+        hsep = false;
+        vsep = false;
     }
     
     public DefaultArea(DefaultArea src)
@@ -75,6 +82,8 @@ public class DefaultArea extends DefaultContentRect implements Area
         contentBounds = (src.contentBounds == null) ? null : new Rectangular(src.contentBounds);
         grid = null;
         gp = new Rectangular();
+        vsep = src.vsep;
+        hsep = src.hsep;
     }
     
     public DefaultArea(int x1, int y1, int x2, int y2)
@@ -553,6 +562,34 @@ public class DefaultArea extends DefaultContentRect implements Area
         return tags;
     }
     
+    public void SetHorizontalSeparator(boolean hsep)
+    {
+        this.hsep = hsep;
+    }
+    
+    @Override
+    public boolean isHorizontalSeparator()
+    {
+        return hsep;
+    }
+
+    public void SetVerticalSeparator(boolean vsep)
+    {
+        this.hsep = vsep;
+    }
+    
+    @Override
+    public boolean isVerticalSeparator()
+    {
+        return vsep;
+    }
+
+    @Override
+    public boolean isSeparator()
+    {
+        return isHorizontalSeparator() || isVerticalSeparator();
+    }
+
     @Override
     public String toString()
     {

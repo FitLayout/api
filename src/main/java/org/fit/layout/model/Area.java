@@ -59,5 +59,23 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
      * @return The background color.
      */
     public Color getEffectiveBackgroundColor();
+
+    /**
+     * Checks whether the area can be interpreted as a horizontal separator.
+     * @return {@code true} when this area is a horizontal separator
+     */
+    public boolean isHorizontalSeparator();
+
+    /**
+     * Checks whether the area can be interpreted as a vertical separator.
+     * @return {@code true} when this area is a vertical separator
+     */
+    public boolean isVerticalSeparator();
     
+    /**
+     * Checks whether the area can be interpreted as any kind of separator.
+     * @return {@code true} when this area is a separator
+     */
+    public boolean isSeparator();
+
 }
