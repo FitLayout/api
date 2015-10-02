@@ -170,4 +170,21 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
         return super.getIndex((DefaultLogicalArea) child);
     }
 
+    @Override
+    public LogicalArea findArea(Area area)
+    {
+        if (getAreas().contains(area))
+            return this; //in our area nodes
+        else //in the subtree
+        {
+            for (int i = 0; i < getChildCount(); i++)
+            {
+                final LogicalArea ret = getChildArea(i).findArea(area);
+                if (ret != null)
+                    return ret;
+            }
+            return null;
+        }
+    }
+    
 }
