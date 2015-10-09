@@ -134,8 +134,9 @@ public class AreaGrid
     }
     
     /**
-     * @return the offset of the specified column from the grid origin. Column 0
-     * has always the offset 0
+     * Finds the offset of the specified column from the grid origin.
+     * @param col the column index
+     * @return the offset in pixels. Column 0 has always the offset 0.
      */
     public int getColOfs(int col) throws ArrayIndexOutOfBoundsException
     {
@@ -153,8 +154,9 @@ public class AreaGrid
     }
     
     /**
-     * @return the offset of the specified row from the grid origin. Row 0
-     * has always the offset 0
+     * Finds the offset of the specified row from the grid origin.
+     * @param col the row index
+     * @return the offset in pixels. Row 0 has always the offset 0.
      */
     public int getRowOfs(int row) throws ArrayIndexOutOfBoundsException
     {
@@ -172,7 +174,10 @@ public class AreaGrid
     }
     
     /**
-     * @return the coordinates of the specified grid cell relatively to the area
+     * Computes the coordinates of the specified grid cell relatively to the area top left corner.
+     * @param x the column index of the cell
+     * @param y the row index of the cell
+     * @return the coordinates of the given cell in pixels
      */
     public Rectangular getCellBoundsRelative(int x, int y)
     {
@@ -184,7 +189,10 @@ public class AreaGrid
     }
     
     /**
-     * @return the coordinates of the specified grid cell absolutely
+     * Computes the absolute coordinates of the specified grid cell.
+     * @param x the column index of the cell
+     * @param y the row index of the cell
+     * @return the coordinates of the given cell in pixels
      */
     public Rectangular getCellBoundsAbsolute(int x, int y)
     {
@@ -196,14 +204,28 @@ public class AreaGrid
     }
     
     /**
-     * @return the coordinates of the specified area absolutely]
+     * Computes the absolute coordinates of the specified area in the grid.
+     * @param x1 the column index of the top left cell of the area.
+     * @param y1 the row index of the top left cell of the area.
+     * @param x2 the column index of the bottom right cell of the area.
+     * @param y2 the row index of the bottom right cell of the area.
+     * @return the absolute coordinates of the given area in pixels.
+     */
+    public Rectangular getAreaBoundsAbsolute(int x1, int y1, int x2, int y2)
+    {
+        final Rectangular end = getCellBoundsAbsolute(x2, y2);
+        return new Rectangular(parent.getX1() + getColOfs(x1), parent.getY1() + getRowOfs(y1),
+                end.getX2(), end.getY2());
+    }
+    
+    /**
+     * Computes the absolute coordinates of the specified area in the grid.
+     * @param The area coordinates in the grid.
+     * @return the absolute coordinates of the given area in pixels.
      */
     public Rectangular getAreaBoundsAbsolute(Rectangular area)
     {
-        int x1 = parent.getX1() + getColOfs(area.getX1());
-        int y1 = parent.getY1() + getRowOfs(area.getY1());
-        Rectangular end = getCellBoundsAbsolute(area.getX2(), area.getY2());
-        return new Rectangular(x1, y1, end.getX2(), end.getY2());
+        return getAreaBoundsAbsolute(area.getX1(), area.getY1(), area.getX2(), area.getY2());
     }
     
     /**
