@@ -33,6 +33,18 @@ public class DefaultGridTopology implements AreaTopology
     }
     
     @Override
+    public int getTopologyWidth()
+    {
+        return area.getGrid().getWidth();
+    }
+
+    @Override
+    public int getTopologyHeight()
+    {
+        return area.getGrid().getHeight();
+    }
+
+    @Override
     public int getWidth()
     {
         return area.getGridWidth();
