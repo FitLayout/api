@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -77,5 +78,15 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
      * @return {@code true} when this area is a separator
      */
     public boolean isSeparator();
+    
+    /**
+     * Creates a new subarea from a specified region of the area and moves the selected child
+     * nodes to the new area.
+     * @param gp the subarea bounds
+     * @param selected nodes to be moved to the new area
+     * @param name the name (identification) of the new area
+     * @return the new AreaNode created in the tree or null, if nothing was created
+     */ 
+    public Area createSuperArea(Rectangular gp, List<Area> selected, String name);
 
 }
