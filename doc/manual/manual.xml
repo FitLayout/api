@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d:document xmlns="http://www.w3.org/1999/xhtml"
+		  xmlns:d="http://cssbox.sourceforge.net/docs">
+<d:title>FITLayout Framework Manual</d:title>
+<d:author>Radek Burget<br/>
+<a href="mailto:burgetr@fit.vutbr.cz">burgetr@fit.vutbr.cz</a>
+</d:author>
+
+<d:toc />
+
+<d:section id="intro">
+<d:title>Introduction</d:title>
+<p>
+<strong>FitLayout</strong> is an extensible web page segmentation and analysis framework written in Java.
+It defines a generic Java API for representing a rendered web page and its division to visual areas and
+their further analysis. It also provides a base for implementing page segmentation algorithms with a common application
+interface. The framework includes tools for post-processing the segmentation result by different text or visual 
+classification methods. It also provides tools for controlling the segmentation process and examining the segmentation
+results through a graphical user interface.
+</p>
+</d:section>
+
+<d:section id="parsing">
+<d:title>Architecture of the Framework</d:title>
+</d:section>
+
+<d:section id="parsing">
+<d:title>Box Tree Sources</d:title>
+</d:section>
+
+
+</d:document>
