@@ -220,6 +220,16 @@ public class Rectangular
     			|| other.y1 > y2 
     			|| other.y2 < y1);
 	}
+	
+	public boolean intersectsX(Rectangular other)
+	{
+        return !(other.x1 > x2 || other.x2 < x1); 
+	}
+
+    public boolean intersectsY(Rectangular other)
+    {
+        return !(other.y1 > y2 || other.y2 < y1); 
+    }
 
     public Rectangular intersection(Rectangular other)
     {
