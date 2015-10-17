@@ -11,7 +11,7 @@
 <d:section id="intro">
 <d:title>Introduction</d:title>
 <p>
-<strong>FitLayout</strong> is an extensible web page segmentation and analysis framework written in Java.
+<strong>FITLayout</strong> is an extensible web page segmentation and analysis framework written in Java.
 It defines a generic Java API for representing a rendered web page and its division to visual areas and
 their further analysis. It also provides a base for implementing page segmentation algorithms with a common application
 interface. The framework includes tools for post-processing the segmentation result by different text or visual 
@@ -20,13 +20,54 @@ results through a graphical user interface.
 </p>
 </d:section>
 
-<d:section id="parsing">
+<d:section id="architecture">
 <d:title>Architecture of the Framework</d:title>
+<!-- TODO figure -->
+<p>
+FITLayout operates on a rendered page represented by a <dfn><d:ref target="boxtree">box tree</d:ref></dfn>. The box tree
+is obtained by rendering the page and calculating the positions, fonts, colors and other visual features of the
+indivudual pieces of contents (<dfn>boxes</dfn>). The box tree represents an input of the page segmentation algorithms.
+</p>
+<p>
+<em><d:ref target="segmentation">Page segmentation</d:ref></em> is the main task implemented in FITLayout. It analyzes the
+input boxtree and produces a tree of <dfn>visual areas</dfn> that correspond to the detected visual blocks
+in the page. The created visual area tree may be further processed by <d:ref target="operators">area tree operators</d:ref>
+that represent independent post-processing steps of the segmentation. These steps may change the organization
+of the resulting tree of visual areas, e.g. group several nodes to new areas, etc.
+</p>
+<p>
+The process of page rendering and segmentation may be controlled using a provided set of <d:ref target="tools">tools</d:ref>.
+These tools include a visual browser with a graphical user interface that can be used for configuring and executing
+the individual tasks. Moreover a scriptable processor is provided that allows to use JavaScript for running
+the tasks in batch mode. 
+</p>
+<p>
+The FITLayout architecture is easily extensible by creating new plugins providing new functionality such as
+new box tree sources (document renderers), segmentation algorithms, area tree post-processing operators
+or GUI extensions. The plugins use the standard Java
+<a href="https://docs.oracle.com/javase/tutorial/ext/basics/spi.html">Extensible applications</a> framework. 
+</p>
+<!-- TODO packages, mainly the api package. The rest may be described later in #projects -->
 </d:section>
 
-<d:section id="parsing">
-<d:title>Box Tree Sources</d:title>
+<d:section id="boxtree">
+<d:title>Box Tree</d:title>
 </d:section>
 
+<d:section id="segmentation">
+<d:title>Segmentation</d:title>
+</d:section>
+
+<d:section id="tools">
+<d:title>Tools</d:title>
+</d:section>
+
+<d:section id="plugins">
+<d:title>Creating FITLayout plugins</d:title>
+</d:section>
+
+<d:section id="projects">
+<d:title>FITLayout packages</d:title>
+</d:section>
 
 </d:document>
