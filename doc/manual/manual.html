@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:doc="http://cssbox.sourceforge.net/docs"><head><title>FITLayout Framework Manual</title><meta http-equiv="content-type" content="text/html; charset=utf-8" /><style type="text/css">
+			@import "manual.css";
+			</style></head><body><h1>FITLayout Framework Manual</h1><p class="author">Radek Burget<br />
+<a href="mailto:burgetr@fit.vutbr.cz">burgetr@fit.vutbr.cz</a>
+</p><div class="toc"><h2>Table of Contents</h2><ul><li><a href="#intro">Introduction</a></li><li><a href="#architecture">Architecture of the Framework</a><ul><li><a href="#modules">Modules</a></li><li><a href="#services">Services</a></li></ul></li><li><a href="#boxtree">Box Tree</a><ul><li><a href="#cssbox-box-source">CSSBox Box Source</a></li></ul></li><li><a href="#segmentation">Segmentation</a></li><li><a href="#tools">Tools</a></li><li><a href="#plugins">Creating FITLayout plugins</a></li><li><a href="#projects">FITLayout packages</a></li></ul></div><div class="section" id="intro"><h2>Introduction</h2><p>
+<strong>FITLayout</strong> is an extensible web page segmentation and analysis framework written in Java.
+It defines a generic Java API for representing a rendered web page and its division to visual areas and
+their further analysis. It also provides a base for implementing page segmentation algorithms with a common application
+interface. The framework includes tools for post-processing the segmentation result by different text or visual 
+classification methods. It also provides tools for controlling the segmentation process and examining the segmentation
+results through a graphical user interface.
+</p></div><div class="section" id="architecture"><h2>Architecture of the Framework</h2><p>
+FITLayout operates on a rendered page represented by a <dfn><a href="#boxtree">box tree</a></dfn>. The box tree
+is obtained by rendering the page and calculating the positions, fonts, colors and other visual features of the
+indivudual pieces of contents (<dfn>boxes</dfn>). The box tree represents an input of the page segmentation algorithms.
+</p><p>
+<em><a href="#segmentation">Page segmentation</a></em> is the main task implemented in FITLayout. It analyzes the
+input boxtree and produces a tree of <dfn>visual areas</dfn> that correspond to the detected visual blocks
+in the page. The created visual area tree may be further processed by <a href="#operators">area tree operators</a>
+that represent independent post-processing steps of the segmentation. These steps may change the organization
+of the resulting tree of visual areas, e.g. group several nodes to new areas, etc.
+</p><p>
+The process of page rendering and segmentation may be controlled using a provided set of <a href="#tools">tools</a>.
+These tools include a visual browser with a graphical user interface that can be used for configuring and executing
+the individual tasks. Moreover a scriptable processor is provided that allows to use JavaScript for running
+the tasks in batch mode. 
+</p><div class="subsection" id="modules"><h3>Modules</h3><p>The FitLayout framework consists of the following basic modules:</p><ul>
+<li><strong><a href="https://github.com/FitLayout/api">API</a></strong> – the basic Java interfaces and
+their generic implementation that define a common application interface for page segmentation methods.</li>
+<li><strong><a href="https://github.com/FitLayout/layout-cssbox">CSSBox bindings</a></strong> – a default
+implementation of the rendered page source based on the <a href="http://cssbox.sourceforge.net">CSSBox
+rendering engine</a>.</li>
+<li><strong><a href="https://github.com/FitLayout/segmentation">Segmentation</a></strong> – an implementation
+of a basic page segmentation method that may be further extended by adding custom area tree operators.</li>
+
+<li><strong><a href="https://github.com/FitLayout/tools">Tools</a></strong> – tools 
+for controlling the segmentation process that include a graphical browser of the segmentation result.</li>
+</ul><p>There exist some more additional modules that will be described later.</p></div><div class="subsection" id="services"><h3>Services</h3><p>
+The FITLayout architecture is easily extensible by creating new plugins providing new functionality such as
+new box tree sources (document renderers), segmentation algorithms, area tree post-processing operators
+or GUI extensions. The plugins use the standard Java
+<a href="https://docs.oracle.com/javase/tutorial/ext/basics/spi.html">Extensible applications</a> framework. 
+</p><p>The following types of services are recognized:</p><ul>
+<li><a href="api/org/fit/layout/api/BoxTreeProvider.html" class="api"><code>BoxTreeProvider</code></a> –
+	a box tree source; i.e. the page renderer. Based on the input parameters (e.g. the page URL),
+	it renders the page and produces the box tree.
+</li>
+<li><a href="api/org/fit/layout/api/AreaTreeProvider.html" class="api"><code>AreaTreeProvider</code></a> –
+	an area tree source; i.e. a basic segmentation algorithm. It gets a box tree on its input
+	and produces a <dfn>visual area tree</dfn> that represents the segmented page.
+</li>
+<li><a href="api/org/fit/layout/api/AreaTreeOperator.html" class="api"><code>AreaTreeOperator</code></a> –
+	a post-processing operation applied on the visual area tree. It may perform any operation
+	with the tree such as joining nodes, splitting nodes, extending the hierarchy, etc.
+</li>
+<li><a href="api/org/fit/layout/api/LogicalTreeProvider.html" class="api"><code>LogicalTreeProvider</code></a> –
+	an analyzer that gets the final area tree on its input and assigns semantics to
+	selected areas (tree nodes). 
+</li>
+</ul><p>Each service is identified by its unique identifier obtained using its 
+<a href="api/file:///home/burgetr/tmp/fitlayout/api/org/fit/layout/api/Service.html#getId()" class="api"><code>getId()</code></a>
+method.
+All the services may accept some input parametres. They implement a
+<a href="api/org/fit/layout/api/ParametrizedOperation.html" class="api"><code>ParametrizedOperation</code></a> interface
+that allows to get the information about the required input parametres (their names and types)
+and to assign the values to them.</p><p>For accessing the services, FITLayout provides a simple
+<a href="api/org/fit/layout/api/ServiceManager.html" class="api"><code>ServiceManager</code></a> that provides
+static methods for locating the services of the given types. 
+</p></div></div><div class="section" id="boxtree"><h2>Box Tree</h2><p>
+The whole rendered page is represented using a <a href="api/org/fit/layout/model/Page.html" class="api"><code>Page</code></a>
+object. Its <a href="api/org/fit/layout/model/Page.html#getBox()" class="api"><code>getBox()</code></a> method
+obtains a root node of the <dfn>box tree</dfn> that represents the page contents. Each node of the box
+tree consists of <a href="api/org/fit/layout/model/Box.html" class="api"><code>Box</code></a> objects that represent the
+individual rendered boxes. Each box has a fixed position in the rendered page obtained using the
+<a href="api/org/fit/layout/model/Box.html#getBounds()" class="api"><code>getBounds()</code></a> method and
+some more visual properties such as font size, colors, etc. The
+<a href="api/org/fit/layout/model/Box.html#getType()" class="api"><code>getType()</code></a> method obtains
+the box type which is one of the following:</p><ul>
+<li><code>ELEMENT</code> – a box generated by a DOM element</li>
+<li><code>TEXT_CONTENT</code> – a box representing a displayed text</li>
+<li><code>REPLACED_CONTENT</code> – a box representing a replaced content (an image or other object)</li>
+</ul><p>The boxes are organized in a hierarchical structure. The 
+  <a href="api/org/fit/layout/model/Box.html#getParent()" class="api"><code>getParent()</code></a>,
+  <a href="api/org/fit/layout/model/Box.html#getChildBox()" class="api"><code>getChildBox()</code></a> and
+  <a href="api/org/fit/layout/model/Box.html#getChildCount()" class="api"><code>getChildCount()</code></a>
+methods may be used for traversing the hierarchy. The <code>TEXT_CONTENT</code> and <code>REPLACED_CONTENT</code>
+boxes are always the leaf nodes of the tree. The <code>ELEMENT</code> nodes may exist anywhere
+in the tree.
+</p><div class="subsection" id="cssbox-box-source"><h3>CSSBox Box Source</h3><p>The default box source is implemented in the <a href="https://github.com/FitLayout/layout-cssbox">layout-cssbox</a>
+(CSSBox bindings) module as the <a href="api/org/fit/layout/cssbox/CSSBoxTreeProvider.html" class="api"><code>CSSBoxTreeProvider</code></a>
+class. The individual boxes are represented using the
+<a href="api/org/fit/layout/cssbox/BoxNode.html" class="api"><code>BoxNode</code></a> objects. The CSSBox box source renders
+an input document identified by its URL. It supports the HTML/CSS and PDF documents. It is based on
+the open-source <a href="http://cssbox.sourceforge.net">CSSBox rendering engine</a>.
+</p></div></div><div class="section" id="segmentation"><h2>Segmentation</h2></div><div class="section" id="tools"><h2>Tools</h2></div><div class="section" id="plugins"><h2>Creating FITLayout plugins</h2></div><div class="section" id="projects"><h2>FITLayout packages</h2></div></body></html>

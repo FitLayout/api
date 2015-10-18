@@ -115,6 +115,10 @@
     		<xsl:attribute name="href">
     			<xsl:text>api/</xsl:text>
     			<xsl:choose>
+    				<xsl:when test="string-length(@package)>0">
+    					<xsl:value-of select="@package" />
+    					<xsl:text>/package-summary.html</xsl:text>
+    				</xsl:when>
     				<xsl:when test="string-length(@class)>0">
 		    			<xsl:value-of select="@class" />
 		    			<xsl:text>.html</xsl:text>
@@ -148,6 +152,16 @@
     		<xsl:attribute name="href">
     			<xsl:text>#</xsl:text>
     			<xsl:value-of select="@target" />
+    		</xsl:attribute>
+  			<xsl:apply-templates />
+    	</a>
+    </xsl:template>
+    
+    <xsl:template match="doc:module">
+    	<a>
+    		<xsl:attribute name="href">
+    			<xsl:text>https://github.com/FitLayout/</xsl:text>
+    			<xsl:value-of select="@ref" />
     		</xsl:attribute>
   			<xsl:apply-templates />
     	</a>
