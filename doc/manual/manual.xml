@@ -47,7 +47,7 @@ the tasks in batch mode.
 <p>The FitLayout framework consists of the following basic modules:</p>
 <ul>
 <li><strong><d:module ref="api">API</d:module></strong> – the basic Java interfaces and
-their generic implementation that define a common application interface for page segmentation methods.</li>
+their generic implementation that define a common application interface for page segmentation methods (see below).</li>
 <li><strong><d:module ref="layout-cssbox">CSSBox bindings</d:module></strong> – a default
 implementation of the rendered page source based on the <a href="http://cssbox.sourceforge.net">CSSBox
 rendering engine</a>.</li>
@@ -60,6 +60,22 @@ based on their visual or text properties.</li>  -->
 for controlling the segmentation process that include a graphical browser of the segmentation result.</li>
 </ul> 
 <p>There exist some more additional modules that will be described later.</p>
+
+<p>The API (<d:module ref="api">cssbox-api</d:module>) module provides a shared API common for all the
+remaining modules. It provides the following basic Java packages:
+</p>
+<ul>
+<li><d:api package="org/fit/layout/model">org.fit.layout.model</d:api> – basic java interfaces used for
+representing the rendered page (a box tree) and the result of segmentation (an area tree).</li>
+<li><d:api package="org/fit/layout/impl">org.fit.layout.impl</d:api> – default implementations of the
+interfaces from the <code>model</code> package. These implementations may be used as a starting
+point for further extension in applications.</li>
+<li><d:api package="org/fit/layout/api">org.fit.layout.api</d:api> – interfaces specific for the FITLayout
+framework itself. They include the services of different kinds as described below.</li>
+<li><d:api package="org/fit/layout/gui">org.fit.layout.gui</d:api> – common interfaces of a GUI browser
+used for monitoring the page processing.</li>
+</ul>  
+<p>The details about the individual available interfaces are given in the appropriate sections below.</p>
 </d:subsection>
 
 <d:subsection id="services">
@@ -109,12 +125,16 @@ static methods for locating the services of the given types.
 <d:title>Box Tree</d:title>
 <p>
 The whole rendered page is represented using a <d:api class="org/fit/layout/model/Page">Page</d:api>
-object. Its <d:api class="org/fit/layout/model/Page" anchor="getBox()">getBox()</d:api> method
-obtains a root node of the <dfn>box tree</dfn> that represents the page contents. Each node of the box
-tree consists of <d:api class="org/fit/layout/model/Box">Box</d:api> objects that represent the
+object. Its <d:api class="org/fit/layout/model/Page" anchor="getRoot()">getRoot()</d:api> method
+obtains a root node of the <dfn>box tree</dfn> that represents the page contents. The nodes of the box
+tree are formed by the <d:api class="org/fit/layout/model/Box">Box</d:api> objects that represent the
 individual rendered boxes. Each box has a fixed position in the rendered page obtained using the
 <d:api class="org/fit/layout/model/Box" anchor="getBounds()">getBounds()</d:api> method and
-some more visual properties such as font size, colors, etc. The
+some more visual properties such as font size, colors, etc. The related methods are defined
+by a shared <d:api class="org/fit/layout/model/ContentRect">ContentRect</d:api>
+interface.</p> 
+
+<p>The
 <d:api class="org/fit/layout/model/Box" anchor="getType()">getType()</d:api> method obtains
 the box type which is one of the following:</p>
 <ul>
@@ -123,7 +143,7 @@ the box type which is one of the following:</p>
 <li><code>REPLACED_CONTENT</code> – a box representing a replaced content (an image or other object)</li>
 </ul>
 <p>The boxes are organized in a hierarchical structure. The 
-  <d:api class="org/fit/layout/model/Box" anchor="getParent()">getParent()</d:api>,
+  <d:api class="org/fit/layout/model/Box" anchor="getParentBox()">getParentBox()</d:api>,
   <d:api class="org/fit/layout/model/Box" anchor="getChildBox()">getChildBox()</d:api> and
   <d:api class="org/fit/layout/model/Box" anchor="getChildCount()">getChildCount()</d:api>
 methods may be used for traversing the hierarchy. The <code>TEXT_CONTENT</code> and <code>REPLACED_CONTENT</code>
@@ -138,14 +158,43 @@ in the tree.
 class. The individual boxes are represented using the
 <d:api class="org/fit/layout/cssbox/BoxNode">BoxNode</d:api> objects. The CSSBox box source renders
 an input document identified by its URL. It supports the HTML/CSS and PDF documents. It is based on
-the open-source <a href="http://cssbox.sourceforge.net">CSSBox rendering engine</a>.
-</p>
+the open-source <a href="http://cssbox.sourceforge.net">CSSBox rendering engine</a>.</p>
+
 </d:subsection>
 
 </d:section>
 
 <d:section id="segmentation">
 <d:title>Segmentation</d:title>
+<p>The segmentation algorithm takes a box tree on its input and it produces a tree of visual areas. The resulting tree
+is represented by a <d:api class="org/fit/layout/model/AreaTree">AreaTree</d:api> object. Its
+<d:api class="org/fit/layout/model/AreaTree" anchor="getRoot()">getRoot()</d:api> methods obtains a root node
+of the <dfn>area tree</dfn> that represents the segmentation result. Each node of the area tree is represented using
+an <d:api class="org/fit/layout/model/Area">Area</d:api> object that corresponds to a visual area detected in the page.
+The root node corresponds to the whole page area, the descendant nodes correspond to smaller detected areas. The leaf
+areas may contain the actual boxes from the box tree that represent the contents of the area.</p>
+
+<p>The nodes provide the basic tree navigation and manipulation methods similary as for the box tree. All these functions
+are specified by a shared <d:api class="org/fit/layout/model/AreaTreeNode">AreaTreeNode</d:api> interface.</p>
+
+<p>The position of the area in the rendered page and all its visual features such as fonts and colors may be obtained
+throught the implemented <d:api class="org/fit/layout/model/ContentRect">ContentRect</d:api> the same way as for the
+individual boxes. However, since the contained boxes may have different visual properties (e.g. different font sizes),
+the corresponding methods for the visual area (such as <d:api class="org/fit/layout/model/ContentRect" anchor="getFontSize()">getFontSize()</d:api>)
+return the average values for the whole area.
+</p>
+
+<p>Optionally, the mutual positions of the areas within its parent area may be described by an arbitrary <dfn>topology</dfn>.
+A typical example is a gird topology that represents the area positions using a flexible grid. The position of each
+area in the topology may be obtained using the <d:api class="org/fit/layout/model/Area" anchor="getTopology()">getTopology</d:api>
+method and is represented using a generic <d:api class="org/fit/layout/model/AreaTopology">AreaTopology</d:api>
+interface.</p>
+
+<d:subsection id="grouping-segmentation">
+<d:title>Default Extensible Segmentation Algorithm</d:title>
+
+</d:subsection>
+
 </d:section>
 
 <d:section id="tools">
