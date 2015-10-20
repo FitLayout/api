@@ -3,7 +3,7 @@
 			@import "manual.css";
 			</style></head><body><h1>FITLayout Framework Manual</h1><p class="author">Radek Burget<br />
 <a href="mailto:burgetr@fit.vutbr.cz">burgetr@fit.vutbr.cz</a>
-</p><div class="toc"><h2>Table of Contents</h2><ul><li><a href="#intro">Introduction</a></li><li><a href="#architecture">Architecture of the Framework</a><ul><li><a href="#modules">Modules</a></li><li><a href="#services">Services</a></li></ul></li><li><a href="#boxtree">Box Tree</a><ul><li><a href="#cssbox-box-source">CSSBox Box Source</a></li></ul></li><li><a href="#segmentation">Segmentation</a><ul><li><a href="#grouping-segmentation">Default Extensible Segmentation Algorithm</a></li></ul></li><li><a href="#tools">Tools</a></li><li><a href="#plugins">Creating FITLayout plugins</a></li><li><a href="#projects">FITLayout packages</a></li></ul></div><div class="section" id="intro"><h2>Introduction</h2><p>
+</p><div class="toc"><h2>Table of Contents</h2><ul><li><a href="#intro">Introduction</a></li><li><a href="#architecture">Architecture of the Framework</a><ul><li><a href="#modules">Modules</a></li><li><a href="#services">Services</a></li></ul></li><li><a href="#boxtree">Box Tree</a><ul><li><a href="#cssbox-box-source">CSSBox Box Source</a></li></ul></li><li><a href="#segmentation">Segmentation</a><ul><li><a href="#grouping-segmentation">Default Extensible Segmentation Algorithm</a></li></ul></li><li><a href="#tools">Tools</a></li></ul></div><div class="section" id="intro"><h2>Introduction</h2><p>
 <strong>FITLayout</strong> is an extensible web page segmentation and analysis framework written in Java.
 It defines a generic Java API for representing a rendered web page and its division to visual areas and
 their further analysis. It also provides a base for implementing page segmentation algorithms with a common application
@@ -122,4 +122,23 @@ return the average values for the whole area.
 A typical example is a gird topology that represents the area positions using a flexible grid. The position of each
 area in the topology may be obtained using the <a href="api/org/fit/layout/model/Area.html#getTopology()" class="api"><code>getTopology</code></a>
 method and is represented using a generic <a href="api/org/fit/layout/model/AreaTopology.html" class="api"><code>AreaTopology</code></a>
-interface.</p><div class="subsection" id="grouping-segmentation"><h3>Default Extensible Segmentation Algorithm</h3></div></div><div class="section" id="tools"><h2>Tools</h2></div><div class="section" id="plugins"><h2>Creating FITLayout plugins</h2></div><div class="section" id="projects"><h2>FITLayout packages</h2></div></body></html>
+interface.</p><div class="subsection" id="grouping-segmentation"><h3>Default Extensible Segmentation Algorithm</h3><p>The default segmentation algorithm implementation is contained in the <a href="https://github.com/FitLayout/segmentation">segmentation module</a>.
+It works in the following steps:</p><ol>
+<li>The tree of <dfn>basic visual areas</dfn> is created. With a basic visual area, we understand the area formed by any box from the
+source box tree that is <dfn>visually separated</dfn> from its neighborhood. Generally the following boxes are considered to be
+visually separated:
+	<ul>
+	<li>The root box.</li>
+	<li>The boxes that directly contain a text.</li>
+	<li>The boxes that have a background different from its neighborhood or have a visible border.</li>
+	</ul>
+	For each visually separated box, a corresponding area is created in the tree of basic visual areas.</li>
+<li>The tree is processed by selected area tree operators. Severals area tree operators are available for performing
+common segmentation tasks such as concatenating text lines or finding larger groups or boxes. See the implementations
+of the <a href="api/org/fit/layout/api/AreaTreeOperator.html" class="api"><code>AreaTreeOperator</code></a>
+interface for a reference.</li>	
+
+<p>The area nodes in the processed area tree are represented using a custom <a href="api/org/fit/segm/grouping/AreaImpl.html" class="api"><code>AreaImpl</code></a>
+class.</p>
+
+</ol></div></div><div class="section" id="tools"><h2>Tools</h2></div></body></html>

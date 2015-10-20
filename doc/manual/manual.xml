@@ -193,20 +193,39 @@ interface.</p>
 <d:subsection id="grouping-segmentation">
 <d:title>Default Extensible Segmentation Algorithm</d:title>
 
+<p>The default segmentation algorithm implementation is contained in the <d:module ref="segmentation">segmentation module</d:module>.
+It works in the following steps:</p>
+<ol>
+<li>The tree of <dfn>basic visual areas</dfn> is created. With a basic visual area, we understand the area formed by any box from the
+source box tree that is <dfn>visually separated</dfn> from its neighborhood. Generally the following boxes are considered to be
+visually separated:
+	<ul>
+	<li>The root box.</li>
+	<li>The boxes that directly contain a text.</li>
+	<li>The boxes that have a background different from its neighborhood or have a visible border.</li>
+	</ul>
+	For each visually separated box, a corresponding area is created in the tree of basic visual areas.</li>
+<li>The tree is processed by selected area tree operators. Severals area tree operators are available for performing
+common segmentation tasks such as concatenating text lines or finding larger groups or boxes. See the implementations
+of the <d:api class="org/fit/layout/api/AreaTreeOperator">AreaTreeOperator</d:api>
+interface for a reference.</li>	
+
+<p>The area nodes in the processed area tree are represented using a custom <d:api class="org/fit/segm/grouping/AreaImpl">AreaImpl</d:api>
+class.</p>
+
+</ol>
+
 </d:subsection>
 
 </d:section>
 
 <d:section id="tools">
 <d:title>Tools</d:title>
+<!-- TODO processor, browser -->
 </d:section>
 
-<d:section id="plugins">
+<!-- <d:section id="plugins">
 <d:title>Creating FITLayout plugins</d:title>
-</d:section>
-
-<d:section id="projects">
-<d:title>FITLayout packages</d:title>
-</d:section>
+</d:section>  -->
 
 </d:document>
