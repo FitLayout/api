@@ -221,7 +221,32 @@ class.</p>
 
 <d:section id="tools">
 <d:title>Tools</d:title>
-<!-- TODO processor, browser -->
+<p>The <d:module ref="tools">tools</d:module> module provides the tools for running
+and controlling the segmenation process. The <code>Processor</code> that implements the whole
+segmentation process and the <code>BlockBrowser</code> with the graphical user interface.</p>
+
+<d:subsection>
+<d:title>Processor</d:title>
+<p>The processor is a class that is responsible for executing the complete segmentation process, i.e.
+for creating the tree of basic visual areas and to apply the configured operators on that tree. The basic
+functionality is defined in an abstract <d:api class="org/fit/layout/process/BaseProcessor">BaseProcessor</d:api>
+class. There are two implementations available:</p>
+<ul>
+<li><d:api class="org/fit/layout/process/ScriptableProcessor">ScriptableProcessor</d:api> uses JavaScript
+for configuring the area operators that should be applied.</li>
+<li><d:api class="org/fit/layout/process/GUIProcessor">GUIProcessor</d:api> where the configuration
+of the operators may be modified from outside (typically by the GUI browser).</li>
+</ul>
+</d:subsection>
+
+<d:subsection>
+<d:title>GUI Browser</d:title>
+<p>The <d:api class="org/fit/layout/tools/BlockBrowser">BlockBrowser</d:api> implements the default
+browser with a Swing GUI. It lets the user to choose the box tree provider, the area tree provider
+and to configure the applied operators. For executing the segmentation, an instance of the
+<d:api class="org/fit/layout/process/GUIProcessor">GUIProcessor</d:api> is used.</p>
+</d:subsection>
+
 </d:section>
 
 <!-- <d:section id="plugins">

@@ -3,7 +3,7 @@
 			@import "manual.css";
 			</style></head><body><h1>FITLayout Framework Manual</h1><p class="author">Radek Burget<br />
 <a href="mailto:burgetr@fit.vutbr.cz">burgetr@fit.vutbr.cz</a>
-</p><div class="toc"><h2>Table of Contents</h2><ul><li><a href="#intro">Introduction</a></li><li><a href="#architecture">Architecture of the Framework</a><ul><li><a href="#modules">Modules</a></li><li><a href="#services">Services</a></li></ul></li><li><a href="#boxtree">Box Tree</a><ul><li><a href="#cssbox-box-source">CSSBox Box Source</a></li></ul></li><li><a href="#segmentation">Segmentation</a><ul><li><a href="#grouping-segmentation">Default Extensible Segmentation Algorithm</a></li></ul></li><li><a href="#tools">Tools</a></li></ul></div><div class="section" id="intro"><h2>Introduction</h2><p>
+</p><div class="toc"><h2>Table of Contents</h2><ul><li><a href="#intro">Introduction</a></li><li><a href="#architecture">Architecture of the Framework</a><ul><li><a href="#modules">Modules</a></li><li><a href="#services">Services</a></li></ul></li><li><a href="#boxtree">Box Tree</a><ul><li><a href="#cssbox-box-source">CSSBox Box Source</a></li></ul></li><li><a href="#segmentation">Segmentation</a><ul><li><a href="#grouping-segmentation">Default Extensible Segmentation Algorithm</a></li></ul></li><li><a href="#tools">Tools</a><ul><li><a href="#">Processor</a></li><li><a href="#">GUI Browser</a></li></ul></li></ul></div><div class="section" id="intro"><h2>Introduction</h2><p>
 <strong>FITLayout</strong> is an extensible web page segmentation and analysis framework written in Java.
 It defines a generic Java API for representing a rendered web page and its division to visual areas and
 their further analysis. It also provides a base for implementing page segmentation algorithms with a common application
@@ -141,4 +141,17 @@ interface for a reference.</li>
 <p>The area nodes in the processed area tree are represented using a custom <a href="api/org/fit/segm/grouping/AreaImpl.html" class="api"><code>AreaImpl</code></a>
 class.</p>
 
-</ol></div></div><div class="section" id="tools"><h2>Tools</h2></div></body></html>
+</ol></div></div><div class="section" id="tools"><h2>Tools</h2><p>The <a href="https://github.com/FitLayout/tools">tools</a> module provides the tools for running
+and controlling the segmenation process. The <code>Processor</code> that implements the whole
+segmentation process and the <code>BlockBrowser</code> with the graphical user interface.</p><div class="subsection" id=""><h3>Processor</h3><p>The processor is a class that is responsible for executing the complete segmentation process, i.e.
+for creating the tree of basic visual areas and to apply the configured operators on that tree. The basic
+functionality is defined in an abstract <a href="api/org/fit/layout/process/BaseProcessor.html" class="api"><code>BaseProcessor</code></a>
+class. There are two implementations available:</p><ul>
+<li><a href="api/org/fit/layout/process/ScriptableProcessor.html" class="api"><code>ScriptableProcessor</code></a> uses JavaScript
+for configuring the area operators that should be applied.</li>
+<li><a href="api/org/fit/layout/process/GUIProcessor.html" class="api"><code>GUIProcessor</code></a> where the configuration
+of the operators may be modified from outside (typically by the GUI browser).</li>
+</ul></div><div class="subsection" id=""><h3>GUI Browser</h3><p>The <a href="api/org/fit/layout/tools/BlockBrowser.html" class="api"><code>BlockBrowser</code></a> implements the default
+browser with a Swing GUI. It lets the user to choose the box tree provider, the area tree provider
+and to configure the applied operators. For executing the segmentation, an instance of the
+<a href="api/org/fit/layout/process/GUIProcessor.html" class="api"><code>GUIProcessor</code></a> is used.</p></div></div></body></html>
