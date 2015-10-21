@@ -39,14 +39,14 @@ for controlling the segmentation process that include a graphical browser of the
 </ul><p>There exist some more additional modules that will be described later.</p><p>The API (<a href="https://github.com/FitLayout/api">cssbox-api</a>) module provides a shared API common for all the
 remaining modules. It provides the following basic Java packages:
 </p><ul>
-<li><a href="api/org/fit/layout/model/package-summary.html" class="api"><code>org.fit.layout.model</code></a> – basic java interfaces used for
+<li><a href="../api/org/fit/layout/model/package-summary.html" class="api"><code>org.fit.layout.model</code></a> – basic java interfaces used for
 representing the rendered page (a box tree) and the result of segmentation (an area tree).</li>
-<li><a href="api/org/fit/layout/impl/package-summary.html" class="api"><code>org.fit.layout.impl</code></a> – default implementations of the
+<li><a href="../api/org/fit/layout/impl/package-summary.html" class="api"><code>org.fit.layout.impl</code></a> – default implementations of the
 interfaces from the <code>model</code> package. These implementations may be used as a starting
 point for further extension in applications.</li>
-<li><a href="api/org/fit/layout/api/package-summary.html" class="api"><code>org.fit.layout.api</code></a> – interfaces specific for the FITLayout
+<li><a href="../api/org/fit/layout/api/package-summary.html" class="api"><code>org.fit.layout.api</code></a> – interfaces specific for the FITLayout
 framework itself. They include the services of different kinds as described below.</li>
-<li><a href="api/org/fit/layout/gui/package-summary.html" class="api"><code>org.fit.layout.gui</code></a> – common interfaces of a GUI browser
+<li><a href="../api/org/fit/layout/gui/package-summary.html" class="api"><code>org.fit.layout.gui</code></a> – common interfaces of a GUI browser
 used for monitoring the page processing.</li>
 </ul><p>The details about the individual available interfaces are given in the appropriate sections below.</p></div><div class="subsection" id="services"><h3>Services</h3><p>
 The FITLayout architecture is easily extensible by creating new plugins providing new functionality such as
@@ -54,74 +54,74 @@ new box tree sources (document renderers), segmentation algorithms, area tree po
 or GUI extensions. The plugins use the standard Java
 <a href="https://docs.oracle.com/javase/tutorial/ext/basics/spi.html">Extensible applications</a> framework. 
 </p><p>The following types of services are recognized:</p><ul>
-<li><a href="api/org/fit/layout/api/BoxTreeProvider.html" class="api"><code>BoxTreeProvider</code></a> –
+<li><a href="../api/org/fit/layout/api/BoxTreeProvider.html" class="api"><code>BoxTreeProvider</code></a> –
 	a box tree source; i.e. the page renderer. Based on the input parameters (e.g. the page URL),
 	it renders the page and produces the box tree.
 </li>
-<li><a href="api/org/fit/layout/api/AreaTreeProvider.html" class="api"><code>AreaTreeProvider</code></a> –
+<li><a href="../api/org/fit/layout/api/AreaTreeProvider.html" class="api"><code>AreaTreeProvider</code></a> –
 	an area tree source; i.e. a basic segmentation algorithm. It gets a box tree on its input
 	and produces a <dfn>visual area tree</dfn> that represents the segmented page.
 </li>
-<li><a href="api/org/fit/layout/api/AreaTreeOperator.html" class="api"><code>AreaTreeOperator</code></a> –
+<li><a href="../api/org/fit/layout/api/AreaTreeOperator.html" class="api"><code>AreaTreeOperator</code></a> –
 	a post-processing operation applied on the visual area tree. It may perform any operation
 	with the tree such as joining nodes, splitting nodes, extending the hierarchy, etc.
 </li>
-<li><a href="api/org/fit/layout/api/LogicalTreeProvider.html" class="api"><code>LogicalTreeProvider</code></a> –
+<li><a href="../api/org/fit/layout/api/LogicalTreeProvider.html" class="api"><code>LogicalTreeProvider</code></a> –
 	an analyzer that gets the final area tree on its input and assigns semantics to
 	selected areas (tree nodes). 
 </li>
 </ul><p>Each service is identified by its unique identifier obtained using its 
-<a href="api/file:///home/burgetr/tmp/fitlayout/api/org/fit/layout/api/Service.html#getId()" class="api"><code>getId()</code></a>
+<a href="../api/org/fit/layout/api/Service.html#getId()" class="api"><code>getId()</code></a>
 method.
 All the services may accept some input parametres. They implement a
-<a href="api/org/fit/layout/api/ParametrizedOperation.html" class="api"><code>ParametrizedOperation</code></a> interface
+<a href="../api/org/fit/layout/api/ParametrizedOperation.html" class="api"><code>ParametrizedOperation</code></a> interface
 that allows to get the information about the required input parametres (their names and types)
 and to assign the values to them.</p><p>For accessing the services, FITLayout provides a simple
-<a href="api/org/fit/layout/api/ServiceManager.html" class="api"><code>ServiceManager</code></a> that provides
+<a href="../api/org/fit/layout/api/ServiceManager.html" class="api"><code>ServiceManager</code></a> that provides
 static methods for locating the services of the given types. 
 </p></div></div><div class="section" id="boxtree"><h2>Box Tree</h2><p>
-The whole rendered page is represented using a <a href="api/org/fit/layout/model/Page.html" class="api"><code>Page</code></a>
-object. Its <a href="api/org/fit/layout/model/Page.html#getRoot()" class="api"><code>getRoot()</code></a> method
+The whole rendered page is represented using a <a href="../api/org/fit/layout/model/Page.html" class="api"><code>Page</code></a>
+object. Its <a href="../api/org/fit/layout/model/Page.html#getRoot()" class="api"><code>getRoot()</code></a> method
 obtains a root node of the <dfn>box tree</dfn> that represents the page contents. The nodes of the box
-tree are formed by the <a href="api/org/fit/layout/model/Box.html" class="api"><code>Box</code></a> objects that represent the
+tree are formed by the <a href="../api/org/fit/layout/model/Box.html" class="api"><code>Box</code></a> objects that represent the
 individual rendered boxes. Each box has a fixed position in the rendered page obtained using the
-<a href="api/org/fit/layout/model/Box.html#getBounds()" class="api"><code>getBounds()</code></a> method and
+<a href="../api/org/fit/layout/model/Box.html#getBounds()" class="api"><code>getBounds()</code></a> method and
 some more visual properties such as font size, colors, etc. The related methods are defined
-by a shared <a href="api/org/fit/layout/model/ContentRect.html" class="api"><code>ContentRect</code></a>
+by a shared <a href="../api/org/fit/layout/model/ContentRect.html" class="api"><code>ContentRect</code></a>
 interface.</p><p>The
-<a href="api/org/fit/layout/model/Box.html#getType()" class="api"><code>getType()</code></a> method obtains
+<a href="../api/org/fit/layout/model/Box.html#getType()" class="api"><code>getType()</code></a> method obtains
 the box type which is one of the following:</p><ul>
 <li><code>ELEMENT</code> – a box generated by a DOM element</li>
 <li><code>TEXT_CONTENT</code> – a box representing a displayed text</li>
 <li><code>REPLACED_CONTENT</code> – a box representing a replaced content (an image or other object)</li>
 </ul><p>The boxes are organized in a hierarchical structure. The 
-  <a href="api/org/fit/layout/model/Box.html#getParentBox()" class="api"><code>getParentBox()</code></a>,
-  <a href="api/org/fit/layout/model/Box.html#getChildBox()" class="api"><code>getChildBox()</code></a> and
-  <a href="api/org/fit/layout/model/Box.html#getChildCount()" class="api"><code>getChildCount()</code></a>
+  <a href="../api/org/fit/layout/model/Box.html#getParentBox()" class="api"><code>getParentBox()</code></a>,
+  <a href="../api/org/fit/layout/model/Box.html#getChildBox()" class="api"><code>getChildBox()</code></a> and
+  <a href="../api/org/fit/layout/model/Box.html#getChildCount()" class="api"><code>getChildCount()</code></a>
 methods may be used for traversing the hierarchy. The <code>TEXT_CONTENT</code> and <code>REPLACED_CONTENT</code>
 boxes are always the leaf nodes of the tree. The <code>ELEMENT</code> nodes may exist anywhere
 in the tree.
 </p><div class="subsection" id="cssbox-box-source"><h3>CSSBox Box Source</h3><p>The default box source is implemented in the <a href="https://github.com/FitLayout/layout-cssbox">layout-cssbox</a>
-(CSSBox bindings) module as the <a href="api/org/fit/layout/cssbox/CSSBoxTreeProvider.html" class="api"><code>CSSBoxTreeProvider</code></a>
+(CSSBox bindings) module as the <a href="../api/org/fit/layout/cssbox/CSSBoxTreeProvider.html" class="api"><code>CSSBoxTreeProvider</code></a>
 class. The individual boxes are represented using the
-<a href="api/org/fit/layout/cssbox/BoxNode.html" class="api"><code>BoxNode</code></a> objects. The CSSBox box source renders
+<a href="../api/org/fit/layout/cssbox/BoxNode.html" class="api"><code>BoxNode</code></a> objects. The CSSBox box source renders
 an input document identified by its URL. It supports the HTML/CSS and PDF documents. It is based on
 the open-source <a href="http://cssbox.sourceforge.net">CSSBox rendering engine</a>.</p></div></div><div class="section" id="segmentation"><h2>Segmentation</h2><p>The segmentation algorithm takes a box tree on its input and it produces a tree of visual areas. The resulting tree
-is represented by a <a href="api/org/fit/layout/model/AreaTree.html" class="api"><code>AreaTree</code></a> object. Its
-<a href="api/org/fit/layout/model/AreaTree.html#getRoot()" class="api"><code>getRoot()</code></a> methods obtains a root node
+is represented by a <a href="../api/org/fit/layout/model/AreaTree.html" class="api"><code>AreaTree</code></a> object. Its
+<a href="../api/org/fit/layout/model/AreaTree.html#getRoot()" class="api"><code>getRoot()</code></a> methods obtains a root node
 of the <dfn>area tree</dfn> that represents the segmentation result. Each node of the area tree is represented using
-an <a href="api/org/fit/layout/model/Area.html" class="api"><code>Area</code></a> object that corresponds to a visual area detected in the page.
+an <a href="../api/org/fit/layout/model/Area.html" class="api"><code>Area</code></a> object that corresponds to a visual area detected in the page.
 The root node corresponds to the whole page area, the descendant nodes correspond to smaller detected areas. The leaf
 areas may contain the actual boxes from the box tree that represent the contents of the area.</p><p>The nodes provide the basic tree navigation and manipulation methods similary as for the box tree. All these functions
-are specified by a shared <a href="api/org/fit/layout/model/AreaTreeNode.html" class="api"><code>AreaTreeNode</code></a> interface.</p><p>The position of the area in the rendered page and all its visual features such as fonts and colors may be obtained
-throught the implemented <a href="api/org/fit/layout/model/ContentRect.html" class="api"><code>ContentRect</code></a> the same way as for the
+are specified by a shared <a href="../api/org/fit/layout/model/AreaTreeNode.html" class="api"><code>AreaTreeNode</code></a> interface.</p><p>The position of the area in the rendered page and all its visual features such as fonts and colors may be obtained
+throught the implemented <a href="../api/org/fit/layout/model/ContentRect.html" class="api"><code>ContentRect</code></a> the same way as for the
 individual boxes. However, since the contained boxes may have different visual properties (e.g. different font sizes),
-the corresponding methods for the visual area (such as <a href="api/org/fit/layout/model/ContentRect.html#getFontSize()" class="api"><code>getFontSize()</code></a>)
+the corresponding methods for the visual area (such as <a href="../api/org/fit/layout/model/ContentRect.html#getFontSize()" class="api"><code>getFontSize()</code></a>)
 return the average values for the whole area.
 </p><p>Optionally, the mutual positions of the areas within its parent area may be described by an arbitrary <dfn>topology</dfn>.
 A typical example is a gird topology that represents the area positions using a flexible grid. The position of each
-area in the topology may be obtained using the <a href="api/org/fit/layout/model/Area.html#getTopology()" class="api"><code>getTopology</code></a>
-method and is represented using a generic <a href="api/org/fit/layout/model/AreaTopology.html" class="api"><code>AreaTopology</code></a>
+area in the topology may be obtained using the <a href="../api/org/fit/layout/model/Area.html#getTopology()" class="api"><code>getTopology</code></a>
+method and is represented using a generic <a href="../api/org/fit/layout/model/AreaTopology.html" class="api"><code>AreaTopology</code></a>
 interface.</p><div class="subsection" id="grouping-segmentation"><h3>Default Extensible Segmentation Algorithm</h3><p>The default segmentation algorithm implementation is contained in the <a href="https://github.com/FitLayout/segmentation">segmentation module</a>.
 It works in the following steps:</p><ol>
 <li>The tree of <dfn>basic visual areas</dfn> is created. With a basic visual area, we understand the area formed by any box from the
@@ -135,23 +135,23 @@ visually separated:
 	For each visually separated box, a corresponding area is created in the tree of basic visual areas.</li>
 <li>The tree is processed by selected area tree operators. Severals area tree operators are available for performing
 common segmentation tasks such as concatenating text lines or finding larger groups or boxes. See the implementations
-of the <a href="api/org/fit/layout/api/AreaTreeOperator.html" class="api"><code>AreaTreeOperator</code></a>
+of the <a href="../api/org/fit/layout/api/AreaTreeOperator.html" class="api"><code>AreaTreeOperator</code></a>
 interface for a reference.</li>	
 
-<p>The area nodes in the processed area tree are represented using a custom <a href="api/org/fit/segm/grouping/AreaImpl.html" class="api"><code>AreaImpl</code></a>
+<p>The area nodes in the processed area tree are represented using a custom <a href="../api/org/fit/segm/grouping/AreaImpl.html" class="api"><code>AreaImpl</code></a>
 class.</p>
 
 </ol></div></div><div class="section" id="tools"><h2>Tools</h2><p>The <a href="https://github.com/FitLayout/tools">tools</a> module provides the tools for running
 and controlling the segmenation process. The <code>Processor</code> that implements the whole
 segmentation process and the <code>BlockBrowser</code> with the graphical user interface.</p><div class="subsection" id=""><h3>Processor</h3><p>The processor is a class that is responsible for executing the complete segmentation process, i.e.
 for creating the tree of basic visual areas and to apply the configured operators on that tree. The basic
-functionality is defined in an abstract <a href="api/org/fit/layout/process/BaseProcessor.html" class="api"><code>BaseProcessor</code></a>
+functionality is defined in an abstract <a href="../api/org/fit/layout/process/BaseProcessor.html" class="api"><code>BaseProcessor</code></a>
 class. There are two implementations available:</p><ul>
-<li><a href="api/org/fit/layout/process/ScriptableProcessor.html" class="api"><code>ScriptableProcessor</code></a> uses JavaScript
+<li><a href="../api/org/fit/layout/process/ScriptableProcessor.html" class="api"><code>ScriptableProcessor</code></a> uses JavaScript
 for configuring the area operators that should be applied.</li>
-<li><a href="api/org/fit/layout/process/GUIProcessor.html" class="api"><code>GUIProcessor</code></a> where the configuration
+<li><a href="../api/org/fit/layout/process/GUIProcessor.html" class="api"><code>GUIProcessor</code></a> where the configuration
 of the operators may be modified from outside (typically by the GUI browser).</li>
-</ul></div><div class="subsection" id=""><h3>GUI Browser</h3><p>The <a href="api/org/fit/layout/tools/BlockBrowser.html" class="api"><code>BlockBrowser</code></a> implements the default
+</ul></div><div class="subsection" id=""><h3>GUI Browser</h3><p>The <a href="../api/org/fit/layout/tools/BlockBrowser.html" class="api"><code>BlockBrowser</code></a> implements the default
 browser with a Swing GUI. It lets the user to choose the box tree provider, the area tree provider
 and to configure the applied operators. For executing the segmentation, an instance of the
-<a href="api/org/fit/layout/process/GUIProcessor.html" class="api"><code>GUIProcessor</code></a> is used.</p></div></div></body></html>
+<a href="../api/org/fit/layout/process/GUIProcessor.html" class="api"><code>GUIProcessor</code></a> is used.</p></div></div></body></html>

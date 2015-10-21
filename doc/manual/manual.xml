@@ -106,7 +106,7 @@ or GUI extensions. The plugins use the standard Java
 </li>
 </ul>
 <p>Each service is identified by its unique identifier obtained using its 
-<d:api class="file:///home/burgetr/tmp/fitlayout/api/org/fit/layout/api/Service" anchor="getId()">getId()</d:api>
+<d:api class="org/fit/layout/api/Service" anchor="getId()">getId()</d:api>
 method.
 All the services may accept some input parametres. They implement a
 <d:api class="org/fit/layout/api/ParametrizedOperation">ParametrizedOperation</d:api> interface
