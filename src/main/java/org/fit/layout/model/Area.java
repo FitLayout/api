@@ -89,4 +89,10 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
      */ 
     public Area createSuperArea(Rectangular gp, List<Area> selected, String name);
 
+    /**
+     * Creates a copy of the area and makes it a next sibling of the source area.
+     * @return the new area
+     */
+    public Area copy();
+    
 }

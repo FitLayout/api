@@ -613,6 +613,18 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     @Override
+    public Area copy()
+    {
+        Area ret = new DefaultArea(this);
+        if (getParentArea() != null)
+        {
+            int ndx = getParentArea().getIndex(this);
+            getParentArea().insertChild(ret, ndx + 1);
+        }
+        return ret;
+    }
+    
+    @Override
     public String toString()
     {
         String bs = "";
