@@ -56,6 +56,12 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
     public AreaTopology getTopology();
     
     /**
+     * Updates the topologies of the child areas. This should be called when
+     * some nodes have been inserted, removed or changed in this area.
+     */
+    public void updateTopologies();
+    
+    /**
      * Obtains the effective background color visible under the area.
      * @return The background color.
      */

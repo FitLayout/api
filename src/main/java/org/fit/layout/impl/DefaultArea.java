@@ -140,6 +140,12 @@ public class DefaultArea extends DefaultContentRect implements Area
         return topology;
     }
     
+    @Override
+    public void updateTopologies()
+    {
+        createGrid();
+    }
+    
     /**
      * Creates a topology for this area. This method should be overriden
      * when another topology implementation is used. By default, it returns
@@ -380,6 +386,8 @@ public class DefaultArea extends DefaultContentRect implements Area
      */
     public AreaGrid getGrid()
     {
+        if (grid == null)
+            createGrid();
         return grid;
     }
     
