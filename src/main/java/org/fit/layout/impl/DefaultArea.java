@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.fit.layout.model.Area;
 import org.fit.layout.model.AreaTopology;
+import org.fit.layout.model.AreaTree;
 import org.fit.layout.model.Box;
 import org.fit.layout.model.Rectangular;
 import org.fit.layout.model.Tag;
@@ -28,6 +29,9 @@ public class DefaultArea extends DefaultContentRect implements Area
 {
     /** Area name to be displayed to the users */
     private String name;
+    
+    /** The area tree this node belongs to */
+    private AreaTree areaTree;
     
     /** The topology assigned to the area */
     private AreaTopology topology;
@@ -127,6 +131,16 @@ public class DefaultArea extends DefaultContentRect implements Area
         return name;
     }
     
+    public AreaTree getAreaTree()
+    {
+        return areaTree;
+    }
+
+    public void setAreaTree(AreaTree areaTree)
+    {
+        this.areaTree = areaTree;
+    }
+
     public Rectangular getContentBounds()
     {
         return contentBounds;
@@ -215,6 +229,7 @@ public class DefaultArea extends DefaultContentRect implements Area
     @Override
     public void appendChild(Area child)
     {
+        ((DefaultArea) child).setAreaTree(areaTree);
         add((DefaultArea) child);
         getBounds().expandToEnclose(child.getBounds());
     }
@@ -225,6 +240,7 @@ public class DefaultArea extends DefaultContentRect implements Area
         for (Area child : list)
         {
             add((DefaultArea) child);
+            ((DefaultArea) child).setAreaTree(areaTree);
             getBounds().expandToEnclose(child.getBounds());
         }
     }
@@ -232,12 +248,14 @@ public class DefaultArea extends DefaultContentRect implements Area
     @Override
     public void insertChild(Area child, int index)
     {
+        ((DefaultArea) child).setAreaTree(areaTree);
         insert((DefaultArea) child, index);
     }
 
     @Override
     public void removeChild(Area child)
     {
+        ((DefaultArea) child).setAreaTree(null);
         remove((DefaultArea) child); 
     }
     

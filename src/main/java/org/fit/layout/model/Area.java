@@ -18,6 +18,12 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
 {
     
     /**
+     * Obtains the tree the node belongs to.
+     * @return the tree or {@code null} when the node does not form part of any tree.
+     */
+    public AreaTree getAreaTree();
+    
+    /**
      * Returns the list of boxes that belong directly to this area.
      * @return the list of boxes (possibly empty)
      */

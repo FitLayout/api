@@ -20,4 +20,9 @@ public interface AreaTree extends SearchableAreaContainer
      */
     public Area getRoot();
 
+    /**
+     * Updates the topology structures (e.g. grids) for all the areas in the tree.
+     */
+    public void updateTopologies();
+    
 }
