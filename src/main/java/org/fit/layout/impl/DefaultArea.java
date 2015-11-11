@@ -621,6 +621,16 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     @Override
+    public void insertParent(Area newParent, Area child)
+    {
+        final int index = getIndex(child);
+        if (index == -1)
+            throw new IllegalArgumentException("child must be a child area");
+        insertChild(newParent, index);
+        newParent.appendChild(child);
+    }
+    
+    @Override
     public Area copy()
     {
         Area ret = new DefaultArea(this);

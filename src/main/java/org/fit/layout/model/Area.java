@@ -96,6 +96,14 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
     public Area createSuperArea(Rectangular gp, List<Area> selected, String name);
 
     /**
+     * Inserts a new area as a new parent of the given child area. The given area is replaced 
+     * by the new parent and it becomes a child area of the parent.
+     * @param newParent the new parent area (replacement)
+     * @param child the child area that should be replaced
+     */ 
+    public void insertParent(Area newParent, Area child);
+
+    /**
      * Creates a copy of the area and makes it a next sibling of the source area.
      * @return the new area
      */
