@@ -17,13 +17,20 @@ public class Border
     /** Border side specification */
     public enum Side 
     {
-        TOP("top"), LEFT("left"), BOTTOM("bottom"), RIGHT("right");
+        TOP("top", (short)0), LEFT("left", (short)1), BOTTOM("bottom", (short)2), RIGHT("right", (short)3);
         
         private String text;
+        private short index;
         
-        private Side(String text)
+        private Side(String text, short index)
         {
             this.text = text;
+            this.index = index;
+        }
+        
+        public short getIndex()
+        {
+            return index;
         }
         
         public String toString()
