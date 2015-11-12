@@ -17,6 +17,7 @@ import org.fit.layout.model.Area;
 import org.fit.layout.model.AreaTopology;
 import org.fit.layout.model.AreaTree;
 import org.fit.layout.model.Box;
+import org.fit.layout.model.Box.Type;
 import org.fit.layout.model.Rectangular;
 import org.fit.layout.model.Tag;
 
@@ -100,7 +101,7 @@ public class DefaultArea extends DefaultContentRect implements Area
         this(box.getBounds());
         addBox(box);
         setBounds(new Rectangular(contentBounds)); //update bounds to the box content bounds
-        setName(box.toString());
+        setName(getBoxDescription(box));
         setBackgroundColor(box.getBackgroundColor());
         setBackgroundSeparated(box.isBackgroundSeparated());
         setBorders(box.getTopBorder(), box.getRightBorder(), box.getBottomBorder(), box.getLeftBorder());
@@ -677,4 +678,29 @@ public class DefaultArea extends DefaultContentRect implements Area
           
     }
 
+    /**
+     * Obtains a box description used as the default area name when the area
+     * is created from a box.
+     * @param box
+     * @return
+     */
+    protected String getBoxDescription(Box box)
+    {
+        if (box.getType() == Type.TEXT_CONTENT)
+            return box.getText();
+        else
+        {
+            final String cls = box.getAttribute("class");
+            final String id = box.getAttribute("id");
+            StringBuilder ret = new StringBuilder("<");
+            ret.append(box.getTagName());
+            if (id != null)
+                ret.append(" id=").append(id);
+            if (cls != null)
+                ret.append(" class=").append(cls);
+            ret.append(">");
+            return ret.toString();
+        }
+    }
+    
 }
