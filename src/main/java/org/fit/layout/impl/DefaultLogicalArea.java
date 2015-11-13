@@ -187,4 +187,17 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
         }
     }
     
+    @Override
+    public boolean isAncestorOf(LogicalArea other)
+    {
+        LogicalArea parent = other.getParentArea();
+        while (parent != null)
+        {
+            if (parent == this)
+                return true;
+            parent = parent.getParentArea();
+        }
+        return false;
+    }
+    
 }

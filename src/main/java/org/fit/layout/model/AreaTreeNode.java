@@ -97,6 +97,13 @@ public interface AreaTreeNode<T>
     public boolean isLeaf();
     
     /**
+     * Check whether this area is an ancestor of another area.
+     * @param other the other area
+     * @return {@code true} when this area is an ancestor of the other area.
+     */
+    public boolean isAncestorOf(T other);
+    
+    /**
      * Obtains the depth of the tree rooted at this area.
      * @return 0 for leaf areas, more than 0 for other areas
      */

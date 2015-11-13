@@ -323,7 +323,20 @@ public class DefaultArea extends DefaultContentRect implements Area
         return !empty;
     }
     
-     //====================================================================================
+    @Override
+    public boolean isAncestorOf(Area other)
+    {
+        Area parent = other.getParentArea();
+        while (parent != null)
+        {
+            if (parent == this)
+                return true;
+            parent = parent.getParentArea();
+        }
+        return false;
+    }
+    
+    //====================================================================================
     // boxes
     //====================================================================================
     
@@ -702,5 +715,5 @@ public class DefaultArea extends DefaultContentRect implements Area
             return ret.toString();
         }
     }
-    
+
 }
