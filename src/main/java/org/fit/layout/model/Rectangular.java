@@ -231,6 +231,11 @@ public class Rectangular
         return !(other.y1 > y2 || other.y2 < y1); 
     }
 
+    /**
+     * Computes the intersection of this rectangle with another one.
+     * @param other the other rectangle
+     * @return the resulting intersection or an empty rectangle when there is no intersection
+     */
     public Rectangular intersection(Rectangular other)
     {
     	if (this.intersects(other))
@@ -244,6 +249,19 @@ public class Rectangular
 	    {
 	        return new Rectangular(); //an empty rectangle
 	    }    	
+    }
+    
+    /**
+     * Computes the union of this rectangle with another one.
+     * @param other the other rectangle
+     * @return the union rectangle
+     */
+    public Rectangular union(Rectangular other)
+    {
+        return new Rectangular(Math.min(x1, other.x1),
+                               Math.min(y1, other.y1),
+                               Math.max(x2, other.x2),
+                               Math.max(y2, other.y2));
     }
     
     /**
