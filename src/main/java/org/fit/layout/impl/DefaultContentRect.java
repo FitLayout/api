@@ -316,4 +316,9 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
         return true;
     }
 
+    public static void resetId()
+    {
+        nextid = 1;
+    }
+    
 }
