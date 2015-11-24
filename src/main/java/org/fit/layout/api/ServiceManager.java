@@ -127,7 +127,7 @@ public class ServiceManager
     /**
      * Sets the operation parametres based on a map of values.
      * @param op The operation whose parametres should be set
-     * @param params A map that assigns values to operator names
+     * @param params A map that assigns values to parameter names
      */
     public static void setServiceParams(ParametrizedOperation op, Map<String, Object> params)
     {
@@ -139,6 +139,20 @@ public class ServiceManager
             }
         }
     }
-    
+
+    /**
+     * Obtains the values of all the parametres of the given operation.
+     * @param op The operation whose parametres should be set
+     * @return A map that assigns values to parameter names
+     */
+    public static Map<String, Object> getServiceParams(ParametrizedOperation op)
+    {
+        Map<String, Object> ret = new HashMap<String, Object>();
+        for (String name : op.getParamNames())
+        {
+            ret.put(name, op.getParam(name));
+        }
+        return ret;
+    }
 
 }
