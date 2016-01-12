@@ -20,6 +20,7 @@ import org.fit.layout.model.Rectangular;
 public class DefaultPage implements Page
 {
     protected URL url;
+    protected String title;
     protected Box root;
     protected int width;
     protected int height;
@@ -34,6 +35,17 @@ public class DefaultPage implements Page
     public URL getSourceURL()
     {
         return url;
+    }
+
+    @Override
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
 
     @Override

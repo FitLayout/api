@@ -23,6 +23,12 @@ public interface Page
     public URL getSourceURL();
     
     /**
+     * Obtains the page title specified using the {@code <title>} tag.
+     * @return the page title or an empty string when not set
+     */
+    public String getTitle();
+    
+    /**
      * Obtains the page width.
      * @return the width in pixels
      */
