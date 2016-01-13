@@ -31,6 +31,15 @@ public class DefaultPage implements Page
         this.url = url;
     }
     
+    public DefaultPage(Page src)
+    {
+        url = src.getSourceURL();
+        title = new String(src.getTitle());
+        root = src.getRoot();
+        width = src.getWidth();
+        height = src.getHeight();
+    }
+    
     @Override
     public URL getSourceURL()
     {
