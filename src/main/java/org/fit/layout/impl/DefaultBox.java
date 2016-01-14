@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.fit.layout.model.Border;
 import org.fit.layout.model.Border.Side;
+import org.fit.layout.model.Border.Style;
 import org.fit.layout.model.Box;
 import org.fit.layout.model.ContentObject;
 import org.fit.layout.model.Rectangular;
@@ -317,6 +318,30 @@ public class DefaultBox extends DefaultContentRect implements Box
     public void setRightBorder(int width)
     {
         rightBorder.setWidth(width);
+    }
+
+    @Override
+    public boolean hasTopBorder()
+    {
+        return topBorder.getStyle() != Style.NONE;
+    }
+
+    @Override
+    public boolean hasBottomBorder()
+    {
+        return bottomBorder.getStyle() != Style.NONE;
+    }
+
+    @Override
+    public boolean hasLeftBorder()
+    {
+        return leftBorder.getStyle() != Style.NONE;
+    }
+
+    @Override
+    public boolean hasRightBorder()
+    {
+        return rightBorder.getStyle() != Style.NONE;
     }
     
 }
