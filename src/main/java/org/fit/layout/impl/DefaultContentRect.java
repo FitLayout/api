@@ -40,6 +40,7 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     public DefaultContentRect()
     {
         id = nextid++;
+        bounds = new Rectangular();
     }
     
     public DefaultContentRect(DefaultContentRect src)

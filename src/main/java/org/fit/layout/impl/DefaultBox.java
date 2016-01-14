@@ -41,6 +41,24 @@ public class DefaultBox extends DefaultContentRect implements Box
     private Border leftBorder;
     private Border rightBorder;
     
+    public DefaultBox()
+    {
+        super();
+        topBorder = new Border();
+        bottomBorder = new Border();
+        leftBorder = new Border();
+        rightBorder = new Border();
+    }
+    
+    public DefaultBox(DefaultBox src)
+    {
+        super(src);
+        topBorder = new Border(src.topBorder);
+        bottomBorder = new Border(src.bottomBorder);
+        leftBorder = new Border(src.leftBorder);
+        rightBorder = new Border(src.rightBorder);
+    }
+    
     @Override
     public Box getChildBox(int index)
     {
