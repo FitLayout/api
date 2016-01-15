@@ -263,12 +263,16 @@ public class DefaultBox extends DefaultContentRect implements Box
         {
             case TOP:
                 topBorder = new Border(style);
+                break;
             case LEFT:
                 leftBorder = new Border(style);
+                break;
             case BOTTOM:
                 bottomBorder = new Border(style);
+                break;
             case RIGHT:
                 rightBorder = new Border(style);
+                break;
         }
     }
 
