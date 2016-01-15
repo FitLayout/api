@@ -44,12 +44,12 @@ public class GenericTreeNode
         return (root == this);
     }
     
-    public <T> T getAttribute(Class<T> clazz)
+    public <T> T getUserAttribute(Class<T> clazz)
     {
         return clazz.cast(attributes.get(clazz));
     }
 
-    public void addAttribute(Object attribute)
+    public void addUserAttribute(Object attribute)
     {
         attributes.put(attribute.getClass(), attribute);
     }

@@ -121,7 +121,7 @@ public interface AreaTreeNode<T>
      * attributes with different classes. One object of each class is allowed.
      * @param attribute an object representing the user attributes (application-specific)
      */
-    public void addAttribute(Object attribute);
+    public void addUserAttribute(Object attribute);
     
     /**
      * Obtains the user-defined attributes of the node.
@@ -129,6 +129,6 @@ public interface AreaTreeNode<T>
      * @return an object of the given class representing the user attributes (application-specific)
      * or {@code null} when no such attribute is present.
      */
-    public <P> P getAttribute(Class<P> clazz);
+    public <P> P getUserAttribute(Class<P> clazz);
 
 }
