@@ -12,6 +12,12 @@ package org.fit.layout.model;
  */
 public interface AreaTree extends SearchableAreaContainer
 {
+
+    /**
+     * Obtains the source page for this area tree.
+     * @return The source page.
+     */
+    public Page getPage();
     
     /**
      * Obtains the root node of the area tree.
