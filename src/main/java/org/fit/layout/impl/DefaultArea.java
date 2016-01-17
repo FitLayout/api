@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.fit.layout.model.Area;
 import org.fit.layout.model.AreaTopology;
 import org.fit.layout.model.AreaTree;
+import org.fit.layout.model.Border;
 import org.fit.layout.model.Box;
 import org.fit.layout.model.Box.Type;
 import org.fit.layout.model.Rectangular;
@@ -104,7 +105,8 @@ public class DefaultArea extends DefaultContentRect implements Area
         setName(getBoxDescription(box));
         setBackgroundColor(box.getBackgroundColor());
         setBackgroundSeparated(box.isBackgroundSeparated());
-        setBorders(box.getTopBorder(), box.getRightBorder(), box.getBottomBorder(), box.getLeftBorder());
+        for (Border.Side side : Border.Side.values())
+            setBorderStyle(side, box.getBorderStyle(side));
     }
     
     public DefaultArea(List<Box> boxList)

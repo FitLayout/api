@@ -9,9 +9,6 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.fit.layout.model.Border;
-import org.fit.layout.model.Border.Side;
-import org.fit.layout.model.Border.Style;
 import org.fit.layout.model.Box;
 import org.fit.layout.model.ContentObject;
 import org.fit.layout.model.Rectangular;
@@ -37,27 +34,14 @@ public class DefaultBox extends DefaultContentRect implements Box
     private Box.Type type;
     private Box.DisplayType displayType;
     
-    private Border topBorder;
-    private Border bottomBorder;
-    private Border leftBorder;
-    private Border rightBorder;
-    
     public DefaultBox()
     {
         super();
-        topBorder = new Border();
-        bottomBorder = new Border();
-        leftBorder = new Border();
-        rightBorder = new Border();
     }
     
     public DefaultBox(DefaultBox src)
     {
         super(src);
-        topBorder = new Border(src.topBorder);
-        bottomBorder = new Border(src.bottomBorder);
-        leftBorder = new Border(src.leftBorder);
-        rightBorder = new Border(src.rightBorder);
     }
     
     @Override
@@ -238,114 +222,6 @@ public class DefaultBox extends DefaultContentRect implements Box
     public int getHeight()
     {
         return getVisualBounds().getHeight();
-    }
-
-    @Override
-    public Border getBorderStyle(Side side)
-    {
-        switch (side)
-        {
-            case TOP:
-                return topBorder;
-            case LEFT:
-                return leftBorder;
-            case BOTTOM:
-                return bottomBorder;
-            case RIGHT:
-                return rightBorder;
-        }
-        return null;
-    }
-    
-    public void setBorderStyle(Side side, Border style)
-    {
-        switch (side)
-        {
-            case TOP:
-                topBorder = new Border(style);
-                break;
-            case LEFT:
-                leftBorder = new Border(style);
-                break;
-            case BOTTOM:
-                bottomBorder = new Border(style);
-                break;
-            case RIGHT:
-                rightBorder = new Border(style);
-                break;
-        }
-    }
-
-    @Override
-    public int getTopBorder()
-    {
-        return topBorder.getWidth();
-    }
-
-    @Override
-    public void setTopBorder(int width)
-    {
-        topBorder.setWidth(width);
-    }
-
-    @Override
-    public int getBottomBorder()
-    {
-        return bottomBorder.getWidth();
-    }
-
-    @Override
-    public void setBottomBorder(int width)
-    {
-        bottomBorder.setWidth(width);
-    }
-
-    @Override
-    public int getLeftBorder()
-    {
-        return leftBorder.getWidth();
-    }
-
-    @Override
-    public void setLeftBorder(int width)
-    {
-        leftBorder.setWidth(width);
-    }
-
-    @Override
-    public int getRightBorder()
-    {
-        return rightBorder.getWidth();
-    }
-
-    @Override
-    public void setRightBorder(int width)
-    {
-        rightBorder.setWidth(width);
-    }
-
-    @Override
-    public boolean hasTopBorder()
-    {
-        return topBorder.getStyle() != Style.NONE;
-    }
-
-    @Override
-    public boolean hasBottomBorder()
-    {
-        return bottomBorder.getStyle() != Style.NONE;
-    }
-
-    @Override
-    public boolean hasLeftBorder()
-    {
-        return leftBorder.getStyle() != Style.NONE;
-    }
-
-    @Override
-    public boolean hasRightBorder()
-    {
-        return rightBorder.getStyle() != Style.NONE;
     }
     
 }

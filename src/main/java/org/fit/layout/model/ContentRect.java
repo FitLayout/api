@@ -127,6 +127,13 @@ public interface ContentRect extends Rect
      */
     public int getRightBorder();
     
+    /**
+     * Obtains the properties of the box border at the given side.
+     * @param side the border side.
+     * @return the corresponding border properties.
+     */
+    public Border getBorderStyle(Border.Side side);
+    
     //=================================================================================================
     // Background
     //=================================================================================================

@@ -60,13 +60,6 @@ public interface Box extends ContentRect
      */
     public ContentObject getContentObject();
     
-    /**
-     * Obtains the properties of the box border at the given side.
-     * @param side the border side.
-     * @return the corresponding border properties.
-     */
-    public Border getBorderStyle(Border.Side side);
-    
     //=============================================================================================
     // BOUNDS
     //=============================================================================================

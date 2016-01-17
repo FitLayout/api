@@ -7,9 +7,12 @@ package org.fit.layout.impl;
 
 import java.awt.Color;
 
+import org.fit.layout.model.Border;
 import org.fit.layout.model.ContentRect;
 import org.fit.layout.model.Page;
 import org.fit.layout.model.Rectangular;
+import org.fit.layout.model.Border.Side;
+import org.fit.layout.model.Border.Style;
 
 /**
  * A default ContentRect implementation. This class is usually not used
@@ -31,16 +34,22 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     private float fontSize;
     private float fontStyle;
     private float fontWeight;
-    private int topBorder;
-    private int bottomBorder;
-    private int leftBorder;
-    private int rightBorder;
     private boolean backgroundSeparated;
+    
+    private Border topBorder;
+    private Border bottomBorder;
+    private Border leftBorder;
+    private Border rightBorder;
+
     
     public DefaultContentRect()
     {
         id = nextid++;
         bounds = new Rectangular();
+        topBorder = new Border();
+        bottomBorder = new Border();
+        leftBorder = new Border();
+        rightBorder = new Border();
     }
     
     public DefaultContentRect(DefaultContentRect src)
@@ -162,47 +171,79 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     @Override
     public int getTopBorder()
     {
-        return topBorder;
+        return topBorder.getWidth();
     }
-    
-    public void setTopBorder(int topBorder)
+
+    public void setTopBorder(int width)
     {
-        this.topBorder = topBorder;
+        topBorder.setWidth(width);
+        if (topBorder.getStyle() == Style.NONE)
+            topBorder.setStyle(Style.SOLID);
     }
-    
+
     @Override
     public int getBottomBorder()
     {
-        return bottomBorder;
+        return bottomBorder.getWidth();
     }
-    
-    public void setBottomBorder(int bottomBorder)
+
+    public void setBottomBorder(int width)
     {
-        this.bottomBorder = bottomBorder;
+        bottomBorder.setWidth(width);
+        if (bottomBorder.getStyle() == Style.NONE)
+            bottomBorder.setStyle(Style.SOLID);
     }
-    
+
     @Override
     public int getLeftBorder()
     {
-        return leftBorder;
+        return leftBorder.getWidth();
     }
-    
-    public void setLeftBorder(int leftBorder)
+
+    public void setLeftBorder(int width)
     {
-        this.leftBorder = leftBorder;
+        leftBorder.setWidth(width);
+        if (leftBorder.getStyle() == Style.NONE)
+            leftBorder.setStyle(Style.SOLID);
     }
-    
+
     @Override
     public int getRightBorder()
     {
-        return rightBorder;
+        return rightBorder.getWidth();
     }
-    
-    public void setRightBorder(int rightBorder)
+
+    public void setRightBorder(int width)
     {
-        this.rightBorder = rightBorder;
+        rightBorder.setWidth(width);
+        if (rightBorder.getStyle() == Style.NONE)
+            rightBorder.setStyle(Style.SOLID);
     }
-    
+
+    @Override
+    public boolean hasTopBorder()
+    {
+        return topBorder.getStyle() != Style.NONE;
+    }
+
+    @Override
+    public boolean hasBottomBorder()
+    {
+        return bottomBorder.getStyle() != Style.NONE;
+    }
+
+    @Override
+    public boolean hasLeftBorder()
+    {
+        return leftBorder.getStyle() != Style.NONE;
+    }
+
+    @Override
+    public boolean hasRightBorder()
+    {
+        return rightBorder.getStyle() != Style.NONE;
+    }
+
     /**
      * Sets all the border values.
      * @param top
@@ -216,6 +257,42 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
         setRightBorder(right);
         setBottomBorder(bottom);
         setLeftBorder(left);
+    }
+    
+    @Override
+    public Border getBorderStyle(Side side)
+    {
+        switch (side)
+        {
+            case TOP:
+                return topBorder;
+            case LEFT:
+                return leftBorder;
+            case BOTTOM:
+                return bottomBorder;
+            case RIGHT:
+                return rightBorder;
+        }
+        return null;
+    }
+    
+    public void setBorderStyle(Side side, Border style)
+    {
+        switch (side)
+        {
+            case TOP:
+                topBorder = new Border(style);
+                break;
+            case LEFT:
+                leftBorder = new Border(style);
+                break;
+            case BOTTOM:
+                bottomBorder = new Border(style);
+                break;
+            case RIGHT:
+                rightBorder = new Border(style);
+                break;
+        }
     }
     
     @Override
@@ -238,30 +315,6 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
         if (hasLeftBorder()) bcnt++;
         if (hasRightBorder()) bcnt++;
         return bcnt;
-    }
-
-    @Override
-    public boolean hasTopBorder()
-    {
-        return topBorder > 0;
-    }
-    
-    @Override
-    public boolean hasBottomBorder()
-    {
-        return bottomBorder > 0;
-    }
-    
-    @Override
-    public boolean hasLeftBorder()
-    {
-        return leftBorder > 0;
-    }
-    
-    @Override
-    public boolean hasRightBorder()
-    {
-        return rightBorder > 0;
     }
 
     @Override
