@@ -346,7 +346,7 @@ public class DefaultArea extends DefaultContentRect implements Area
      * Adds a new box to the area.
      * @param box
      */
-    protected void addBox(Box box)
+    public void addBox(Box box)
     {
         boxes.add(box);
         
