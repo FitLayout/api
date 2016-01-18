@@ -24,6 +24,7 @@ public class DefaultLogicalAreaTree implements LogicalAreaTree
         this.atree = atree;
     }
     
+    @Override
     public AreaTree getAreaTree()
     {
         return atree;
