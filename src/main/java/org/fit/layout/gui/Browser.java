@@ -107,5 +107,10 @@ public interface Browser
      * Sets logical area tree from external source
      */
     public void setLogicalTree(LogicalAreaTree logicalTree);
+    
+    /**
+     * Updates the tree views after some trees have been changed.
+     */
+    public void refreshView();
 
 }
