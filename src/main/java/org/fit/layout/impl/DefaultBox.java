@@ -37,11 +37,18 @@ public class DefaultBox extends DefaultContentRect implements Box
     public DefaultBox()
     {
         super();
+        text = "";
+        color = Color.BLACK;
     }
     
     public DefaultBox(DefaultBox src)
     {
         super(src);
+        visible = src.visible;
+        color = new Color(src.color.getRed(), src.color.getGreen(), src.color.getBlue(), src.color.getAlpha());
+        fontFamily = new String(src.fontFamily);
+        text = new String(src.text);
+        contentObject = src.contentObject;
     }
     
     @Override
@@ -92,7 +99,21 @@ public class DefaultBox extends DefaultContentRect implements Box
     @Override
     public String getText()
     {
-        return text;
+        if (isLeaf())
+        {
+            return text;
+        }
+        else
+        {
+            String ret = "";
+            for (int i = 0; i < getChildCount(); i++)
+            {
+                if (ret.trim().length() > 0)
+                    ret += " ";
+                ret = ret + getChildBox(i).getText().trim();
+            }
+            return ret;
+        }
     }
     
     public void setText(String text)

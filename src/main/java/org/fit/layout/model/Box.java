@@ -49,7 +49,9 @@ public interface Box extends ContentRect
     public String getFontFamily();
     
     /**
-     * Obtains the complete text contained in this box. 
+     * Obtains the complete text contained in this box. For the leaf boxes,
+     * it returns the corresponding string. For non-leaft boxes, it returns
+     * the concatentaion of the leaf box strings.
      * @return a text string (possibly empty)
      */
     public String getText();
