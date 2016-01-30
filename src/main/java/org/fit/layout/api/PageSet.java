@@ -68,4 +68,10 @@ public class PageSet
         this.pages.add(page);
     }
     
+    @Override
+    public String toString()
+    {
+        return name;
+    }
+    
 }
