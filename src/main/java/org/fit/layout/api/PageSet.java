@@ -6,72 +6,45 @@
 package org.fit.layout.api;
 
 import java.util.Date;
-import java.util.List;
 
 import org.fit.layout.model.Page;
 
 /**
- * A set of pages processed together.
+ * A named set of pages processed together.
  * 
  * @author burgetr
  */
-public class PageSet
+public interface PageSet extends Iterable<Page>
 {
-    private String name;
-    private String description;
-    private Date dateCreated;
-    private List<Page> pages;
+
+    /**
+     * Obtains the name of the set.
+     * @return the set name
+     */
+    public String getName();
+
+    /**
+     * Obtains the set description.
+     * @return the description (possibly empty)
+     */
+    public String getDescription();
+
+    /**
+     * Obtains the creation date of the set.
+     * @return the date
+     */
+    public Date getDateCreated();
     
+    /**
+     * Obtains the number of pages contained in this set.
+     * @return the page number
+     */
+    public int size();
     
-    public PageSet(String name)
-    {
-        this.name = name;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    public Date getDateCreated()
-    {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated)
-    {
-        this.dateCreated = dateCreated;
-    }
-
-    public List<Page> getPages()
-    {
-        return pages;
-    }
-
-    public void addPage(Page page)
-    {
-        this.pages.add(page);
-    }
-    
-    @Override
-    public String toString()
-    {
-        return name;
-    }
+    /**
+     * Adds a new page to the set.
+     * @param page The page to be added.
+     */
+    public void addPage(Page page);
     
 }
