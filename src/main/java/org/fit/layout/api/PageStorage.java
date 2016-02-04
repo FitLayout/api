@@ -5,13 +5,15 @@
  */
 package org.fit.layout.api;
 
+import org.fit.layout.gui.GUIUpdateSource;
+
 /**
  * A service that is able to save the current page to a storage and to update
  * the page currently stored in the storage.
  * 
  * @author burgetr
  */
-public interface PageStorage extends Service
+public interface PageStorage extends Service, GUIUpdateSource
 {
 
     /**

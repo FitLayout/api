@@ -5,12 +5,14 @@
  */
 package org.fit.layout.api;
 
+import org.fit.layout.gui.GUIUpdateSource;
+
 /**
  * A service that is able to manage a list of pages that are being processed.
  * It may load the next/previous page when available.
  * @author burgetr
  */
-public interface PageSetStorage extends Service
+public interface PageSetStorage extends Service, GUIUpdateSource
 {
 
     /**
