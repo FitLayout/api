@@ -68,10 +68,16 @@ public interface Browser
     public Area getSelectedArea();
     
     /**
-     * Registers an area selection listener that is called when the area selection changes.
+     * Registers an area selection listener that is notified when the area selection changes.
      * @param listener the listener to be registered
      */
     public void addAreaSelectionListener(AreaSelectionListener listener);
+    
+    /**
+     * Registers an area selection listener that is notified when some tree is updated.
+     * @param listener the listener to be registered
+     */
+    public void addTreeListener(TreeListener listener);
     
     /**
      * Sets page model from the external source
