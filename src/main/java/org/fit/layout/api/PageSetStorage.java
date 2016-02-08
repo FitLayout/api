@@ -16,6 +16,13 @@ public interface PageSetStorage extends Service, GUIUpdateSource
 {
 
     /**
+     * Obtains the currently active page set that is used for storing the new pages
+     * and obtaining the previous/next page.
+     * @return the page set or {@code null} when no page set is active
+     */
+    public PageSet getCurrentPageSet();
+    
+    /**
      * Check whether a next page is available in the currently processed page set.
      * @return
      */
