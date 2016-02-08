@@ -62,6 +62,11 @@ public interface Browser
     public void updateDisplay();
     
     /**
+     * Redraws the page contents. Clears the selection, highlighting etc.
+     */
+    public void redrawPage();
+    
+    /**
      * Gets the last selected visual area.
      * @return the selected visual area or {@code null} when nothing is selected
      */
