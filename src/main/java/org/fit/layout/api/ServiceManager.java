@@ -5,10 +5,14 @@
  */
 package org.fit.layout.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+
+import org.fit.layout.gui.BrowserPlugin;
 
 /**
  * This class provides static methods for managing the global services.
@@ -17,6 +21,7 @@ import java.util.ServiceLoader;
  */
 public class ServiceManager
 {
+    private static List<BrowserPlugin> browserPlugins;
     private static Map<String, BoxTreeProvider> boxProviders;
     private static Map<String, AreaTreeProvider> areaProviders;
     private static Map<String, LogicalTreeProvider> logicalProviders;
@@ -24,6 +29,26 @@ public class ServiceManager
     private static Map<String, ScriptObject> scriptObjects;
     private static Map<String, PageStorage> pageStorages;
 
+    /**
+     * Discovers all the BrowserPlugin service implementations.
+     * @return A list of all browser plugins.
+     */
+    public static List<BrowserPlugin> findBrowserPlugins()
+    {
+        if (browserPlugins == null)
+        {
+            ServiceLoader<BrowserPlugin> loader = ServiceLoader.load(BrowserPlugin.class);
+            Iterator<BrowserPlugin> it = loader.iterator();
+            browserPlugins = new ArrayList<BrowserPlugin>();
+            while (it.hasNext())
+            {
+                BrowserPlugin plugin = it.next();
+                browserPlugins.add(plugin);
+            }
+        }
+        return browserPlugins;
+    }    
+    
     /**
      * Discovers all the BoxTreeProvider service implementations.
      * @return A map that assigns the service {@code id} to the appropriate implementation.
