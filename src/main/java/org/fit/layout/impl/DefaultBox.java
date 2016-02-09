@@ -29,6 +29,7 @@ public class DefaultBox extends DefaultContentRect implements Box
     private Rectangular contentBounds;
     private Rectangular visualBounds;
     
+    private int sourceNodeId;
     private String tagName;
     private Map<String, String> attributes;
     private Box.Type type;
@@ -154,6 +155,17 @@ public class DefaultBox extends DefaultContentRect implements Box
         this.visualBounds = visualBounds;
     }
     
+    @Override
+    public int getSourceNodeId()
+    {
+        return sourceNodeId;
+    }
+
+    public void setSourceNodeId(int sourceNodeId)
+    {
+        this.sourceNodeId = sourceNodeId;
+    }
+
     @Override
     public String getTagName()
     {
