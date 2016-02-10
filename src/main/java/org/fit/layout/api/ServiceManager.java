@@ -28,6 +28,9 @@ public class ServiceManager
     private static Map<String, AreaTreeOperator> operators;
     private static Map<String, ScriptObject> scriptObjects;
     private static Map<String, PageStorage> pageStorages;
+    
+    /** All the parametrized services */
+    private static Map<String, ParametrizedOperation> parametrizedServices;
 
     /**
      * Discovers all the BrowserPlugin service implementations.
@@ -64,6 +67,7 @@ public class ServiceManager
             {
                 BoxTreeProvider op = it.next();
                 boxProviders.put(op.getId(), op);
+                addParametrizedService(op.getId(), op);
             }
         }
         return boxProviders;
@@ -84,6 +88,7 @@ public class ServiceManager
             {
                 AreaTreeProvider op = it.next();
                 areaProviders.put(op.getId(), op);
+                addParametrizedService(op.getId(), op);
             }
         }
         return areaProviders;
@@ -104,6 +109,7 @@ public class ServiceManager
             {
                 LogicalTreeProvider op = it.next();
                 logicalProviders.put(op.getId(), op);
+                addParametrizedService(op.getId(), op);
             }
         }
         return logicalProviders;
@@ -124,6 +130,7 @@ public class ServiceManager
             {
                 AreaTreeOperator op = it.next();
                 operators.put(op.getId(), op);
+                addParametrizedService(op.getId(), op);
             }
         }
         return operators;
@@ -163,7 +170,7 @@ public class ServiceManager
             while (it.hasNext())
             {
                 PageStorage op = it.next();
-                pageStorages.put(op.getName(), op);
+                pageStorages.put(op.getId(), op);
             }
         }
         return pageStorages;
@@ -200,4 +207,29 @@ public class ServiceManager
         return ret;
     }
 
+    /**
+     * Finds a parametrized service based on its ID.
+     * @param id the service ID.
+     * @return the parametrized operation object or {@code null} when the service does not exist.
+     */
+    public static ParametrizedOperation findParmetrizedService(String id)
+    {
+        if (parametrizedServices == null)
+            return null;
+        else
+            return parametrizedServices.get(id);
+    }
+    
+    /**
+     * Adds a new parametrized operation to the list of all parametrized operations.
+     * @param id
+     * @param op
+     */
+    private static void addParametrizedService(String id, ParametrizedOperation op)
+    {
+        if (parametrizedServices == null)
+            parametrizedServices = new HashMap<String, ParametrizedOperation>();
+        parametrizedServices.put(id, op);
+    }
+    
 }
