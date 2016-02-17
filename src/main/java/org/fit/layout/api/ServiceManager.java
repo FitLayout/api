@@ -26,29 +26,30 @@ public class ServiceManager
     private static Map<String, AreaTreeProvider> areaProviders;
     private static Map<String, LogicalTreeProvider> logicalProviders;
     private static Map<String, AreaTreeOperator> operators;
-    private static Map<String, ScriptObject> scriptObjects;
     private static Map<String, PageStorage> pageStorages;
     
     /** All the parametrized services */
     private static Map<String, ParametrizedOperation> parametrizedServices;
+    /** All the script objects (may coexist with other service types) */
+    private static Map<String, ScriptObject> scriptObjects;
 
+    static {
+        browserPlugins = loadBrowserPlugins();
+        boxProviders = loadServicesByType(BoxTreeProvider.class);
+        areaProviders = loadServicesByType(AreaTreeProvider.class);
+        logicalProviders = loadServicesByType(LogicalTreeProvider.class);
+        operators = loadServicesByType(AreaTreeOperator.class);
+        pageStorages = loadServicesByType(PageStorage.class);
+        //load the remaining script objects - this should be the last step
+        loadScriptObjects();
+    }
+    
     /**
      * Discovers all the BrowserPlugin service implementations.
      * @return A list of all browser plugins.
      */
     public static List<BrowserPlugin> findBrowserPlugins()
     {
-        if (browserPlugins == null)
-        {
-            ServiceLoader<BrowserPlugin> loader = ServiceLoader.load(BrowserPlugin.class);
-            Iterator<BrowserPlugin> it = loader.iterator();
-            browserPlugins = new ArrayList<BrowserPlugin>();
-            while (it.hasNext())
-            {
-                BrowserPlugin plugin = it.next();
-                browserPlugins.add(plugin);
-            }
-        }
         return browserPlugins;
     }    
     
@@ -58,18 +59,6 @@ public class ServiceManager
      */
     public static Map<String, BoxTreeProvider> findBoxTreeProviders()
     {
-        if (boxProviders == null)
-        {
-            ServiceLoader<BoxTreeProvider> loader = ServiceLoader.load(BoxTreeProvider.class);
-            Iterator<BoxTreeProvider> it = loader.iterator();
-            boxProviders = new HashMap<String, BoxTreeProvider>();
-            while (it.hasNext())
-            {
-                BoxTreeProvider op = it.next();
-                boxProviders.put(op.getId(), op);
-                addParametrizedService(op.getId(), op);
-            }
-        }
         return boxProviders;
     }
     
@@ -79,18 +68,6 @@ public class ServiceManager
      */
     public static Map<String, AreaTreeProvider> findAreaTreeProviders()
     {
-        if (areaProviders == null)
-        {
-            ServiceLoader<AreaTreeProvider> loader = ServiceLoader.load(AreaTreeProvider.class);
-            Iterator<AreaTreeProvider> it = loader.iterator();
-            areaProviders = new HashMap<String, AreaTreeProvider>();
-            while (it.hasNext())
-            {
-                AreaTreeProvider op = it.next();
-                areaProviders.put(op.getId(), op);
-                addParametrizedService(op.getId(), op);
-            }
-        }
         return areaProviders;
     }
     
@@ -100,18 +77,6 @@ public class ServiceManager
      */
     public static Map<String, LogicalTreeProvider> findLogicalTreeProviders()
     {
-        if (logicalProviders == null)
-        {
-            ServiceLoader<LogicalTreeProvider> loader = ServiceLoader.load(LogicalTreeProvider.class);
-            Iterator<LogicalTreeProvider> it = loader.iterator();
-            logicalProviders = new HashMap<String, LogicalTreeProvider>();
-            while (it.hasNext())
-            {
-                LogicalTreeProvider op = it.next();
-                logicalProviders.put(op.getId(), op);
-                addParametrizedService(op.getId(), op);
-            }
-        }
         return logicalProviders;
     }
     
@@ -121,18 +86,6 @@ public class ServiceManager
      */
     public static Map<String, AreaTreeOperator> findAreaTreeOperators()
     {
-        if (operators == null)
-        {
-            ServiceLoader<AreaTreeOperator> loader = ServiceLoader.load(AreaTreeOperator.class);
-            Iterator<AreaTreeOperator> it = loader.iterator();
-            operators = new HashMap<String, AreaTreeOperator>();
-            while (it.hasNext())
-            {
-                AreaTreeOperator op = it.next();
-                operators.put(op.getId(), op);
-                addParametrizedService(op.getId(), op);
-            }
-        }
         return operators;
     }
 
@@ -142,17 +95,6 @@ public class ServiceManager
      */
     public static Map<String, ScriptObject> findScriptObjects()
     {
-        if (scriptObjects == null)
-        {
-            ServiceLoader<ScriptObject> loader = ServiceLoader.load(ScriptObject.class);
-            Iterator<ScriptObject> it = loader.iterator();
-            scriptObjects = new HashMap<String, ScriptObject>();
-            while (it.hasNext())
-            {
-                ScriptObject op = it.next();
-                scriptObjects.put(op.getName(), op);
-            }
-        }
         return scriptObjects;
     }
 
@@ -162,20 +104,53 @@ public class ServiceManager
      */
     public static Map<String, PageStorage> findPageStorages()
     {
-        if (pageStorages == null)
-        {
-            ServiceLoader<PageStorage> loader = ServiceLoader.load(PageStorage.class);
-            Iterator<PageStorage> it = loader.iterator();
-            pageStorages = new HashMap<String, PageStorage>();
-            while (it.hasNext())
-            {
-                PageStorage op = it.next();
-                pageStorages.put(op.getId(), op);
-            }
-        }
         return pageStorages;
     }
 
+    private static <T extends Service> Map<String, T> loadServicesByType(Class<T> clazz)
+    {
+        ServiceLoader<T> loader = ServiceLoader.load(clazz);
+        Iterator<T> it = loader.iterator();
+        Map<String, T> ret = new HashMap<String, T>();
+        while (it.hasNext())
+        {
+            T op = it.next();
+            ret.put(op.getId(), op);
+            if (op instanceof ParametrizedOperation)
+                addParametrizedService(op.getId(), (ParametrizedOperation) op);
+            if (op instanceof ScriptObject)
+                addScriptObject(op.getId(), (ScriptObject) op);
+        }
+        return ret;
+    }
+    
+    private static List<BrowserPlugin> loadBrowserPlugins()
+    {
+        ServiceLoader<BrowserPlugin> loader = ServiceLoader.load(BrowserPlugin.class);
+        Iterator<BrowserPlugin> it = loader.iterator();
+        List<BrowserPlugin> ret = new ArrayList<BrowserPlugin>();
+        while (it.hasNext())
+        {
+            BrowserPlugin plugin = it.next();
+            ret.add(plugin);
+        }
+        return ret;
+    }
+    
+    private static Map<String, ScriptObject> loadScriptObjects()
+    {
+        ServiceLoader<ScriptObject> loader = ServiceLoader.load(ScriptObject.class);
+        Iterator<ScriptObject> it = loader.iterator();
+        while (it.hasNext())
+        {
+            ScriptObject op = it.next();
+            addScriptObject(op.getName(), op);
+        }
+        return scriptObjects;
+    }
+    
+    //=============================================================================================
+    
     /**
      * Sets the operation parametres based on a map of values.
      * @param op The operation whose parametres should be set
@@ -230,6 +205,14 @@ public class ServiceManager
         if (parametrizedServices == null)
             parametrizedServices = new HashMap<String, ParametrizedOperation>();
         parametrizedServices.put(id, op);
+    }
+    
+    private static void addScriptObject(String id, ScriptObject op)
+    {
+        if (scriptObjects == null)
+            scriptObjects = new HashMap<String, ScriptObject>();
+        if (!scriptObjects.containsKey(id))
+            scriptObjects.put(id, op);
     }
     
 }
