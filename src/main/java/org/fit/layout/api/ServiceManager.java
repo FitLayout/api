@@ -144,7 +144,7 @@ public class ServiceManager
         while (it.hasNext())
         {
             ScriptObject op = it.next();
-            addScriptObject(op.getName(), op);
+            addScriptObject(op.getVarName(), op);
         }
         return scriptObjects;
     }

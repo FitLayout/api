@@ -20,7 +20,7 @@ public interface ScriptObject
      * Gets the name of the object in the JavaScript engine.
      * @return the JS identifier
      */
-    public String getName();
+    public String getVarName();
     
     /**
      * Sets the readers/writers to be used by the script.
