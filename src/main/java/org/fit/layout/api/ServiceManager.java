@@ -133,6 +133,8 @@ public class ServiceManager
         {
             BrowserPlugin plugin = it.next();
             ret.add(plugin);
+            if (plugin instanceof ScriptObject)
+                addScriptObject(((ScriptObject) plugin).getVarName(), (ScriptObject) plugin);
         }
         return ret;
     }
