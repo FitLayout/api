@@ -107,7 +107,12 @@ public class ServiceManager
         return pageStorages;
     }
 
-    private static <T extends Service> Map<String, T> loadServicesByType(Class<T> clazz)
+    /**
+     * Discovers the registered services of the given class.
+     * @param clazz the class of the required services
+     * @return A map that maps the services to their identifiers
+     */
+    public static <T extends Service> Map<String, T> loadServicesByType(Class<T> clazz)
     {
         ServiceLoader<T> loader = ServiceLoader.load(clazz);
         Iterator<T> it = loader.iterator();
