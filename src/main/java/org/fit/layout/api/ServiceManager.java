@@ -124,7 +124,7 @@ public class ServiceManager
             if (op instanceof ParametrizedOperation)
                 addParametrizedService(op.getId(), (ParametrizedOperation) op);
             if (op instanceof ScriptObject)
-                addScriptObject(op.getId(), (ScriptObject) op);
+                addScriptObject(((ScriptObject) op).getVarName(), (ScriptObject) op);
         }
         return ret;
     }
