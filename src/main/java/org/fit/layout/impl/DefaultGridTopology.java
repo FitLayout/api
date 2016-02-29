@@ -14,7 +14,8 @@ import org.fit.layout.model.AreaTopology;
 import org.fit.layout.model.Rectangular;
 
 /**
- * The default topology that obtains the area layout from a grid.
+ * The default topology that uses the internal grid of areas internally
+ * maintained by the {@link DefaultArea} implementation.
  * 
  * @author burgetr
  */
@@ -33,6 +34,12 @@ public class DefaultGridTopology implements AreaTopology
     }
     
     @Override
+    public void update()
+    {
+        area.createGrid();
+    }
+
+    @Override
     public int getTopologyWidth()
     {
         return area.getGrid().getWidth();
@@ -42,6 +49,15 @@ public class DefaultGridTopology implements AreaTopology
     public int getTopologyHeight()
     {
         return area.getGrid().getHeight();
+    }
+
+    @Override
+    public Rectangular getPosition(Area a)
+    {
+        if (a.getParentArea() == area && a instanceof DefaultArea)
+            return ((DefaultArea) a).getGridPosition();
+        else
+            return null;
     }
 
     @Override
