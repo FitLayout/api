@@ -6,11 +6,13 @@
 package org.fit.layout.impl;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.fit.layout.model.Area;
 import org.fit.layout.model.Rectangular;
 
 /**
- * A grid of visual areas that contains all the child areas of a visual area node.
+ * A grid of areas in an abstract parent rectangle.
  * The grid is used as the default area topology.
  * 
  * @author burgetr
@@ -38,16 +40,35 @@ public class AreaGrid
     /** Array of row heights */
     private int[] rows;
     
-    /** Enclosing visual area */
-    private DefaultArea parent;
+    /** Absolute coordinates of the parent area */
+    private Rectangular abspos;
+    
+    /** The list of areas laid out in this grid */
+    private List<Area> areas;
     
     //================================================================================
     
+    /**
+     * Constructs a grid of all the child areas of the given parent area.
+     * @param area the parent area whose children will be laid out in the grid
+     */
     public AreaGrid(DefaultArea area)
     {
-        parent = area;
+        abspos = area.getBounds();
+        areas = area.getChildAreas();
         calculateColumns();
         calculateRows();
+    }
+    
+    /**
+     * Constructs a grid from the list of areas.
+     * @param position Absolute position of the grid area
+     * @param areas the areas to be laid out in the grid.
+     */
+    public AreaGrid(Rectangular position, List<Area> areas)
+    {
+        this.abspos = position;
+        this.areas = areas;
     }
     
     //================================================================================
@@ -109,9 +130,9 @@ public class AreaGrid
     {
         if (x < width && y < height)
         {
-            for (GenericTreeNode area : parent.getChildren())
+            for (Area area : areas)
             {
-                DefaultArea node = (DefaultArea) area;
+                DefaultArea node = (DefaultArea) area; //TODO
                 if (x >= node.getGridX() && x < node.getGridX() + node.getGridWidth() &&
                     y >= node.getGridY() && y < node.getGridY() + node.getGridHeight())
                     return node;
@@ -148,9 +169,9 @@ public class AreaGrid
     		return ofs;
     	}
     	else if (col == width)
-    		return parent.getWidth();
+    		return abspos.getWidth();
     	else
-    		throw new ArrayIndexOutOfBoundsException(col + ">" + width + " (" + parent + ")");
+    		throw new ArrayIndexOutOfBoundsException(col + ">" + width);
     }
     
     /**
@@ -168,9 +189,9 @@ public class AreaGrid
 	    	return ofs;
     	}
     	else if (row == height)
-    		return parent.getHeight();
+    		return abspos.getHeight();
     	else
-    		throw new ArrayIndexOutOfBoundsException(row + ">" + height + " (" + parent + ")");
+    		throw new ArrayIndexOutOfBoundsException(row + ">" + height);
     }
     
     /**
@@ -183,8 +204,8 @@ public class AreaGrid
     {
         int x1 = getColOfs(x);
         int y1 = getRowOfs(y);
-        int x2 = (x == width-1) ? parent.getWidth() - 1 : x1 + cols[x] - 1;
-        int y2 = (y == height-1) ? parent.getHeight() - 1 : y1 + rows[y] - 1;
+        int x2 = (x == width-1) ? abspos.getWidth() - 1 : x1 + cols[x] - 1;
+        int y2 = (y == height-1) ? abspos.getHeight() - 1 : y1 + rows[y] - 1;
         return new Rectangular(x1, y1, x2, y2);
     }
     
@@ -196,10 +217,10 @@ public class AreaGrid
      */
     public Rectangular getCellBoundsAbsolute(int x, int y)
     {
-        int x1 = parent.getX1() + getColOfs(x);
-        int y1 = parent.getY1() + getRowOfs(y);
-        int x2 = ((x == width-1) ? parent.getX1() + parent.getWidth() - 1 : x1 + cols[x] - 1);
-        int y2 = ((y == height-1) ? parent.getY1()+ parent.getHeight() - 1 : y1 + rows[y] - 1);
+        int x1 = abspos.getX1() + getColOfs(x);
+        int y1 = abspos.getY1() + getRowOfs(y);
+        int x2 = ((x == width-1) ? abspos.getX1() + abspos.getWidth() - 1 : x1 + cols[x] - 1);
+        int y2 = ((y == height-1) ? abspos.getY1()+ abspos.getHeight() - 1 : y1 + rows[y] - 1);
         return new Rectangular(x1, y1, x2, y2);
     }
     
@@ -214,7 +235,7 @@ public class AreaGrid
     public Rectangular getAreaBoundsAbsolute(int x1, int y1, int x2, int y2)
     {
         final Rectangular end = getCellBoundsAbsolute(x2, y2);
-        return new Rectangular(parent.getX1() + getColOfs(x1), parent.getY1() + getRowOfs(y1),
+        return new Rectangular(abspos.getX1() + getColOfs(x1), abspos.getY1() + getRowOfs(y1),
                 end.getX2(), end.getY2());
     }
     
@@ -236,7 +257,7 @@ public class AreaGrid
      */
     public int findCellX(int x)
     {
-    	int ofs = parent.getX1();
+    	int ofs = abspos.getX1();
     	for (int i = 0; i < cols.length; i++)
     	{
     		ofs += cols[i];
@@ -258,7 +279,7 @@ public class AreaGrid
     	for (int i = 0; i < rows.length; i++)
     	{
     		ofs += rows[i];
-    		if (y < ofs + parent.getY1())
+    		if (y < ofs + abspos.getY1())
     			return i;
     	}
     	return -1;
@@ -280,11 +301,10 @@ public class AreaGrid
 	private void calculateColumns()
     {
         //create the sorted list of points
-        GridPoint points[] = new GridPoint[parent.getChildCount() * 2];
+        GridPoint points[] = new GridPoint[areas.size() * 2];
         int pi = 0;
-        for (GenericTreeNode node : parent.getChildren())
+        for (Area area : areas)
         {
-            DefaultArea area = (DefaultArea) node;
             points[pi] = new GridPoint(area.getX1(), area, true);
             points[pi+1] = new GridPoint(area.getX2() + 1, area, false);
             pi += 2;
@@ -295,14 +315,14 @@ public class AreaGrid
         
         //calculate the number of columns
         int cnt = 0;
-        int last = parent.getX1();
+        int last = abspos.getX1();
         for (int i = 0; i < points.length; i++)
             if (!theSame(points[i].value, last))
             { 
                 last = points[i].value;
                 cnt++;
             }
-        if (!theSame(last, parent.getX2()))
+        if (!theSame(last, abspos.getX2()))
         	cnt++; //last column finishes the whole area
         width = cnt;
         
@@ -311,7 +331,7 @@ public class AreaGrid
         minindent = -1;
         cols = new int[width];
         cnt = 0;
-        last = parent.getX1();
+        last = abspos.getX1();
         for (int i = 0; i < points.length; i++)
         {
             if (!theSame(points[i].value, last)) 
@@ -336,8 +356,8 @@ public class AreaGrid
                 //points[i].node.getArea().setX2(parent.getArea().getX1() + getColOfs(pos.getX2()+1));
             }
         }
-        if (!theSame(last, parent.getX2()))
-        	cols[cnt] = parent.getX2() - last;
+        if (!theSame(last, abspos.getX2()))
+        	cols[cnt] = abspos.getX2() - last;
         if (minindent == -1)
             minindent = 0;
     }
@@ -348,11 +368,10 @@ public class AreaGrid
 	private void calculateRows()
     {
         //create the sorted list of points
-        GridPoint points[] = new GridPoint[parent.getChildCount() * 2];
+        GridPoint points[] = new GridPoint[areas.size() * 2];
         int pi = 0;
-        for (GenericTreeNode node : parent.getChildren())
+        for (Area area : areas)
         {
-            DefaultArea area = (DefaultArea) node;
             points[pi] = new GridPoint(area.getY1(), area, true);
             points[pi+1] = new GridPoint(area.getY2() + 1, area, false);
             pi += 2;
@@ -363,21 +382,21 @@ public class AreaGrid
         
         //calculate the number of rows
         int cnt = 0;
-        int last = parent.getY1();
+        int last = abspos.getY1();
         for (int i = 0; i < points.length; i++)
             if (!theSame(points[i].value, last))
             { 
                 last = points[i].value;
                 cnt++;
             }
-        if (!theSame(last, parent.getY2()))
+        if (!theSame(last, abspos.getY2()))
         	cnt++; //last row finishes the whole area
         height = cnt;
         
         //calculate the row heights and the layout
         rows = new int[height];
         cnt = 0;
-        last = parent.getY1();
+        last = abspos.getY1();
         for (int i = 0; i < points.length; i++)
         {
             if (!theSame(points[i].value, last)) 
@@ -400,8 +419,8 @@ public class AreaGrid
                 //points[i].node.getArea().setY2(parent.getArea().getY1() + getRowOfs(pos.getY2()+1));
             }
         }
-        if (!theSame(last, parent.getY2()))
-        	rows[cnt] = parent.getY2() - last;
+        if (!theSame(last, abspos.getY2()))
+        	rows[cnt] = abspos.getY2() - last;
     }
     
     
@@ -411,10 +430,10 @@ public class AreaGrid
 class GridPoint implements Comparable<GridPoint>
 {
     public int value;       //the point position
-    public DefaultArea area;       //the corresponding visual area
+    public Area area;       //the corresponding visual area
     public boolean begin;   //is it the begining or the end of the node?
     
-    public GridPoint(int value, DefaultArea area, boolean begin)
+    public GridPoint(int value, Area area, boolean begin)
     {
         this.value = value;
         this.area = area;
