@@ -411,7 +411,7 @@ public class DefaultArea extends DefaultContentRect implements Area
      */
     public void createGrid()
     {
-        grid = new AreaGrid(this);
+        grid = new AreaGrid(this, getTopology());
     }
     
     /**

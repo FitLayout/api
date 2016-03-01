@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.fit.layout.model.Area;
+import org.fit.layout.model.AreaTopology;
 import org.fit.layout.model.Rectangular;
 
 /**
@@ -46,16 +47,21 @@ public class AreaGrid
     /** The list of areas laid out in this grid */
     private List<Area> areas;
     
+    /** The target topology where the computed positions will be set */
+    private AreaTopology target;
+    
     //================================================================================
     
     /**
      * Constructs a grid of all the child areas of the given parent area.
      * @param area the parent area whose children will be laid out in the grid
+     * @param targetTopology the area topology where the computed grid positions will be set
      */
-    public AreaGrid(DefaultArea area)
+    public AreaGrid(DefaultArea area, AreaTopology targetTopology)
     {
         abspos = area.getBounds();
         areas = area.getChildAreas();
+        target = targetTopology;
         calculateColumns();
         calculateRows();
     }
@@ -64,11 +70,15 @@ public class AreaGrid
      * Constructs a grid from the list of areas.
      * @param position Absolute position of the grid area
      * @param areas the areas to be laid out in the grid.
+     * @param targetTopology the area topology where the computed grid positions will be set
      */
-    public AreaGrid(Rectangular position, List<Area> areas)
+    public AreaGrid(Rectangular position, List<Area> areas, AreaTopology targetTopology)
     {
         this.abspos = position;
         this.areas = areas;
+        target = targetTopology;
+        calculateColumns();
+        calculateRows();
     }
     
     //================================================================================
@@ -342,14 +352,14 @@ public class AreaGrid
             }
             if (points[i].begin)
             {
-                points[i].area.getGridPosition().setX1(cnt);
+                target.getPosition(points[i].area).setX1(cnt);
                 maxindent = cnt;
                 if (minindent == -1) minindent = maxindent;
                 //points[i].node.getArea().setX1(parent.getArea().getX1() + getColOfs(cnt));
             }
             else
             {
-                Rectangular pos = points[i].area.getGridPosition(); 
+                Rectangular pos = target.getPosition(points[i].area); 
                 pos.setX2(cnt-1);
                 if (pos.getX2() < pos.getX1())
                     pos.setX2(pos.getX1());
@@ -407,12 +417,12 @@ public class AreaGrid
             }
             if (points[i].begin)
             {
-                points[i].area.getGridPosition().setY1(cnt);
+                target.getPosition(points[i].area).setY1(cnt);
                 //points[i].node.getArea().setY1(parent.getArea().getY1() + getRowOfs(cnt));
             }
             else
             {
-                Rectangular pos = points[i].area.getGridPosition(); 
+                Rectangular pos = target.getPosition(points[i].area); 
                 pos.setY2(cnt-1);
                 if (pos.getY2() < pos.getY1())
                     pos.setY2(pos.getY1());

@@ -38,6 +38,13 @@ public interface AreaTopology
     public Rectangular getPosition(Area area);
     
     /**
+     * Sets the position of the given area in this topology.
+     * @param area The area whose position we want to set.
+     * @param gp The new position.
+     */
+    public void setPosition(Area area, Rectangular gp);
+    
+    /**
      * Recomputes the topology. This should be used when the underlying areas
      * have changed (some areas have been added, removed or resized).
      */
