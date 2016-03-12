@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An object that can be assigned tags.
@@ -49,6 +50,13 @@ public interface Taggable
      * @return <code>true</code> if the area has this tag
      */
     public boolean hasTag(Tag tag, float minSupport);
+    
+    /**
+     * Obtains all the tags with the support greater or equal to the specified value.
+     * @param minSupport minimal required support
+     * @return a set of tags with at least the minimal support (possibly empty)
+     */
+    public Set<Tag> getSupportedTags(float minSupport);
     
     /**
      * Obtains the support of the given tag assignment

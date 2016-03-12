@@ -8,9 +8,11 @@ package org.fit.layout.impl;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.fit.layout.model.Area;
@@ -528,6 +530,18 @@ public class DefaultArea extends DefaultContentRect implements Area
     {
         final Float sp = tags.get(tag); 
         return (sp != null && sp >= minSupport);
+    }
+
+    @Override
+    public Set<Tag> getSupportedTags(float minSupport)
+    {
+        Set<Tag> ret = new HashSet<Tag>();
+        for (Map.Entry<Tag, Float> entry : tags.entrySet())
+        {
+            if (entry.getValue() >= minSupport)
+                ret.add(entry.getKey());
+        }
+        return ret;
     }
 
     @Override
