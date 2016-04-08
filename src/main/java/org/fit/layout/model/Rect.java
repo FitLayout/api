@@ -25,4 +25,6 @@ public interface Rect
     
     public int getHeight();
     
+    public void move(int xofs, int yofs);
+    
 }

@@ -256,5 +256,13 @@ public class DefaultBox extends DefaultContentRect implements Box
     {
         return getVisualBounds().getHeight();
     }
+
+    @Override
+    public void move(int xofs, int yofs)
+    {
+        getVisualBounds().move(xofs, yofs);
+        getContentBounds().move(xofs, yofs);
+        super.move(xofs, yofs);
+    }
     
 }

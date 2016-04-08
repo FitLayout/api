@@ -141,6 +141,19 @@ public class Rectangular
         return (y2 + y1) / 2;
     }
     
+    /**
+     * Changes the rectangle coordinates by adding the specified X and Y offsets
+     * @param xofs the X offset
+     * @param yofs the Y offset
+     */
+    public void move(int xofs, int yofs)
+    {
+        x1 += xofs;
+        y1 += yofs;
+        x2 += xofs;
+        y2 += yofs;
+    }
+    
     public int getArea()
     {
     	int a = getWidth() * getHeight();

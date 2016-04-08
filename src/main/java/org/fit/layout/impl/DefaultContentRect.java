@@ -354,6 +354,17 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     }
 
     @Override
+    public void move(int xofs, int yofs)
+    {
+        getBounds().move(xofs, yofs);
+        for (GenericTreeNode child : getChildren())
+        {
+            if (child instanceof ContentRect) 
+                ((ContentRect) child).move(xofs, yofs);
+        }
+    }
+
+    @Override
     public int hashCode()
     {
         return id;

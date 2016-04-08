@@ -153,6 +153,13 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
     
     @Override
+    public void move(int xofs, int yofs)
+    {
+        getContentBounds().move(xofs, yofs);
+        super.move(xofs, yofs);
+    }
+    
+    @Override
     public AreaTopology getTopology()
     {
         if (topology == null)
