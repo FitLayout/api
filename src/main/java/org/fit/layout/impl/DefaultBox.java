@@ -38,6 +38,7 @@ public class DefaultBox extends DefaultContentRect implements Box
     public DefaultBox()
     {
         super();
+        visible = true;
         text = "";
         color = Color.BLACK;
         fontFamily = "none";
