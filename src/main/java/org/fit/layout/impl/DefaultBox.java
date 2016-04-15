@@ -40,6 +40,10 @@ public class DefaultBox extends DefaultContentRect implements Box
         super();
         text = "";
         color = Color.BLACK;
+        fontFamily = "none";
+        tagName = "none";
+        type = Type.ELEMENT;
+        displayType = DisplayType.BLOCK;
     }
     
     public DefaultBox(DefaultBox src)
@@ -50,6 +54,11 @@ public class DefaultBox extends DefaultContentRect implements Box
         fontFamily = new String(src.fontFamily);
         text = new String(src.text);
         contentObject = src.contentObject;
+        tagName = new String(src.tagName);
+        if (src.attributes != null)
+            attributes = new HashMap<String, String>(src.attributes);
+        type = src.type;
+        displayType = src.displayType;
     }
     
     @Override
@@ -263,6 +272,30 @@ public class DefaultBox extends DefaultContentRect implements Box
         getVisualBounds().move(xofs, yofs);
         getContentBounds().move(xofs, yofs);
         super.move(xofs, yofs);
+    }
+
+    @Override
+    public String toString()
+    {
+        String ret = null;
+        switch (type)
+        {
+            case ELEMENT:
+                ret = "<" + getTagName();
+                if (getAttribute("id") != null)
+                    ret += " id=" + getAttribute("id");
+                if (getAttribute("class") != null)
+                    ret += " class=" + getAttribute("class");
+                ret += ">";
+                break;
+            case REPLACED_CONTENT:
+                ret = "[replaced content]";
+                break;
+            case TEXT_CONTENT:
+                ret = "Text: " + getText();
+                break;
+        }
+        return ret;
     }
     
 }
