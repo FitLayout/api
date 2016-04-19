@@ -52,6 +52,12 @@ public class DefaultGridTopology implements AreaTopology
     }
 
     @Override
+    public Rectangular getTopologyPosition()
+    {
+        return area.getGrid().getAbsolutePosition();
+    }
+
+    @Override
     public Rectangular getPosition(Area a)
     {
         if (a.getParentArea() == area && a instanceof DefaultArea)

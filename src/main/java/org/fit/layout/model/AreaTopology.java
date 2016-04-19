@@ -31,6 +31,12 @@ public interface AreaTopology
     public int getTopologyHeight();
     
     /**
+     * Obtains the absolute position of the whole topology within the page. 
+     * @return the absolute position of this topology
+     */
+    public Rectangular getTopologyPosition();
+    
+    /**
      * Obtains the position of the given area within this topology.
      * @param area The area whose position we want to obtain.
      * @return The area position in this topology or {@code null} when the area position is not described by this topology.

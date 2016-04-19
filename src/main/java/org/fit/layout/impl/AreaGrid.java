@@ -84,6 +84,15 @@ public class AreaGrid
     //================================================================================
     
     /**
+     * Obtains the absolute position where the grid is placed within the page.
+     * @return
+     */
+    public Rectangular getAbsolutePosition()
+    {
+        return abspos;
+    }
+    
+    /**
      * @return Returns the cols.
      */
     public int[] getCols()
