@@ -13,6 +13,7 @@ import org.fit.layout.model.Area;
 import org.fit.layout.model.AreaTree;
 import org.fit.layout.model.LogicalAreaTree;
 import org.fit.layout.model.Page;
+import org.fit.layout.model.Rectangular;
 
 /**
  * A GUI browser interface used for creating browser plugins.
@@ -83,6 +84,18 @@ public interface Browser
      * @param listener the listener to be registered
      */
     public void addTreeListener(TreeListener listener);
+
+    /**
+     * Registers a rectangle selection listener that is notified when a new rectangle is selected.
+     * @param listener the listener to be registered
+     */
+    public void addRectangleSelectionListener(RectangleSelectionListener listener);
+    
+    /**
+     * Unregisters a rectangle selection listener.
+     * @param listener the listener to be unregistered
+     */
+    public void removeRectangleSelectionListener(RectangleSelectionListener listener);
     
     /**
      * Sets page model from the external source
@@ -124,4 +137,15 @@ public interface Browser
      */
     public void refreshView();
 
+    /**
+     * Graphically selects a rectangular area in the browser window.
+     * @param rect The size and position of the selected area.
+     */
+    public void setSelection(Rectangular rect);
+    
+    /**
+     * Clears the graphical selection.
+     */
+    public void clearSelection();
+    
 }
