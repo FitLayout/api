@@ -138,6 +138,18 @@ public interface Browser
     public void refreshView();
 
     /**
+     * Displays an error message dialog.
+     * @param text the text do be displayed
+     */
+    public void displayErrorMessage(String text);
+    
+    /**
+     * Displays an info message dialog.
+     * @param text the text do be displayed
+     */
+    public void displayInfoMessage(String text);
+    
+    /**
      * Graphically selects a rectangular area in the browser window.
      * @param rect The size and position of the selected area.
      */
