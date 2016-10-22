@@ -412,6 +412,24 @@ public class DefaultArea extends DefaultContentRect implements Area
         return ret.toString();
     }
     
+    /**
+     * Removes the given box from the given area. This does not change the size of the area.
+     * @param box the box to be removed
+     */
+    public void removeBox(Box box)
+    {
+        boxes.remove(box);
+    }
+    
+    /**
+     * Removes the given boxes from the given area. This does not change the size of the area.
+     * @param box the collection of boxes to be removed
+     */
+    public void removeBoxes(Collection<Box> box)
+    {
+        boxes.removeAll(box);
+    }
+    
     //====================================================================================
     // grid operations
     //====================================================================================
