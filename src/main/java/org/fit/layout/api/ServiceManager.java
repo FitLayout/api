@@ -34,6 +34,9 @@ public class ServiceManager
     private static Map<String, ScriptObject> scriptObjects;
 
     static {
+        scriptObjects = new HashMap<String, ScriptObject>();
+        parametrizedServices = new HashMap<String, ParametrizedOperation>();
+        //load services of standard types
         browserPlugins = loadBrowserPlugins();
         boxProviders = loadServicesByType(BoxTreeProvider.class);
         areaProviders = loadServicesByType(AreaTreeProvider.class);
@@ -209,15 +212,11 @@ public class ServiceManager
      */
     private static void addParametrizedService(String id, ParametrizedOperation op)
     {
-        if (parametrizedServices == null)
-            parametrizedServices = new HashMap<String, ParametrizedOperation>();
         parametrizedServices.put(id, op);
     }
     
     private static void addScriptObject(String id, ScriptObject op)
     {
-        if (scriptObjects == null)
-            scriptObjects = new HashMap<String, ScriptObject>();
         if (!scriptObjects.containsKey(id))
             scriptObjects.put(id, op);
     }
