@@ -25,6 +25,13 @@ public class Rectangular
 		y2 = -1;
 	}
 	
+	/**
+	 * Creates a rectangle at the given coordinates.
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
 	public Rectangular(int x1, int y1, int x2, int y2)
 	{
 		this.x1 = Math.min(x1, x2);
@@ -33,6 +40,19 @@ public class Rectangular
 		this.y2 = Math.max(y1, y2);
 	}
 	
+    /**
+     * Creates an empty rectangle at the given coordinates.
+     * @param x1
+     * @param y1
+     */
+	public Rectangular(int x1, int y1)
+    {
+        this.x1 = x1;
+        this.x2 = y1;
+        this.y1 = x1 - 1;
+        this.y2 = y1 - 1;
+    }
+    
 	public Rectangular(Rectangular src)
 	{
 		this.x1 = src.x1;
