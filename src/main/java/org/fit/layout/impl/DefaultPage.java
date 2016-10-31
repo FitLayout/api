@@ -124,7 +124,8 @@ public class DefaultPage implements Page
     {
         if (r.encloses(root.getBounds()))
         {
-            result.add(root);
+            if (!root.getBounds().isEmpty())
+                result.add(root);
         }
         else
         {
