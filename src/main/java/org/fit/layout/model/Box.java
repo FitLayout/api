@@ -6,6 +6,7 @@
 package org.fit.layout.model;
 
 import java.awt.Color;
+import java.util.Map;
 
 /**
  * This class represents a box in the rendered page tree. It may contain a text or a content
@@ -143,6 +144,14 @@ public interface Box extends ContentRect
      * @return the attribute value or {@code null} if the value is not specified.
      */
     public String getAttribute(String name);
+    
+    /**
+     * Obtains the names and values of all the box attributes. The existing attribute names depend on the box implementation;
+     * they may correspond to HTML (DOM) attributes or they may be purely virtual. The typical attributes to be
+     * implemented are {@code class} or {@code href}. 
+     * @return A map assigning values to the individual attribute names. An empty map is returned when no attributes are defined.
+     */
+    public Map<String, String> getAttributes();
     
     /**
      * Obtains the display type of the element according to the CSS display: property.

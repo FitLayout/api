@@ -6,6 +6,7 @@
 package org.fit.layout.impl;
 
 import java.awt.Color;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -196,6 +197,15 @@ public class DefaultBox extends DefaultContentRect implements Box
             return null;
     }
     
+    @Override
+    public Map<String, String> getAttributes()
+    {
+        if (attributes != null)
+            return attributes;
+        else
+            return Collections.emptyMap();
+    }
+
     public void setAttribute(String name, String value)
     {
         if (attributes == null)
