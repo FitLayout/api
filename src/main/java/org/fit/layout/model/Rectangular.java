@@ -48,8 +48,8 @@ public class Rectangular
 	public Rectangular(int x1, int y1)
     {
         this.x1 = x1;
-        this.x2 = y1;
-        this.y1 = x1 - 1;
+        this.x2 = x1 - 1;
+        this.y1 = y1;
         this.y2 = y1 - 1;
     }
     
