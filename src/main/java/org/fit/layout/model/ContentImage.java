@@ -5,6 +5,8 @@
  */
 package org.fit.layout.model;
 
+import java.net.URL;
+
 /**
  * An image used as the box content.
  * 
@@ -13,4 +15,10 @@ package org.fit.layout.model;
 public interface ContentImage extends ContentObject
 {
 
+    /**
+     * Obtains the image URL.
+     * @return The URL of the image or {@code null} when the image has no URL.
+     */
+    public URL getUrl();
+    
 }
