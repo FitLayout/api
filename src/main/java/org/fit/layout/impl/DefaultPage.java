@@ -122,9 +122,9 @@ public class DefaultPage implements Page
     
     private void recursiveGetBoxesInRegion(Box root, Rectangular r, Vector<Box> result)
     {
-        if (r.encloses(root.getBounds()))
+        if (r.encloses(root.getVisualBounds()))
         {
-            if (!root.getBounds().isEmpty())
+            if (!root.getVisualBounds().isEmpty())
                 result.add(root);
         }
         else

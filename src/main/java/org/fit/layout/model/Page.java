@@ -56,7 +56,7 @@ public interface Page
     public Box getBoxAt(int x, int y);
     
     /**
-     * Finds the root boxes of subtrees that are fully contained in the given region. 
+     * Finds the root boxes of subtrees that are fully contained in the given region based on their visual bounds.
      * @param r The region to be tested
      * @return A vector of subtree root boxes (possibly empty)
      */
