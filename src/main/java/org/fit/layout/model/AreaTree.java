@@ -5,6 +5,8 @@
  */
 package org.fit.layout.model;
 
+import java.util.List;
+
 /**
  * A tree of visual areas created from a box tree.
  * 
@@ -30,5 +32,15 @@ public interface AreaTree extends SearchableAreaContainer
      * Updates the topology structures (e.g. grids) for all the areas in the tree.
      */
     public void updateTopologies();
+ 
+    /*
+     * Factory functions
+     */
+    
+    public Area createArea(Rectangular r);
+    
+    public Area createArea(Box box);
+    
+    public Area createArea(List<Box> boxes);
     
 }

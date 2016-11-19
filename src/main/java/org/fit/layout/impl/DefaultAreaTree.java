@@ -5,9 +5,13 @@
  */
 package org.fit.layout.impl;
 
+import java.util.List;
+
 import org.fit.layout.model.Area;
 import org.fit.layout.model.AreaTree;
+import org.fit.layout.model.Box;
 import org.fit.layout.model.Page;
+import org.fit.layout.model.Rectangular;
 
 /**
  * Default Page implementation.
@@ -99,4 +103,26 @@ public class DefaultAreaTree implements AreaTree
         }
     }
 
+    //=================================================================================
+    // factory functions
+    //=================================================================================
+    
+    @Override
+    public Area createArea(Rectangular r)
+    {
+        return new DefaultArea(r);
+    }
+
+    @Override
+    public Area createArea(Box box)
+    {
+        return new DefaultArea(box);
+    }
+
+    @Override
+    public Area createArea(List<Box> boxes)
+    {
+        return new DefaultArea(boxes);
+    }
+    
 }

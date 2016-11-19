@@ -127,11 +127,13 @@ public class DefaultArea extends DefaultContentRect implements Area
      * using <code>toString()</code>
      * @param name The new area name
      */
+    @Override
     public void setName(String name)
     {
         this.name = name;
     }
     
+    @Override
     public String getName()
     {
         return name;
