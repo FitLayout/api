@@ -47,4 +47,11 @@ public interface PageSet extends Iterable<Page>
      */
     public void addPage(Page page);
     
+    /**
+     * Obtains the page at the given index.
+     * @param index
+     * @return
+     */
+    public Page get(int index) throws IndexOutOfBoundsException;
+    
 }
