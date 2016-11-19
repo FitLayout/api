@@ -18,6 +18,18 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
 {
     
     /**
+     * Sets the name of the area that may be later used for its identification using {@link #getName()}.
+     * @param name the name to be set
+     */
+    public void setName(String name);
+    
+    /**
+     * Obtains the area name.
+     * @return the area name set previously using {@link #setName(String)} or a default name when nothing has been previously set.
+     */
+    public String getName();
+    
+    /**
      * Obtains the tree the node belongs to.
      * @return the tree or {@code null} when the node does not form part of any tree.
      */
