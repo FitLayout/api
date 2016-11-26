@@ -248,20 +248,29 @@ public class Rectangular
     
 	public boolean intersects(Rectangular other)
 	{
-	    return !(other.x1 > x2 
-    			|| other.x2 < x1 
-    			|| other.y1 > y2 
-    			|| other.y2 < y1);
+	    if (this.isEmpty() || other.isEmpty())
+	        return false;
+	    else
+    	    return !(other.x1 > x2 
+        			|| other.x2 < x1 
+        			|| other.y1 > y2 
+        			|| other.y2 < y1);
 	}
 	
 	public boolean intersectsX(Rectangular other)
 	{
-        return !(other.x1 > x2 || other.x2 < x1); 
+        if (this.isEmpty() || other.isEmpty())
+            return false;
+        else
+            return !(other.x1 > x2 || other.x2 < x1); 
 	}
 
     public boolean intersectsY(Rectangular other)
     {
-        return !(other.y1 > y2 || other.y2 < y1); 
+        if (this.isEmpty() || other.isEmpty())
+            return false;
+        else
+            return !(other.y1 > y2 || other.y2 < y1); 
     }
 
     /**
