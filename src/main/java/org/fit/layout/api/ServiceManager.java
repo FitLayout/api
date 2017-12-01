@@ -185,9 +185,9 @@ public class ServiceManager
     public static Map<String, Object> getServiceParams(ParametrizedOperation op)
     {
         Map<String, Object> ret = new HashMap<String, Object>();
-        for (String name : op.getParamNames())
+        for (Parameter param : op.getParams())
         {
-            ret.put(name, op.getParam(name));
+            ret.put(param.getName(), op.getParam(param.getName()));
         }
         return ret;
     }

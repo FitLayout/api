@@ -7,7 +7,10 @@ package org.fit.layout.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 
+import org.fit.layout.api.Parameter;
 import org.fit.layout.api.ParametrizedOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +22,27 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseParametrizedOperation implements ParametrizedOperation
 {
     private static Logger log = LoggerFactory.getLogger(BaseParametrizedOperation.class);
-            
+    
+    private List<Parameter> params;
+    
+    @Override
+    public List<Parameter> getParams()
+    {
+        if (params == null)
+            params = defineParams();
+        return params;
+    }
+
+    /**
+     * Creates the parameter definition for this operation.
+     * @return The list of parameters.
+     */
+    public List<Parameter> defineParams()
+    {
+        //The default implementation returns no parameters
+        return Collections.emptyList();
+    }
+    
     /**
      * Sets the parameter using the appropriate setter method (if present).
      */
@@ -111,10 +134,4 @@ public abstract class BaseParametrizedOperation implements ParametrizedOperation
         }
     }
 
-    @Override
-    public Object[] getParamRange(String name)
-    {
-        return null; //default implementation does not know any parametres
-    }
-    
 }
