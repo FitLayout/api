@@ -36,7 +36,7 @@ public interface LogicalArea extends AreaTreeNode<LogicalArea>
     /**
      * Scans a logical area subtree rooted in this logical area for the given area.
      * @param area the layout area to search for
-     * @return the logical area that contains the given area or {@code null} when the given area
+     * @return the deepest logical area that contains the given area or {@code null} when the given area
      * is not present in the given subtree
      */
     public LogicalArea findArea(Area area);
