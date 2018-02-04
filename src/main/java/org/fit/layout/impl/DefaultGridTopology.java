@@ -74,48 +74,6 @@ public class DefaultGridTopology implements AreaTopology
     }
 
     @Override
-    public int getWidth()
-    {
-        return area.getGridWidth();
-    }
-
-    @Override
-    public int getHeight()
-    {
-        return area.getGridHeight();
-    }
-    
-    @Override
-    public Rectangular getPosition()
-    {
-        return area.getGridPosition();
-    }
-
-    @Override
-    public Area getPreviousOnLine()
-    {
-        return area.getPreviousOnLine();
-    }
-
-    @Override
-    public Area getNextOnLine()
-    {
-        return area.getNextOnLine();
-    }
-
-    @Override
-    public int getMinIndent()
-    {
-        return area.getGrid().getMinIndent();
-    }
-
-    @Override
-    public int getMaxIndent()
-    {
-        return area.getGrid().getMaxIndent();
-    }
-
-    @Override
     public void drawLayout(OutputDisplay disp)
     {
         Graphics ig = disp.getGraphics();
