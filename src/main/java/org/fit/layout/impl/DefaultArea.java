@@ -49,12 +49,6 @@ public class DefaultArea extends DefaultContentRect implements Area
     /** Effective bounds of the area content. */
     private Rectangular contentBounds;
 
-    /** A grid of inserted elements */
-    private AreaGrid grid;
-    
-    /** Position of this area in the parent grid */
-    private Rectangular gp;
-    
     /** Previous area on the same line */
     private Area previousOnLine = null;
     
@@ -75,8 +69,6 @@ public class DefaultArea extends DefaultContentRect implements Area
         tags = new HashMap<Tag, Float>();
         setBounds(new Rectangular(r));
         setBackgroundColor(null);
-        grid = null;
-        gp = new Rectangular();
         hsep = false;
         vsep = false;
     }
@@ -88,8 +80,6 @@ public class DefaultArea extends DefaultContentRect implements Area
         boxes = new Vector<Box>(src.getBoxes());
         tags = new HashMap<Tag, Float>();
         contentBounds = (src.contentBounds == null) ? null : new Rectangular(src.contentBounds);
-        grid = null;
-        gp = new Rectangular();
         vsep = src.vsep;
         hsep = src.hsep;
     }
@@ -172,7 +162,9 @@ public class DefaultArea extends DefaultContentRect implements Area
     @Override
     public void updateTopologies()
     {
-        createGrid();
+        //always re-create the topology because some children may have been changed
+        //and the topology.update() call would not consider the new children
+        topology = createTopology();
     }
     
     /**
@@ -432,93 +424,6 @@ public class DefaultArea extends DefaultContentRect implements Area
         boxes.removeAll(box);
     }
     
-    //====================================================================================
-    // grid operations
-    //====================================================================================
-    
-    /**
-     * Creates the grid of areas from the child areas.
-     */
-    public void createGrid()
-    {
-        grid = new AreaGrid(this, getTopology());
-    }
-    
-    /**
-     * Obtains the gird of contained areas.
-     * @return the grid
-     */
-    public AreaGrid getGrid()
-    {
-        if (grid == null)
-            createGrid();
-        return grid;
-    }
-    
-    /**
-     * @return Returns the height of the area in the grid height in rows
-     */
-    public int getGridHeight()
-    {
-        return gp.getHeight();
-    }
-
-    /**
-     * @return Returns the width of the area in the grid in rows
-     */
-    public int getGridWidth()
-    {
-        return gp.getWidth();
-    }
-
-    /**
-     * @return Returns the gridX.
-     */
-    public int getGridX()
-    {
-        return gp.getX1();
-    }
-
-    /**
-     * @param gridX The gridX to set.
-     */
-    public void setGridX(int gridX)
-    {
-        gp.setX1(gridX);
-    }
-
-    /**
-     * @return Returns the gridY.
-     */
-    public int getGridY()
-    {
-        return gp.getY1();
-    }
-
-    /**
-     * @param gridY The gridY to set.
-     */
-    public void setGridY(int gridY)
-    {
-        gp.setY1(gridY);
-    }
-    
-    /**
-     * @return the position of this area in the grid of its parent area
-     */
-    public Rectangular getGridPosition()
-    {
-        return gp;
-    }
-    
-    /**
-     * Sets the position in the parent area grid for this area
-     * @param pos the position
-     */
-    public void setGridPosition(Rectangular pos)
-    {
-        gp = new Rectangular(pos);
-    }
     
     /**
      * Returns the child area at the specified grid position or null, if there is no
@@ -526,13 +431,7 @@ public class DefaultArea extends DefaultContentRect implements Area
      */
     public DefaultArea getChildAtGridPos(int x, int y)
     {
-        for (GenericTreeNode child : getChildren())
-        {
-            DefaultArea childarea = (DefaultArea) child;
-            if (childarea.getGridPosition().contains(x, y))
-                return childarea;
-        }
-        return null;
+        return (DefaultArea) getTopology().findAreaAt(x, y);
     }
     
     //====================================================================================
@@ -679,17 +578,17 @@ public class DefaultArea extends DefaultContentRect implements Area
     {
         if (getChildCount() > 1 && selected.size() > 1 && selected.size() != getChildCount())
         {
+            //absolute position of the new area
+            Rectangular abspos = getTopology().toPixelPosition(gp);
+            abspos.move(getX1(), getY1());
             //create the new area
-            DefaultArea area = new DefaultArea(getX1() + getGrid().getColOfs(gp.getX1()),
-                                         getY1() + getGrid().getRowOfs(gp.getY1()),
-                                         getX1() + getGrid().getColOfs(gp.getX2()+1) - 1,
-                                         getY1() + getGrid().getRowOfs(gp.getY2()+1) - 1);
+            DefaultArea area = new DefaultArea(abspos);
             area.setName(name);
             int index = getIndex(selected.get(0));
             insertChild(area, index);
             area.appendChildren(selected);
-            area.createGrid();
-            createGrid();
+            area.updateTopologies();
+            updateTopologies();
             return area;
         }
         else

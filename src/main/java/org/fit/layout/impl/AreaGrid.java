@@ -140,40 +140,6 @@ public class AreaGrid
     }
     
     /**
-     * Find an area at the specified position in the grid.
-     * @param x the <code>x</code> coordinate of the grid cell  
-     * @param y the <code>y</code> coordinate of the grid cell  
-     * @return the node at the specified position or null if there is no node
-     */
-    public DefaultArea getAreaAt(int x, int y)
-    {
-        if (x < width && y < height)
-        {
-            for (Area area : areas)
-            {
-                DefaultArea node = (DefaultArea) area; //TODO
-                if (x >= node.getGridX() && x < node.getGridX() + node.getGridWidth() &&
-                    y >= node.getGridY() && y < node.getGridY() + node.getGridHeight())
-                    return node;
-            }
-            return null;
-        }
-        else
-            return null;
-    }
-    
-    /**
-     * Checks if the cell with the specified coordinates is empty.
-     * @param x the <code>x</code> coordinate of the grid cell  
-     * @param y the <code>y</code> coordinate of the grid cell  
-     * @return true if the cell doesn't contain any subarea
-     */
-    public boolean cellEmpty(int x, int y)
-    {
-    	return getAreaAt(x, y) == null;
-    }
-    
-    /**
      * Finds the offset of the specified column from the grid origin.
      * @param col the column index
      * @return the offset in pixels. Column 0 has always the offset 0.

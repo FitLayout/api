@@ -51,6 +51,21 @@ public interface AreaTopology
     public void setPosition(Area area, Rectangular gp);
     
     /**
+     * Finds an area at the specified position in the grid.
+     * @param x the x coordinate of the grid cell  
+     * @param y the y coordinate of the grid cell  
+     * @return the node at the specified position or {@code null} when there is no such area
+     */
+    public Area findAreaAt(int x, int y);
+    
+    /**
+     * Translates the bounds in the topology to pixel bounds.
+     * @param topologyPosition the position within the topology 
+     * @return the pixle position
+     */
+    public Rectangular toPixelPosition(Rectangular topologyPosition);
+    
+     /**
      * Recomputes the topology. This should be used when the underlying areas
      * have changed (some areas have been added, removed or resized).
      */
