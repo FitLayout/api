@@ -65,6 +65,27 @@ public interface AreaTopology
      */
     public Rectangular toPixelPosition(Rectangular topologyPosition);
     
+    /**
+     * Translates the bounds in the topology to absolute pixel bounds.
+     * @param topologyPosition the position within the topology 
+     * @return the pixle position
+     */
+    public Rectangular toPixelPositionAbsolute(Rectangular topologyPosition);
+    
+    /**
+     * Translates the X coordinate from pixels to topology position
+     * @param pixelX the pixel X coordinate
+     * @return the topology X coordinate
+     */
+    public int toTopologyX(int pixelX);
+    
+    /**
+     * Translates the Y coordinate from pixels to topology position
+     * @param pixelX the pixel Y coordinate
+     * @return the topology Y coordinate
+     */
+    public int toTopologyY(int pixelY);
+    
      /**
      * Recomputes the topology. This should be used when the underlying areas
      * have changed (some areas have been added, removed or resized).

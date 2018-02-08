@@ -90,6 +90,29 @@ public class AreaListGridTopology implements AreaTopology
     }
     
     @Override
+    public Rectangular toPixelPositionAbsolute(Rectangular gp)
+    {
+        Rectangular ret = new Rectangular(grid.getColOfs(gp.getX1()),
+                grid.getRowOfs(gp.getY1()),
+                grid.getColOfs(gp.getX2()+1) - 1,
+                grid.getRowOfs(gp.getY2()+1) - 1);
+        ret.move(grid.getAbsolutePosition().getX1(), grid.getAbsolutePosition().getY1());
+        return ret;
+    }
+    
+    @Override
+    public int toTopologyX(int pixelX)
+    {
+        return grid.findCellX(pixelX);
+    }
+
+    @Override
+    public int toTopologyY(int pixelY)
+    {
+        return grid.findCellY(pixelY);
+    }
+
+    @Override
     public void update()
     {
         abspos = computeAreaBounds();

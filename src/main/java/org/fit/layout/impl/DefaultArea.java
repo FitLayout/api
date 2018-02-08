@@ -635,6 +635,28 @@ public class DefaultArea extends DefaultContentRect implements Area
     }
 
     /**
+     * Sets the grid position of this area within the parent topology.
+     * @param gp the new grid position
+     */
+    public void setGridPosition(Rectangular gp)
+    {
+        if (getParentArea() != null)
+            getParentArea().getTopology().setPosition(this, gp);
+    }
+    
+    /**
+     * Gets the grid position of this area within the parent topology.
+     * @return the grid position or a unit rectangle when there is no parent
+     */
+    public Rectangular getGridPosition()
+    {
+        if (getParentArea() != null)
+            return getParentArea().getTopology().getPosition(this);
+        else
+            return new Rectangular(0, 0, 0, 0);
+    }
+    
+    /**
      * Obtains a box description used as the default area name when the area
      * is created from a box.
      * @param box
