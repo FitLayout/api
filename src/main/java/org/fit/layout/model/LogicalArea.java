@@ -14,7 +14,7 @@ import java.util.List;
  * 
  * @author burgetr
  */
-public interface LogicalArea extends AreaTreeNode<LogicalArea>
+public interface LogicalArea extends GenericTreeNode<LogicalArea>
 {
 
     public void addArea(Area a);

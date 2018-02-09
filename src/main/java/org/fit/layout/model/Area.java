@@ -14,7 +14,7 @@ import java.util.Vector;
  * 
  * @author burgetr
  */
-public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
+public interface Area extends ContentRect, GenericTreeNode<Area>, Taggable
 {
     
     /**
@@ -34,6 +34,8 @@ public interface Area extends ContentRect, AreaTreeNode<Area>, Taggable
      * @return the tree or {@code null} when the node does not form part of any tree.
      */
     public AreaTree getAreaTree();
+    
+    public void setAreaTree(AreaTree tree);
     
     /**
      * Returns the list of boxes that belong directly to this area.

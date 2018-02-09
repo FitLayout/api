@@ -60,7 +60,7 @@ public class AreaGrid
     public AreaGrid(DefaultArea area, AreaTopology targetTopology)
     {
         abspos = area.getBounds();
-        areas = area.getChildAreas();
+        areas = area.getChildren();
         target = targetTopology;
         calculateColumns();
         calculateRows();

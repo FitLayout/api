@@ -5,46 +5,60 @@
  */
 package org.fit.layout.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
+
+import org.fit.layout.model.GenericTreeNode;
 
 /**
  * A generic tree node used as a base for the Box and Area implementation.
- * 
+ * TODO override
  * @author burgetr
  */
-public class GenericTreeNode
+public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTreeNode<T>
 {
-    private GenericTreeNode root;
-    private GenericTreeNode parent;
-    private Vector<GenericTreeNode> children;
+    private T myself;
+    private T root;
+    private T parent;
+    private List<T> children;
     private HashMap<Class<?>, Object> attributes;
 
-    public GenericTreeNode()
+    public DefaultTreeNode(Class<T> myType)
     {
-        children = new Vector<GenericTreeNode>();
+        children = new ArrayList<>();
         parent = null;
-        root = this;
+        myself = myType.cast(this);
+        root = myself;
         attributes = new HashMap<Class<?>, Object>();
     }
 
-    public GenericTreeNode getParent()
+    public T getParent()
     {
         return parent;
     }
 
-    public GenericTreeNode getRoot()
+    public void setParent(T parent)
+    {
+        this.parent = parent;
+    }
+    
+    public T getRoot()
     {
         return root;
     }
 
+    public void setRoot(T root)
+    {
+        this.root = root;
+    }
+
     public boolean isRoot()
     {
-        return (root == this);
+        return (getRoot() == this);
     }
     
-    public <T> T getUserAttribute(Class<T> clazz)
+    public <P> P getUserAttribute(Class<P> clazz)
     {
         return clazz.cast(attributes.get(clazz));
     }
@@ -54,7 +68,7 @@ public class GenericTreeNode
         attributes.put(attribute.getClass(), attribute);
     }
 
-    public List<GenericTreeNode> getChildren()
+    public List<T> getChildren()
     {
         return children;
     }
@@ -69,59 +83,66 @@ public class GenericTreeNode
         return (getChildCount() == 0);
     }
 
-    public void add(GenericTreeNode child)
+    public void appendChild(T child)
     {
-        if (child.parent != null)
-            child.parent.remove(child);
-        child.parent = this;
+        if (child.getParent() != null)
+            child.getParent().remove(child);
+        child.setParent(myself);
         children.add(child);
     }
 
-    public void insert(GenericTreeNode child, int index)
+    @Override
+    public void appendChildren(List<T> list)
+    {
+        for (T child : list)
+            appendChild(child);
+    }
+    
+    public void insertChild(T child, int index)
             throws IndexOutOfBoundsException
     {
-        if (child.parent != null)
-            child.parent.remove(child);
-        child.parent = this;
+        if (child.getParent() != null)
+            child.getParent().remove(child);
+        child.setParent(myself);
         children.add(index, child);
     }
 
     public void removeAllChildren()
     {
-        for (GenericTreeNode child : children)
+        for (T child : children)
         {
-            child.parent = null;
-            child.root = child;
+            child.setParent(null);
+            child.setRoot(child);
         }
-        children.removeAllElements();
+        children.clear();
     }
 
     public void remove(int index) throws IndexOutOfBoundsException
     {
-        GenericTreeNode child = children.elementAt(index); 
-        child.parent = null;
-        child.root = child;
+        T child = children.get(index); 
+        child.setParent(null);
+        child.setRoot(child);
         children.remove(index);
     }
 
-    public void remove(GenericTreeNode child) throws IllegalArgumentException
+    public void remove(T child) throws IllegalArgumentException
     {
         if (children.remove(child))
         {
-            child.parent = null;
-            child.root = child;
+            child.setParent(null);
+            child.setRoot(child);
         }
         else
             throw new IllegalArgumentException("Given node is not a child of this node");
     }
 
-    public GenericTreeNode getChildAt(int index)
+    public T getChildAt(int index)
             throws IndexOutOfBoundsException
     {
         return children.get(index);
     }
     
-    public int getIndex(GenericTreeNode child)
+    public int getIndex(T child)
     {
     	if (child != null)
     		return children.indexOf(child);
@@ -129,11 +150,11 @@ public class GenericTreeNode
     		throw new IllegalArgumentException("The child cannot be null");
     }
     
-    public GenericTreeNode getPreviousSiblingNode()
+    public T getPreviousSibling()
     {
     	if (getParent() != null)
     	{
-    		int index = getParent().getIndex(this);
+    		int index = getParent().getIndex(myself);
     		if (index == 0)
     			return null;
     		else
@@ -143,11 +164,11 @@ public class GenericTreeNode
     		return null;
     }
 
-    public GenericTreeNode getNextSiblingNode()
+    public T getNextSibling()
     {
     	if (getParent() != null)
     	{
-    		int index = getParent().getIndex(this);
+    		int index = getParent().getIndex(myself);
     		if (index == getParent().getChildCount() - 1)
     			return null;
     		else
@@ -159,17 +180,17 @@ public class GenericTreeNode
 
     public int getDepth()
     {
-    	return recursiveGetDepth(this);
+    	return recursiveGetDepth(myself);
     }
     
-    private int recursiveGetDepth(GenericTreeNode root)
+    private int recursiveGetDepth(T root)
     {
     	if (root.isLeaf())
     		return 0;
     	else
     	{
     		int max = 0;
-    		for (GenericTreeNode child : root.getChildren())
+    		for (T child : root.getChildren())
     		{
     			int cdepth = recursiveGetDepth(child);
     			if (cdepth > max)
@@ -181,17 +202,17 @@ public class GenericTreeNode
     
     public int getLeafCount()
     {
-        return recursiveGetLeafCount(this);
+        return recursiveGetLeafCount(myself);
     }
     
-    private int recursiveGetLeafCount(GenericTreeNode root)
+    private int recursiveGetLeafCount(T root)
     {
         if (root.isLeaf())
             return 1;
         else
         {
             int sum = 0;
-            for (GenericTreeNode child : root.getChildren())
+            for (T child : root.getChildren())
                 sum += recursiveGetLeafCount(child);
             return sum;
         }

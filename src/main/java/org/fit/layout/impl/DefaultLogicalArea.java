@@ -17,7 +17,7 @@ import org.fit.layout.model.Tag;
  * 
  * @author burgetr
  */
-public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
+public class DefaultLogicalArea extends DefaultTreeNode<LogicalArea> implements LogicalArea
 {
     private List<Area> areas;
     private String text;
@@ -25,14 +25,14 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
     
     public DefaultLogicalArea()
     {
-        super();
+        super(LogicalArea.class);
         areas = new Vector<Area>();
         text = "";
     }
     
     public DefaultLogicalArea(Area src)
     {
-        super();
+        super(LogicalArea.class);
         areas = new Vector<Area>();
         areas.add(src);
         text = src.getText();
@@ -40,7 +40,7 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
     
     public DefaultLogicalArea(Area src, String text)
     {
-        super();
+        super(LogicalArea.class);
         areas = new Vector<Area>();
         areas.add(src);
         this.text = text;
@@ -104,71 +104,6 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
     }
     
     //==============================================================================
-    
-    @Override
-    public LogicalArea getParentArea()
-    {
-        return (LogicalArea) getParent();
-    }
-
-    @Override
-    public LogicalArea getPreviousSibling()
-    {
-        return (LogicalArea) getPreviousSiblingNode();
-    }
-
-    @Override
-    public LogicalArea getNextSibling()
-    {
-        return (LogicalArea) getNextSiblingNode();
-    }
-
-    @Override
-    public LogicalArea getChildArea(int index)
-            throws ArrayIndexOutOfBoundsException
-    {
-        return (LogicalArea) getChildAt(index);
-    }
-
-    @Override
-    public List<LogicalArea> getChildAreas()
-    {
-        Vector<LogicalArea> ret = new Vector<LogicalArea>(getChildCount());
-        for (GenericTreeNode child : getChildren())
-            ret.add((LogicalArea) child);
-        return ret;
-    }
-
-    @Override
-    public void appendChild(LogicalArea child)
-    {
-        add((DefaultLogicalArea) child);
-    }
-
-    @Override
-    public void appendChildren(List<LogicalArea> children)
-    {
-        for (LogicalArea child : children)
-            add((DefaultLogicalArea) child);
-    }
-
-    @Override
-    public void insertChild(LogicalArea child, int index)
-    {
-        insert((DefaultLogicalArea) child, index);
-    }
-
-    @Override
-    public void removeChild(LogicalArea child)
-    {
-        remove((DefaultLogicalArea) child); 
-    }
-
-    @Override
-    public int getIndex(LogicalArea child)
-    {
-        return super.getIndex((DefaultLogicalArea) child);
-    }
 
     @Override
     public LogicalArea findArea(Area area)
@@ -177,25 +112,12 @@ public class DefaultLogicalArea extends GenericTreeNode implements LogicalArea
         //scan the subtree
         for (int i = 0; i < getChildCount() && ret == null; i++)
         {
-            ret = getChildArea(i).findArea(area);
+            ret = getChildAt(i).findArea(area);
         }
         //not in the subtree -- is it this area?
         if (ret == null && getAreas().contains(area))
             ret = this; //in our area nodes
         return ret;
-    }
-    
-    @Override
-    public boolean isAncestorOf(LogicalArea other)
-    {
-        LogicalArea parent = other.getParentArea();
-        while (parent != null)
-        {
-            if (parent == this)
-                return true;
-            parent = parent.getParentArea();
-        }
-        return false;
     }
     
 }

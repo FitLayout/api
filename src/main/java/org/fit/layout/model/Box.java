@@ -14,29 +14,9 @@ import java.util.Map;
  * 
  * @author burgetr
  */
-public interface Box extends ContentRect
+public interface Box extends ContentRect, GenericTreeNode<Box>
 {
 
-    /**
-     * Obtains the parent box of this box.
-     * @return The parent box or {@code null} when this is the root box.
-     */
-    public Box getParentBox();
-    
-    /**
-     * Obtains the n-th child box.
-     * @param index the child index
-     * @return the child box at the given index
-     */
-    public Box getChildBox(int index)
-        throws ArrayIndexOutOfBoundsException;
-    
-    /**
-     * Returns the number of child boxes for this box.
-     * @return the number of child boxes
-     */
-    public int getChildCount();
-    
     /**
      * Obtains the box text color.
      * @return the text color

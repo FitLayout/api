@@ -29,7 +29,7 @@ import org.fit.layout.model.Tag;
  * 
  * @author burgetr
  */
-public class DefaultArea extends DefaultContentRect implements Area
+public class DefaultArea extends DefaultContentRect<Area> implements Area
 {
     /** Area name to be displayed to the users */
     private String name;
@@ -63,7 +63,7 @@ public class DefaultArea extends DefaultContentRect implements Area
 
     public DefaultArea(Rectangular r)
     {
-        super();
+        super(Area.class);
         name = null;
         boxes = new Vector<Box>();
         tags = new HashMap<Tag, Float>();
@@ -75,7 +75,7 @@ public class DefaultArea extends DefaultContentRect implements Area
     
     public DefaultArea(DefaultArea src)
     {
-        super(src);
+        super(Area.class, src);
         name = (src.name == null) ? null : new String(src.name);
         boxes = new Vector<Box>(src.getBoxes());
         tags = new HashMap<Tag, Float>();
@@ -186,84 +186,19 @@ public class DefaultArea extends DefaultContentRect implements Area
             return getBackgroundColor();
         else
         {
-            if (getParentArea() != null)
-                return getParentArea().getEffectiveBackgroundColor();
+            if (getParent() != null)
+                return getParent().getEffectiveBackgroundColor();
             else
                 return Color.WHITE; //use white as the default root color
         }
     }
-    
-    @Override
-    public Area getParentArea()
-    {
-        return (Area) getParent();
-    }
 
-    @Override
-    public Area getPreviousSibling()
-    {
-        return (Area) getPreviousSiblingNode();
-    }
-    
-    @Override
-    public Area getNextSibling()
-    {
-        return (Area) getNextSiblingNode();
-    }
-
-    
-    @Override
-    public Area getChildArea(int index) throws ArrayIndexOutOfBoundsException
-    {
-        return (Area) getChildAt(index);
-    }
-
-    @Override
-    public List<Area> getChildAreas()
-    {
-        Vector<Area> ret = new Vector<Area>(getChildCount());
-        for (GenericTreeNode child : getChildren())
-            ret.add((Area) child);
-        return ret;
-    }
-
-    @Override
-    public int getIndex(Area child)
-    {
-        return super.getIndex((DefaultArea) child);
-    }
-    
     @Override
     public void appendChild(Area child)
     {
-        ((DefaultArea) child).setAreaTree(areaTree);
-        add((DefaultArea) child);
+        child.setAreaTree(areaTree);
+        super.appendChild(child);
         getBounds().expandToEnclose(child.getBounds());
-    }
-    
-    @Override
-    public void appendChildren(List<Area> list)
-    {
-        for (Area child : list)
-        {
-            add((DefaultArea) child);
-            ((DefaultArea) child).setAreaTree(areaTree);
-            getBounds().expandToEnclose(child.getBounds());
-        }
-    }
-    
-    @Override
-    public void insertChild(Area child, int index)
-    {
-        ((DefaultArea) child).setAreaTree(areaTree);
-        insert((DefaultArea) child, index);
-    }
-
-    @Override
-    public void removeChild(Area child)
-    {
-        ((DefaultArea) child).setAreaTree(null);
-        remove((DefaultArea) child); 
     }
     
     public Area getPreviousOnLine()
@@ -294,7 +229,7 @@ public class DefaultArea extends DefaultContentRect implements Area
             ret = getBoxText();
         else
             for (int i = 0; i < getChildCount(); i++)
-                ret += getChildArea(i).getText();
+                ret += getChildAt(i).getText();
         return ret;
     }
     
@@ -308,9 +243,9 @@ public class DefaultArea extends DefaultContentRect implements Area
         {
             for (int i = 0; i < getChildCount(); i++)
             {
-                if (getChildArea(i).isLeaf() && !ret.isEmpty())
+                if (getChildAt(i).isLeaf() && !ret.isEmpty())
                     ret += separator;
-                ret += getChildArea(i).getText(separator);
+                ret += getChildAt(i).getText(separator);
             }
         }
         return ret;
@@ -327,19 +262,6 @@ public class DefaultArea extends DefaultContentRect implements Area
                 return false;
         }
         return !empty;
-    }
-    
-    @Override
-    public boolean isAncestorOf(Area other)
-    {
-        Area parent = other.getParentArea();
-        while (parent != null)
-        {
-            if (parent == this)
-                return true;
-            parent = parent.getParentArea();
-        }
-        return false;
     }
     
     //====================================================================================
@@ -386,7 +308,7 @@ public class DefaultArea extends DefaultContentRect implements Area
     {
         result.addAll(root.getBoxes());
         for (int i = 0; i < root.getChildCount(); i++)
-            recursiveFindBoxes((Area) root.getChildArea(i), result);
+            recursiveFindBoxes((Area) root.getChildAt(i), result);
     }
 
     /**
@@ -528,8 +450,8 @@ public class DefaultArea extends DefaultContentRect implements Area
             return true;
         else
         {
-            for (GenericTreeNode child : getChildren())
-                if (((Area) child).hasTag(tag))
+            for (Area child : getChildren())
+                if (child.hasTag(tag))
                     return true;
             return false;
         }
@@ -609,10 +531,10 @@ public class DefaultArea extends DefaultContentRect implements Area
     public Area copy()
     {
         Area ret = new DefaultArea(this);
-        if (getParentArea() != null)
+        if (getParent() != null)
         {
-            int ndx = getParentArea().getIndex(this);
-            getParentArea().insertChild(ret, ndx + 1);
+            int ndx = getParent().getIndex(this);
+            getParent().insertChild(ret, ndx + 1);
         }
         return ret;
     }
@@ -640,8 +562,8 @@ public class DefaultArea extends DefaultContentRect implements Area
      */
     public void setGridPosition(Rectangular gp)
     {
-        if (getParentArea() != null)
-            getParentArea().getTopology().setPosition(this, gp);
+        if (getParent() != null)
+            getParent().getTopology().setPosition(this, gp);
     }
     
     /**
@@ -650,8 +572,8 @@ public class DefaultArea extends DefaultContentRect implements Area
      */
     public Rectangular getGridPosition()
     {
-        if (getParentArea() != null)
-            return getParentArea().getTopology().getPosition(this);
+        if (getParent() != null)
+            return getParent().getTopology().getPosition(this);
         else
             return new Rectangular(0, 0, 0, 0);
     }

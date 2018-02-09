@@ -72,7 +72,7 @@ public class DefaultAreaTree implements AreaTree
         {
             for (int i = 0; i < root.getChildCount(); i++)
             {
-                Area ret = recursiveGetAreaAt(root.getChildArea(i), x, y);
+                Area ret = recursiveGetAreaAt(root.getChildAt(i), x, y);
                 if (ret != null)
                     return ret;
             }
@@ -95,7 +95,7 @@ public class DefaultAreaTree implements AreaTree
         {
             for (int i = 0; i < root.getChildCount(); i++)
             {
-                Area ret = recursiveGetAreaByName(root.getChildArea(i), name);
+                Area ret = recursiveGetAreaByName(root.getChildAt(i), name);
                 if (ret != null)
                     return ret;
             }

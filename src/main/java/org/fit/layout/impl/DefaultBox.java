@@ -19,7 +19,7 @@ import org.fit.layout.model.Rectangular;
  *  
  * @author burgetr
  */
-public class DefaultBox extends DefaultContentRect implements Box
+public class DefaultBox extends DefaultContentRect<Box> implements Box
 {
     private boolean visible;
     private Color color;
@@ -38,7 +38,7 @@ public class DefaultBox extends DefaultContentRect implements Box
     
     public DefaultBox()
     {
-        super();
+        super(Box.class);
         visible = true;
         text = "";
         color = Color.BLACK;
@@ -50,7 +50,7 @@ public class DefaultBox extends DefaultContentRect implements Box
     
     public DefaultBox(DefaultBox src)
     {
-        super(src);
+        super(Box.class);
         visible = src.visible;
         color = new Color(src.color.getRed(), src.color.getGreen(), src.color.getBlue(), src.color.getAlpha());
         fontFamily = new String(src.fontFamily);
@@ -61,18 +61,6 @@ public class DefaultBox extends DefaultContentRect implements Box
             attributes = new HashMap<String, String>(src.attributes);
         type = src.type;
         displayType = src.displayType;
-    }
-    
-    @Override
-    public Box getChildBox(int index)
-    {
-        return (Box) getChildAt(index);
-    }
-
-    @Override
-    public Box getParentBox()
-    {
-        return (Box) getParent();
     }
     
     @Override
@@ -122,7 +110,7 @@ public class DefaultBox extends DefaultContentRect implements Box
             {
                 if (ret.trim().length() > 0)
                     ret += " ";
-                ret = ret + getChildBox(i).getText().trim();
+                ret = ret + getChildAt(i).getText().trim();
             }
             return ret;
         }

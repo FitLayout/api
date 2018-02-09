@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import org.fit.layout.model.Border;
 import org.fit.layout.model.ContentRect;
+import org.fit.layout.model.GenericTreeNode;
 import org.fit.layout.model.Page;
 import org.fit.layout.model.Rectangular;
 import org.fit.layout.model.Border.Side;
@@ -21,7 +22,7 @@ import org.fit.layout.model.Border.Style;
  * 
  * @author burgetr
  */
-public class DefaultContentRect extends GenericTreeNode implements ContentRect
+public class DefaultContentRect<T extends GenericTreeNode<T>> extends DefaultTreeNode<T> implements ContentRect
 {
     private static int nextid = 1;
     
@@ -42,8 +43,9 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     private Border rightBorder;
 
     
-    public DefaultContentRect()
+    public DefaultContentRect(Class<T> myType)
     {
+        super(myType);
         id = nextid++;
         bounds = new Rectangular();
         topBorder = new Border();
@@ -52,8 +54,9 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
         rightBorder = new Border();
     }
     
-    public DefaultContentRect(DefaultContentRect src)
+    public DefaultContentRect(Class<T> myType, DefaultContentRect<T> src)
     {
+        super(myType);
         id = nextid++;
         page = src.page;
         bounds = new Rectangular(src.bounds);
@@ -357,7 +360,7 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
     public void move(int xofs, int yofs)
     {
         getBounds().move(xofs, yofs);
-        for (GenericTreeNode child : getChildren())
+        for (T child : getChildren())
         {
             if (child instanceof ContentRect) 
                 ((ContentRect) child).move(xofs, yofs);
@@ -376,7 +379,8 @@ public class DefaultContentRect extends GenericTreeNode implements ContentRect
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        DefaultContentRect other = (DefaultContentRect) obj;
+        @SuppressWarnings("unchecked")
+        DefaultContentRect<T> other = (DefaultContentRect<T>) obj;
         if (id != other.id) return false;
         return true;
     }

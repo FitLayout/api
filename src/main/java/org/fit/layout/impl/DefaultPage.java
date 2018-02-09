@@ -102,7 +102,7 @@ public class DefaultPage implements Page
         {
             for (int i = 0; i < root.getChildCount(); i++)
             {
-                Box ret = recursiveGetBoxAt(root.getChildBox(i), x, y);
+                Box ret = recursiveGetBoxAt(root.getChildAt(i), x, y);
                 if (ret != null)
                     return ret;
             }
@@ -130,7 +130,7 @@ public class DefaultPage implements Page
         else
         {
             for (int i = 0; i < root.getChildCount(); i++)
-                recursiveGetBoxesInRegion(root.getChildBox(i), r, result);
+                recursiveGetBoxesInRegion(root.getChildAt(i), r, result);
         }
     }
     
