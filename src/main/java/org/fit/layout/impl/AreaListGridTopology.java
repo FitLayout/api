@@ -29,13 +29,19 @@ public class AreaListGridTopology implements AreaTopology
     
     public AreaListGridTopology(List<Area> areas)
     {
+        this(areas, true);
+    }
+    
+    public AreaListGridTopology(List<Area> areas, boolean doInit)
+    {
         this.areas = areas;
         //default positions for all the areas
         positions = new HashMap<>(areas.size());
         for (Area a : areas)
             positions.put(a, new Rectangular());
-        //create the grid
-        update();
+        //create the grid if required
+        if (doInit)
+            update();
     }
 
     @Override

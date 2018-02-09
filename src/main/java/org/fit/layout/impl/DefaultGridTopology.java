@@ -19,8 +19,9 @@ public class DefaultGridTopology extends AreaListGridTopology
     
     public DefaultGridTopology(Area area)
     {
-        super(area.getChildAreas());
+        super(area.getChildAreas(), false);
         this.area = area;
+        update();
     }
 
     public Area getArea()
