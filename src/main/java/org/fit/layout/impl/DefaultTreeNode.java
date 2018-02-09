@@ -1,5 +1,5 @@
 /**
- * GenericTreeNode.java
+ * DefaultTreeNode.java
  *
  * Created on 19. 11. 2014, 21:46:53 by burgetr
  */
@@ -13,7 +13,7 @@ import org.fit.layout.model.GenericTreeNode;
 
 /**
  * A generic tree node used as a base for the Box and Area implementation.
- * TODO override
+ * 
  * @author burgetr
  */
 public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTreeNode<T>
@@ -33,56 +33,67 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
         attributes = new HashMap<Class<?>, Object>();
     }
 
+    @Override
     public T getParent()
     {
         return parent;
     }
 
+    @Override
     public void setParent(T parent)
     {
         this.parent = parent;
     }
     
+    @Override
     public T getRoot()
     {
         return root;
     }
 
+    @Override
     public void setRoot(T root)
     {
         this.root = root;
     }
 
+    @Override
     public boolean isRoot()
     {
         return (getRoot() == this);
     }
     
+    @Override
     public <P> P getUserAttribute(Class<P> clazz)
     {
         return clazz.cast(attributes.get(clazz));
     }
 
+    @Override
     public void addUserAttribute(Object attribute)
     {
         attributes.put(attribute.getClass(), attribute);
     }
 
+    @Override
     public List<T> getChildren()
     {
         return children;
     }
 
+    @Override
     public int getChildCount()
     {
         return getChildren().size();
     }
 
+    @Override
     public boolean isLeaf()
     {
         return (getChildCount() == 0);
     }
 
+    @Override
     public void appendChild(T child)
     {
         if (child.getParent() != null)
@@ -98,6 +109,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
             appendChild(child);
     }
     
+    @Override
     public void insertChild(T child, int index)
             throws IndexOutOfBoundsException
     {
@@ -107,6 +119,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
         children.add(index, child);
     }
 
+    @Override
     public void removeAllChildren()
     {
         for (T child : children)
@@ -117,6 +130,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
         children.clear();
     }
 
+    @Override
     public void remove(int index) throws IndexOutOfBoundsException
     {
         T child = children.get(index); 
@@ -125,6 +139,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
         children.remove(index);
     }
 
+    @Override
     public void remove(T child) throws IllegalArgumentException
     {
         if (children.remove(child))
@@ -136,12 +151,14 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
             throw new IllegalArgumentException("Given node is not a child of this node");
     }
 
+    @Override
     public T getChildAt(int index)
             throws IndexOutOfBoundsException
     {
         return children.get(index);
     }
     
+    @Override
     public int getIndex(T child)
     {
     	if (child != null)
@@ -150,6 +167,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     		throw new IllegalArgumentException("The child cannot be null");
     }
     
+    @Override
     public T getPreviousSibling()
     {
     	if (getParent() != null)
@@ -164,6 +182,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     		return null;
     }
 
+    @Override
     public T getNextSibling()
     {
     	if (getParent() != null)
@@ -178,6 +197,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     		return null;
     }
 
+    @Override
     public int getDepth()
     {
     	return recursiveGetDepth(myself);
@@ -200,6 +220,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     	}
     }
     
+    @Override
     public int getLeafCount()
     {
         return recursiveGetLeafCount(myself);
