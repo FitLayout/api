@@ -97,7 +97,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     public void appendChild(T child)
     {
         if (child.getParent() != null)
-            child.getParent().remove(child);
+            child.getParent().removeChild(child);
         child.setParent(myself);
         children.add(child);
     }
@@ -114,7 +114,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
             throws IndexOutOfBoundsException
     {
         if (child.getParent() != null)
-            child.getParent().remove(child);
+            child.getParent().removeChild(child);
         child.setParent(myself);
         children.add(index, child);
     }
@@ -131,7 +131,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     }
 
     @Override
-    public void remove(int index) throws IndexOutOfBoundsException
+    public void removeChild(int index) throws IndexOutOfBoundsException
     {
         T child = children.get(index); 
         child.setParent(null);
@@ -140,7 +140,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
     }
 
     @Override
-    public void remove(T child) throws IllegalArgumentException
+    public void removeChild(T child) throws IllegalArgumentException
     {
         if (children.remove(child))
         {

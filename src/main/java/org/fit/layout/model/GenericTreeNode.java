@@ -40,10 +40,10 @@ public interface GenericTreeNode<T extends GenericTreeNode<T>>
 
     public void removeAllChildren();
 
-    public void remove(int index)
+    public void removeChild(int index)
             throws IndexOutOfBoundsException;
 
-    public void remove(T child)
+    public void removeChild(T child)
             throws IllegalArgumentException;
 
     public T getChildAt(int index)
