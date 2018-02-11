@@ -162,21 +162,30 @@ public class DefaultArea extends DefaultContentRect<Area> implements Area
     @Override
     public void updateTopologies()
     {
-        //always re-create the topology because some children may have been changed
-        //and the topology.update() call would not consider the new children
-        topology = createTopology();
+        if (topology != null)
+            topology.update();
     }
     
     /**
      * Creates a topology for this area. This method should be overriden
      * when another topology implementation is used. By default, it returns
-     * the default grid-based topology.
+     * the default grid-based topology. When another topology is used, the
+     * {@code invalidateTopology()} function should be overriden as well.
      * 
      * @return The created topology for this area
      */
     protected AreaTopology createTopology()
     {
         return new DefaultGridTopology(this);
+    }
+    
+    /**
+     * Marks the topology as dirty when the list of areas has been altered.
+     */
+    protected void invalidateTopology()
+    {
+        if (topology != null)
+            ((DefaultGridTopology) topology).setDirty(true);
     }
     
     @Override
@@ -196,11 +205,41 @@ public class DefaultArea extends DefaultContentRect<Area> implements Area
     @Override
     public void appendChild(Area child)
     {
+        invalidateTopology();
         child.setAreaTree(areaTree);
         super.appendChild(child);
         getBounds().expandToEnclose(child.getBounds());
     }
     
+    @Override
+    public void insertChild(Area child, int index)
+            throws IndexOutOfBoundsException
+    {
+        invalidateTopology();
+        super.insertChild(child, index);
+    }
+
+    @Override
+    public void removeAllChildren()
+    {
+        invalidateTopology();
+        super.removeAllChildren();
+    }
+
+    @Override
+    public void removeChild(int index) throws IndexOutOfBoundsException
+    {
+        invalidateTopology();
+        super.removeChild(index);
+    }
+
+    @Override
+    public void removeChild(Area child) throws IllegalArgumentException
+    {
+        invalidateTopology();
+        super.removeChild(child);
+    }
+
     public Area getPreviousOnLine()
     {
         return previousOnLine;

@@ -35,15 +35,22 @@ public class AreaListGridTopology implements AreaTopology
     public AreaListGridTopology(List<Area> areas, boolean doInit)
     {
         this.areas = areas;
-        //default positions for all the areas
-        positions = new HashMap<>(areas.size());
-        for (Area a : areas)
-            positions.put(a, new Rectangular());
         //create the grid if required
         if (doInit)
             update();
     }
 
+    @Override
+    public List<Area> getAreas()
+    {
+        return areas;
+    }
+
+    public void setAreas(List<Area> areas)
+    {
+        this.areas = areas;
+    }
+    
     @Override
     public int getTopologyWidth()
     {
@@ -122,6 +129,11 @@ public class AreaListGridTopology implements AreaTopology
     public void update()
     {
         abspos = computeAreaBounds();
+        //default positions for all the areas
+        positions = new HashMap<>(areas.size());
+        for (Area a : areas)
+            positions.put(a, new Rectangular());
+        //re-create the grid
         grid = new AreaGrid(abspos, areas, this);
     }
 

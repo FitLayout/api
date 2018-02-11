@@ -5,6 +5,9 @@
  */
 package org.fit.layout.impl;
 
+import java.util.List;
+
+import org.fit.layout.api.OutputDisplay;
 import org.fit.layout.model.Area;
 import org.fit.layout.model.Rectangular;
 
@@ -16,6 +19,7 @@ import org.fit.layout.model.Rectangular;
 public class DefaultGridTopology extends AreaListGridTopology
 {
     private Area area;
+    private boolean dirty;
     
     public DefaultGridTopology(Area area)
     {
@@ -29,11 +33,77 @@ public class DefaultGridTopology extends AreaListGridTopology
         return area;
     }
 
+    public boolean isDirty()
+    {
+        return dirty;
+    }
+
+    public void setDirty(boolean dirty)
+    {
+        this.dirty = dirty;
+    }
+
+    @Override
+    public void setAreas(List<Area> areas)
+    {
+        if (getAreas() != areas)
+            dirty = true;
+        super.setAreas(areas);
+    }
+
+    @Override
+    public Rectangular getPosition(Area area)
+    {
+        checkDirty();
+        return super.getPosition(area);
+    }
+
+    @Override
+    public Area findAreaAt(int x, int y)
+    {
+        checkDirty();
+        return super.findAreaAt(x, y);
+    }
+
+    @Override
+    public Rectangular toPixelPosition(Rectangular gp)
+    {
+        checkDirty();
+        return super.toPixelPosition(gp);
+    }
+
+    @Override
+    public Rectangular toPixelPositionAbsolute(Rectangular gp)
+    {
+        checkDirty();
+        return super.toPixelPositionAbsolute(gp);
+    }
+
+    @Override
+    public void drawLayout(OutputDisplay disp)
+    {
+        checkDirty();
+        super.drawLayout(disp);
+    }
+
+    @Override
+    public void update()
+    {
+        setAreas(area.getChildren());
+        dirty = false;
+        super.update();
+    }
+    
     @Override
     protected Rectangular computeAreaBounds()
     {
         return area.getBounds();
     }
-    
+
+    private void checkDirty()
+    {
+        if (dirty)
+            update();
+    }
 
 }

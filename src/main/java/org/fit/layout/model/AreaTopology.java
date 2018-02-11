@@ -5,6 +5,8 @@
  */
 package org.fit.layout.model;
 
+import java.util.List;
+
 import org.fit.layout.api.OutputDisplay;
 
 /**
@@ -15,6 +17,12 @@ import org.fit.layout.api.OutputDisplay;
  */
 public interface AreaTopology
 {
+    
+    /**
+     * Gets the list of areas that are being managed by this topology.
+     * @return the list of areas
+     */
+    public List<Area> getAreas();
     
     /**
      * Obtains the total width of the topology used for placing the child
