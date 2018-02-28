@@ -116,6 +116,15 @@ public class DefaultBox extends DefaultContentRect<Box> implements Box
         }
     }
     
+    @Override
+    public String getOwnText()
+    {
+        if (isLeaf())
+            return text;
+        else
+            return null;
+    }
+
     public void setText(String text)
     {
         this.text = text;
@@ -154,6 +163,20 @@ public class DefaultBox extends DefaultContentRect<Box> implements Box
         this.visualBounds = visualBounds;
     }
     
+    @Override
+    public Rectangular getSubstringBounds(int startPos, int endPos)
+    {
+        final String t = getOwnText();
+        if (t != null)
+        {
+            Rectangular ret = new Rectangular(getContentBounds());
+            //TODO no font information is available here so we just make a guess
+            return ret;
+        }
+        else
+            return null;
+    }
+
     @Override
     public int getSourceNodeId()
     {

@@ -38,6 +38,12 @@ public interface Box extends ContentRect, GenericTreeNode<Box>
     public String getText();
     
     /**
+     * Obtains the text contained directly in this box without considering its child boxes.
+     * @return a text string for leaf boxes, {@code null} for non-leaf boxes
+     */
+    public String getOwnText();
+    
+    /**
      * Obtains the content object contained in this box.
      * @return the content object or {@code null} when there is no object contained.
      */
@@ -69,6 +75,14 @@ public interface Box extends ContentRect, GenericTreeNode<Box>
      */
     public Rectangular getVisualBounds();
 
+    /**
+     * Returns the bounds of a substring of the own text of the box starting at {@code startPos} and ending at {@code endPos}.
+     * @param startPos the starting position in the own text of the box (as obtained by )
+     * @param endPos the ending position in the own text of the box
+     * @return the visual bounds in pixels or {@code null} when there is no own text contained in the box
+     */
+    public Rectangular getSubstringBounds(int startPos, int endPos);
+    
     /**
      * Checks whether the box is visible.
      * @return {@code true} when the box is visible
