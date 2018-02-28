@@ -167,10 +167,14 @@ public class DefaultBox extends DefaultContentRect<Box> implements Box
     public Rectangular getSubstringBounds(int startPos, int endPos)
     {
         final String t = getOwnText();
-        if (t != null)
+        if (t != null) 
         {
             Rectangular ret = new Rectangular(getContentBounds());
-            //TODO no font information is available here so we just make a guess
+            //no font information is available here so we just make a simple guess
+            final float step = ret.getWidth() / (float) t.length();
+            final int origin = ret.getX1();
+            ret.setX1(origin + Math.round(startPos * step));
+            ret.setX2(origin + Math.round(endPos * step));
             return ret;
         }
         else
