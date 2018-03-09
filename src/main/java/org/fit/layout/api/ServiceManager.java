@@ -6,6 +6,7 @@
 package org.fit.layout.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -219,6 +220,23 @@ public class ServiceManager
     {
         if (!scriptObjects.containsKey(id))
             scriptObjects.put(id, op);
+    }
+    
+    /**
+     * Finds a service in a collection of services based on its class.
+     * @param services the collection of services to scan
+     * @param clazz the required class of the service
+     * @return the fisrt service in the collection that is instance of the given class or {@code null} when
+     * no such servise is present in the collection. 
+     */
+    public static <T> T findByClass(Collection<?> services, Class<T> clazz)
+    {
+        for (Object serv : services)
+        {
+            if (clazz.isInstance(serv))
+                return clazz.cast(serv);
+        }
+        return null;
     }
     
 }
