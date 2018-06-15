@@ -74,6 +74,12 @@ public interface Browser
     public Area getSelectedArea();
     
     /**
+     * Displays the detailed information about the selected area in the GUI (e.g. a dedicated panel)
+     * @param area the area to be described
+     */
+    public void displayAreaDetails(Area area);
+    
+    /**
      * Registers an area selection listener that is notified when the area selection changes.
      * @param listener the listener to be registered
      */
