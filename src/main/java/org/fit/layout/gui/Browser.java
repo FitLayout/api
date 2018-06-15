@@ -92,6 +92,14 @@ public interface Browser
     public void addTreeListener(TreeListener listener);
 
     /**
+     * Registers a listener for browser canvas clicks.
+     * @param toggleButtonTitle The title of the toggle button that activates the listener or {@code null} for always receiving the clicks.
+     * @param listener the listener to be registered
+     * @param select make the button selected after adding
+     */
+    public void addCanvasClickListener(String toggleButtonTitle, CanvasClickListener listener, boolean select);
+    
+    /**
      * Registers a rectangle selection listener that is notified when a new rectangle is selected.
      * @param listener the listener to be registered
      */
