@@ -5,6 +5,7 @@
  */
 package org.fit.layout.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.fit.layout.api.OutputDisplay;
@@ -59,12 +60,22 @@ public interface AreaTopology
     public void setPosition(Area area, Rectangular gp);
     
     /**
-     * Finds an area at the specified position in the grid.
+     * Finds an area at the specified position in the grid. If there are multiple areas sharing
+     * the same position, the first of them is returned in a non-deterministic way. Therefore,
+     * this method should be used for topologies that do not allow overlapping areas.
      * @param x the x coordinate of the grid cell  
      * @param y the y coordinate of the grid cell  
-     * @return the node at the specified position or {@code null} when there is no such area
+     * @return the area at the specified position or {@code null} when there is no such area
      */
     public Area findAreaAt(int x, int y);
+    
+    /**
+     * Finds all the areas at the specified position in the grid.
+     * @param x the x coordinate of the grid cell  
+     * @param y the y coordinate of the grid cell  
+     * @return the collection of areas at the specified position or an empty collection when there is no such area
+     */
+    public Collection<Area> findAllAreasAt(int x, int y);
     
     /**
      * Translates the bounds in the topology to pixel bounds.

@@ -5,6 +5,8 @@ package org.fit.layout.impl;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +93,19 @@ public class AreaListGridTopology implements AreaTopology
                 return entry.getKey();
         }
         return null;
+    }
+
+    @Override
+    public Collection<Area> findAllAreasAt(int x, int y)
+    {
+        Collection<Area> ret = new ArrayList<>();
+        //TODO some indexing?
+        for (Map.Entry<Area, Rectangular> entry : positions.entrySet())
+        {
+            if (entry.getValue().contains(x, y))
+                ret.add(entry.getKey());
+        }
+        return ret;
     }
 
     @Override
