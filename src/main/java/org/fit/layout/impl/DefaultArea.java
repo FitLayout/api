@@ -21,6 +21,7 @@ import org.fit.layout.model.AreaTree;
 import org.fit.layout.model.Border;
 import org.fit.layout.model.Box;
 import org.fit.layout.model.Box.Type;
+import org.fit.layout.model.ContentLine;
 import org.fit.layout.model.Rectangular;
 import org.fit.layout.model.Tag;
 
@@ -39,6 +40,9 @@ public class DefaultArea extends DefaultContentRect<Area> implements Area
     
     /** The topology assigned to the area */
     private AreaTopology topology;
+    
+    /** The content line the area belongs to */
+    private ContentLine line;
 
     /** The visual boxes that form this area. */
     private Vector<Box> boxes;
@@ -151,6 +155,18 @@ public class DefaultArea extends DefaultContentRect<Area> implements Area
         super.move(xofs, yofs);
     }
     
+    @Override
+    public ContentLine getLine()
+    {
+        return line;
+    }
+
+    @Override
+    public void setLine(ContentLine line)
+    {
+        this.line = line;
+    }
+
     @Override
     public AreaTopology getTopology()
     {
