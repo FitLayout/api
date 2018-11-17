@@ -78,6 +78,13 @@ public interface AreaTopology
     public Collection<Area> findAllAreasAt(int x, int y);
     
     /**
+     * Finds all the areas that intersect with the specified rectangle in the grid.
+     * @param r the the rectangle to intersect with
+     * @return the collection of areas at the specified position or an empty collection when there is no such area
+     */
+    public Collection<Area> findAllAreasIntersecting(Rectangular r);
+    
+    /**
      * Translates the bounds in the topology to pixel bounds.
      * @param topologyPosition the position within the topology 
      * @return the pixle position

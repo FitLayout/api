@@ -109,6 +109,18 @@ public class AreaListGridTopology implements AreaTopology
     }
 
     @Override
+    public Collection<Area> findAllAreasIntersecting(Rectangular r)
+    {
+        Collection<Area> ret = new ArrayList<>();
+        for (Map.Entry<Area, Rectangular> entry : positions.entrySet())
+        {
+            if (entry.getValue().intersects(r))
+                ret.add(entry.getKey());
+        }
+        return ret;
+    }
+    
+    @Override
     public Rectangular toPixelPosition(Rectangular gp)
     {
         return new Rectangular(grid.getColOfs(gp.getX1()),
