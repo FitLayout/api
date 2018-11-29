@@ -7,9 +7,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.fit.layout.api.OutputDisplay;
 import org.fit.layout.impl.AreaGrid;
@@ -27,6 +30,7 @@ public class AreaListGridTopology implements AreaTopology
     private List<Area> areas;
     private Rectangular abspos;
     private Map<Area, Rectangular> positions;
+    private Map<Coords, Set<Area>> index;
     private AreaGrid grid;
     
     public AreaListGridTopology(List<Area> areas)
@@ -86,26 +90,18 @@ public class AreaListGridTopology implements AreaTopology
     @Override
     public Area findAreaAt(int x, int y)
     {
-        //TODO some indexing?
-        for (Map.Entry<Area, Rectangular> entry : positions.entrySet())
-        {
-            if (entry.getValue().contains(x, y))
-                return entry.getKey();
-        }
-        return null;
+        final Set<Area> areas = index.get(new Coords(x, y));
+        if (areas != null && !areas.isEmpty())
+            return areas.iterator().next();
+        else
+            return null;
     }
 
     @Override
     public Collection<Area> findAllAreasAt(int x, int y)
     {
-        Collection<Area> ret = new ArrayList<>();
-        //TODO some indexing?
-        for (Map.Entry<Area, Rectangular> entry : positions.entrySet())
-        {
-            if (entry.getValue().contains(x, y))
-                ret.add(entry.getKey());
-        }
-        return ret;
+        final Set<Area> areas = index.get(new Coords(x, y));
+        return (areas == null) ? Collections.emptyList() : areas;
     }
 
     @Override
@@ -162,6 +158,10 @@ public class AreaListGridTopology implements AreaTopology
             positions.put(a, new Rectangular());
         //re-create the grid
         grid = new AreaGrid(abspos, areas, this);
+        //build the index
+        index = new HashMap<>(positions.size());
+        for (Map.Entry<Area, Rectangular> entry : positions.entrySet())
+            addToIndex(entry.getKey(), entry.getValue());
     }
 
     @Override
@@ -202,6 +202,61 @@ public class AreaListGridTopology implements AreaTopology
                 ret.expandToEnclose(a.getBounds());
         }
         return ret;
+    }
+    
+    private void addToIndex(Area a, Rectangular gp)
+    {
+        for (int x = gp.getX1(); x <= gp.getX2(); x++)
+        {
+            for (int y = gp.getY1(); y <= gp.getY2(); y++)
+            {
+                final Coords c = new Coords(x, y);
+                Set<Area> careas = index.get(c);
+                if (careas == null)
+                {
+                    careas = new HashSet<>();
+                    index.put(c, careas);
+                }
+                careas.add(a);
+            }
+        }
+    }
+    
+    //=================================================================================
+    
+    private static class Coords
+    {
+        int x;
+        int y;
+        
+        public Coords(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + x;
+            result = prime * result + y;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (this == obj) return true;
+            if (obj == null) return false;
+            if (getClass() != obj.getClass()) return false;
+            Coords other = (Coords) obj;
+            if (x != other.x) return false;
+            if (y != other.y) return false;
+            return true;
+        }
+        
     }
     
 }
