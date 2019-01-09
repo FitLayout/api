@@ -7,6 +7,7 @@ package org.fit.layout.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.fit.layout.api.OutputDisplay;
 
@@ -51,6 +52,13 @@ public interface AreaTopology
      * @return The area position in this topology or {@code null} when the area position is not described by this topology.
      */
     public Rectangular getPosition(Area area);
+    
+    /**
+     * Obtains a map assigning a position to each area. Note that the efficiency of this method greatly depends
+     * on the topology implementation.
+     * @return A map assigning a position to the individual areas. The key set contains all the areas in the topology.
+     */
+    public Map<Area, Rectangular> getPositionMap();
     
     /**
      * Sets the position of the given area in this topology.

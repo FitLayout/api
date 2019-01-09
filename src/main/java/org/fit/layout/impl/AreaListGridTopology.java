@@ -88,6 +88,12 @@ public class AreaListGridTopology implements AreaTopology
     }
 
     @Override
+    public Map<Area, Rectangular> getPositionMap()
+    {
+        return positions;
+    }
+
+    @Override
     public Area findAreaAt(int x, int y)
     {
         final Set<Area> areas = index.get(new Coords(x, y));
