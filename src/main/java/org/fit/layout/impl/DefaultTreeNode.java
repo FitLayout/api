@@ -99,6 +99,7 @@ public class DefaultTreeNode<T extends GenericTreeNode<T>> implements GenericTre
         if (child.getParent() != null)
             child.getParent().removeChild(child);
         child.setParent(myself);
+        child.setRoot(getRoot());
         children.add(child);
     }
 
