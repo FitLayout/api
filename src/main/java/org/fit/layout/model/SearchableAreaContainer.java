@@ -5,6 +5,8 @@
  */
 package org.fit.layout.model;
 
+import java.util.List;
+
 /**
  * A basic container of areas with the possibility of searching the areas.
  * 
@@ -20,6 +22,14 @@ public interface SearchableAreaContainer
      * @return the area node present at the given coordinates or <code>null</code> when no node is found.
      */
     abstract public Area getAreaAt(int x, int y);
+    
+    /**
+     * Finds all the area nodes present at the given coordinates in the area tree.
+     * @param x the X coordinate
+     * @param y the Y coordinate
+     * @return a list of the area nodes present at the given coordinates ordered from the topmost to the bottommost one.
+     */
+    abstract public List<Area> getAreasAt(int x, int y);
     
     /**
      * Finds an area by the given name.

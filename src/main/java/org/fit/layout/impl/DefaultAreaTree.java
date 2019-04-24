@@ -5,6 +5,7 @@
  */
 package org.fit.layout.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.fit.layout.model.Area;
@@ -80,6 +81,24 @@ public class DefaultAreaTree implements AreaTree
         }
         else
             return null;
+    }
+    
+    @Override
+    public List<Area> getAreasAt(int x, int y)
+    {
+        List<Area> ret = new ArrayList<Area>();
+        recursiveGetAreasAt(root, x, y, ret);
+        return ret;
+    }
+
+    private void recursiveGetAreasAt(Area root, int x, int y, List<Area> dest)
+    {
+        if (root.getBounds().contains(x, y))
+        {
+            dest.add(root);
+            for (int i = 0; i < root.getChildCount(); i++)
+                recursiveGetAreasAt(root.getChildAt(i), x, y, dest);
+        }
     }
     
     public Area getAreaByName(String name)
